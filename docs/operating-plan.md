@@ -54,7 +54,7 @@ One step per conversation turn. Each step ends with the A5 quality gate before m
 | 2 | **Validate** (manual, owner-led) | 5–10 interviews with planner buyers, pilot target | Real users confirm the problem |
 | 3 | **A2** Project docs | `docs/product-brief.md`, personas, journeys, MVP scope, NFRs, data classification, threat model, analytics plan, release checklist | Measurable acceptance criteria exist |
 | 4 | **L2** MVP PRD | PRD, user stories, route map, out-of-scope list | PRD approved |
-| 5 | **L4** Calculation spec | Formulas, rounding, edge cases, worked synthetic examples | Every formula has test vectors |
+| 5 | **L4** Calculation spec ✅ (`docs/l4/`, 43 vectors passing) | Formulas, rounding, edge cases, worked synthetic examples | Every formula has test vectors |
 | 6 | **L3** Brand and UX system ✅ tokens, components and screen prototypes (`docs/l3/`, `design/screens/`) | Tokens, components, responsive flows, microcopy | WCAG 2.2 AA contrast checked |
 | 7 | **A3** Repo bootstrap | Next.js app, lint, format, env validation, test setup | CI green |
 | 8 | **A4 + L5** Supabase foundation and schema | Migrations, RLS, synthetic seed, generated types | Cross-household isolation tests pass |
@@ -65,7 +65,7 @@ One step per conversation turn. Each step ends with the A5 quality gate before m
 | 13 | **L10** Etsy-to-app funnel | Lead magnet, emails, referral, ethical analytics | Etsy policy questions answered from official docs |
 | 14 | **Release review** | Release-candidate report with go/no-go | Commercial launch gate (playbook section E) |
 
-L4 comes before L3 on purpose: the numbers the UI shows have to be defined before screens are designed around them.
+The plan put L4 before L3. In practice the L3 screens came first, so L4's test vectors were written to reproduce every number on the screens, and the screens were corrected where the spec's rounding differed.
 
 ## 6. Scope guardrails
 
@@ -100,5 +100,5 @@ risky logic tested · lint and type-check pass · docs and `.env.example` curren
 
 ## 10. Next recommended step
 
-L1 and L3 are drafted. Next: **L4 calculation spec** (it must reproduce the prototype numbers), **owner review**, then **owner-led interviews** using
+L1, L3 and L4 are drafted. Next: **A2 project docs and L2 PRD**, **owner review**, then **owner-led interviews** using
 `docs/l1/interview-guide.md`. The A2 project docs follow once the questions above are answered.

@@ -9,9 +9,8 @@ React components in A3 and L6–L8. The prototypes still serve as the visual ref
 ## Sample data
 
 Every screen uses one made-up household ("Sam", single member, flexible budget, month starts on the 1st), so totals
-agree across screens. Debt estimates came from a simple month-by-month model: interest from the yearly rate, compounded
-monthly, with freed-up payments rolled to the next debt. **L4 (calculation spec) will formalise this model** and its
-test vectors must reproduce these numbers or the prototypes get updated.
+agree across screens. Every number on the screens is reproduced by the L4 test vectors (`docs/l4/test-vectors.json`, run
+`node scripts/verify-calc.mjs`). L4 rounds interest to the cent each month, which moved the prototype's interest totals by a few cents.
 
 | Item | Value |
 |---|---|
@@ -20,8 +19,8 @@ test vectors must reproduce these numbers or the prototypes get updated.
 | Left to budget | **R 3 240,00** |
 | September actual (to date) | **R 18 140,00**, with Groceries R 250,00 over plan and R 360,00 remaining in total |
 | Debts | Store card R 2 150,00 @ 21,00% (R 450,00) · Credit card R 8 900,00 @ 20,75% (R 1 200,00) · Personal loan R 14 600,00 @ 24,00% (R 950,00) = **R 25 650,00** |
-| Snowball estimate | Paid off Mar 2027 / May 2027 / Sep 2027, interest ≈ R 3 061,57 |
-| Avalanche estimate | Loan Sep 2027, store card Mar 2027, credit card Jun 2027, interest ≈ R 3 057,63 |
+| Snowball estimate | Paid off Mar 2027 / May 2027 / Sep 2027, interest R 3 061,62 (L4 vector D1) |
+| Avalanche estimate | Loan Sep 2027, store card Mar 2027, credit card Jun 2027, interest R 3 057,67 (L4 vector D2) |
 | August review | Income R 22 380,00, spent and set aside R 18 759,00, left over R 3 621,00 |
 
 ## Navigation
@@ -91,7 +90,6 @@ Every data card has **empty**, **loading** (skeleton, `aria-busy`) and **error**
 - Progress bars have `role="progressbar"` and labels. Every amount also appears as text next to the bar.
 
 ## Open items
-- `TODO(L4)`: confirm the debt model (monthly compounding, roll-over order, rounding) and whether estimates show interest at all by default.
 - `TODO(L1 interviews)`: validate the checklist items and reflection prompts with real users.
 - `TODO(legal)`: NCR link and debt-help wording, privacy notice, deletion timeline.
 - Icons are placeholders drawn to match Lucide's style. Swap in the Lucide package in A3.

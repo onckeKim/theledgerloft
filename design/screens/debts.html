@@ -42,9 +42,9 @@
 <script>
   const D = {
     snowball: { desc: "Snowball orders debts from the smallest balance. When one is paid off, its payment moves to the next. You choose the method; both are shown as estimates.",
-      int: "R 3 061,57", rows: [["Store card","2 150,00","21,00%","450,00","Mar 2027"],["Credit card","8 900,00","20,75%","1 200,00","May 2027"],["Personal loan","14 600,00","24,00%","950,00","Sep 2027"]] },
+      int: "R 3 061,62", rows: [["Store card","2 150,00","21,00%","450,00","Mar 2027"],["Credit card","8 900,00","20,75%","1 200,00","May 2027"],["Personal loan","14 600,00","24,00%","950,00","Sep 2027"]] },
     avalanche: { desc: "Avalanche orders debts from the highest interest rate. When one is paid off, its payment moves to the next. You choose the method; both are shown as estimates.",
-      int: "R 3 057,63", rows: [["Personal loan","14 600,00","24,00%","950,00","Sep 2027"],["Store card","2 150,00","21,00%","450,00","Mar 2027"],["Credit card","8 900,00","20,75%","1 200,00","Jun 2027"]] },
+      int: "R 3 057,67", rows: [["Personal loan","14 600,00","24,00%","950,00","Sep 2027"],["Store card","2 150,00","21,00%","450,00","Mar 2027"],["Credit card","8 900,00","20,75%","1 200,00","Jun 2027"]] },
   };
   const render = (m) => {
     document.getElementById("m-desc").textContent = D[m].desc;

@@ -17,6 +17,11 @@ Next.js (TypeScript, App Router) · Supabase (Postgres + RLS, Auth, Storage) · 
 The app uses The Ledger Loft Co store design system. See [`design/`](design/) and [`docs/l3/design-system.md`](docs/l3/design-system.md).
 Run `node scripts/check-tokens.mjs` after changing tokens.
 
+## Calculations
+
+Every number the app shows is defined in [`docs/l4/calculation-spec.md`](docs/l4/calculation-spec.md).
+Run `node scripts/verify-calc.mjs` to check the test vectors.
+
 ## Repository conventions
 
 - `CHANGELOG.md`: notable changes
