@@ -1,6 +1,7 @@
 # Staging Deployment (release review B1)
 
-Status: **ready for the owner to run.** Date: 2026-09-24.
+Status: **deployed** at `https://theledgerloft.vercel.app` (Vercel, from `main`). The smoke test passed 24/24 on
+2026-09-24. The steps below remain the reference for settings and for a production project later.
 
 Why the owner runs it: the build environment can't reach Vercel (the network policy blocks `vercel.com` and
 `api.vercel.com`), and there's no Vercel connector or token here. Everything that doesn't need a Vercel login is
