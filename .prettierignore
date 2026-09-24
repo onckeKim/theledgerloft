@@ -1,0 +1,11 @@
+# Generated / vendored
+.next/
+node_modules/
+package-lock.json
+next-env.d.ts
+test-results/
+playwright-report/
+# Hand-written design prototypes and docs are formatted by hand
+design/
+docs/
+*.md

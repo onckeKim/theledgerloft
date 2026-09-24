@@ -45,11 +45,15 @@ for (const theme of ["light", "dark"]) {
     }
   }
 }
-if (!failures) console.log(`✓ ${Object.keys(colors).length} colours and both themes consistent across JSON, CSS, Kotlin, Swift`);
+if (!failures)
+  console.log(
+    `✓ ${Object.keys(colors).length} colours and both themes consistent across JSON, CSS, Kotlin, Swift`,
+  );
 
 // 2. Contrast
 const lum = (hex) => {
-  const c = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+  const c = [1, 3, 5]
+    .map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
     .map((x) => (x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4));
   return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
 };
@@ -121,7 +125,9 @@ for (const [label, fg, bg, min, required] of pairs) {
   const r = ratio(fg, bg);
   const ok = r >= min;
   const mark = ok ? "✓" : required ? "✗" : "!";
-  console.log(`${mark} ${r.toFixed(2).padStart(5)}:1  (needs ${min})  ${label}${!ok && !required ? "  → restricted use, see docs/l3/design-system.md" : ""}`);
+  console.log(
+    `${mark} ${r.toFixed(2).padStart(5)}:1  (needs ${min})  ${label}${!ok && !required ? "  → restricted use, see docs/l3/design-system.md" : ""}`,
+  );
   if (!ok && required) failures++;
 }
 

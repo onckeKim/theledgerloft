@@ -9,7 +9,8 @@ export function divRoundHalfUp(n, d) {
   if (d <= 0) throw new Error("divisor must be positive");
   const sign = n < 0 ? -1 : 1;
   const a = Math.abs(n);
-  const q = Math.floor(a / d), r = a - q * d;
+  const q = Math.floor(a / d),
+    r = a - q * d;
   return sign * (2 * r >= d ? q + 1 : q);
 }
 /** Ceiling division for non-negative integers. */
@@ -23,8 +24,9 @@ export function addMonths(label, k) {
   return `${Math.floor(t / 12)}-${pad((t % 12) + 1)}`;
 }
 export const monthsBetween = (from, to) => {
-  const [a, b] = from.split("-").map(Number), [c, d] = to.split("-").map(Number);
-  return (c * 12 + d) - (a * 12 + b);
+  const [a, b] = from.split("-").map(Number),
+    [c, d] = to.split("-").map(Number);
+  return c * 12 + d - (a * 12 + b);
 };
 /** Budget period containing a local date (YYYY-MM-DD) for a month start day 1–28. Label = month the period ends in. */
 export function periodFor(dateStr, startDay) {
@@ -53,24 +55,53 @@ export function budgetSummary({ income, lines, tx }) {
   const actualBy = {};
   for (const t of tx) {
     if (t.kind === "income") continue;
-    actualBy[t.category] = (actualBy[t.category] || 0) + (t.kind === "refund" ? -t.amount : t.amount);
+    actualBy[t.category] =
+      (actualBy[t.category] || 0) + (t.kind === "refund" ? -t.amount : t.amount);
   }
   const categories = lines.map((l) => {
     const actual = actualBy[l.category] || 0;
     const remaining = l.planned - actual;
-    return { category: l.category, planned: l.planned, actual, remaining, over: Math.max(0, -remaining),
-      status: l.planned === 0 ? (actual > 0 ? "unplanned" : "empty") : remaining < 0 ? "over" : remaining === 0 ? "spent" : "under",
-      barPermille: l.planned === 0 ? (actual > 0 ? 1000 : 0) : Math.min(1000, Math.floor((Math.max(actual, 0) * 1000) / l.planned)) };
+    return {
+      category: l.category,
+      planned: l.planned,
+      actual,
+      remaining,
+      over: Math.max(0, -remaining),
+      status:
+        l.planned === 0
+          ? actual > 0
+            ? "unplanned"
+            : "empty"
+          : remaining < 0
+            ? "over"
+            : remaining === 0
+              ? "spent"
+              : "under",
+      barPermille:
+        l.planned === 0
+          ? actual > 0
+            ? 1000
+            : 0
+          : Math.min(1000, Math.floor((Math.max(actual, 0) * 1000) / l.planned)),
+    };
   });
-  const unbudgeted = Object.keys(actualBy).filter((c) => !lines.some((l) => l.category === c)).map((c) => ({ category: c, actual: actualBy[c] }));
+  const unbudgeted = Object.keys(actualBy)
+    .filter((c) => !lines.some((l) => l.category === c))
+    .map((c) => ({ category: c, actual: actualBy[c] }));
   const actualTotal = sum(Object.values(actualBy));
   const plannedBalance = incomePlanned - plannedTotal;
   return {
-    incomePlanned, incomeActual, plannedTotal, actualTotal,
-    plannedBalance, leftToBudget: plannedBalance, overPlanned: Math.max(0, -plannedBalance),
+    incomePlanned,
+    incomeActual,
+    plannedTotal,
+    actualTotal,
+    plannedBalance,
+    leftToBudget: plannedBalance,
+    overPlanned: Math.max(0, -plannedBalance),
     planRemaining: plannedTotal - actualTotal,
     actualBalance: incomeActual - actualTotal,
-    categories, unbudgeted,
+    categories,
+    unbudgeted,
   };
 }
 
@@ -94,22 +125,38 @@ export function sinkingFund({ saved, target, monthly = 0, currentPeriod, duePeri
   const contributionsLeft = Math.max(0, monthsBetween(currentPeriod, duePeriod) - 1);
   const projected = saved + monthly * contributionsLeft;
   const shortBy = Math.max(0, target - projected);
-  const requiredMonthly = remaining === 0 ? 0 : contributionsLeft === 0 ? null : divCeil(remaining, contributionsLeft);
+  const requiredMonthly =
+    remaining === 0 ? 0 : contributionsLeft === 0 ? null : divCeil(remaining, contributionsLeft);
   let status;
   if (remaining === 0) status = "funded";
-  else if (contributionsLeft === 0) status = monthsBetween(currentPeriod, duePeriod) < 0 ? "past-due" : "due-now";
+  else if (contributionsLeft === 0)
+    status = monthsBetween(currentPeriod, duePeriod) < 0 ? "past-due" : "due-now";
   else status = shortBy === 0 ? "on-track" : "short";
-  const reachPeriod = remaining === 0 ? currentPeriod : monthly > 0 && shortBy === 0 ? addMonths(currentPeriod, divCeil(remaining, monthly)) : null;
-  return { remaining, contributionsLeft, projected, shortBy, requiredMonthly, status, reachPeriod,
-    percent: remaining === 0 ? 100 : Math.floor((Math.max(saved, 0) * 100) / target) };
+  const reachPeriod =
+    remaining === 0
+      ? currentPeriod
+      : monthly > 0 && shortBy === 0
+        ? addMonths(currentPeriod, divCeil(remaining, monthly))
+        : null;
+  return {
+    remaining,
+    contributionsLeft,
+    projected,
+    shortBy,
+    requiredMonthly,
+    status,
+    reachPeriod,
+    percent: remaining === 0 ? 100 : Math.floor((Math.max(saved, 0) * 100) / target),
+  };
 }
 
 // ---- debts (§6) ----------------------------------------------------------
 export function orderDebts(debts, method) {
   const byCreated = (a, b) => a.created - b.created;
-  const cmp = method === "snowball"
-    ? (a, b) => a.balance - b.balance || b.rateBp - a.rateBp || byCreated(a, b)
-    : (a, b) => b.rateBp - a.rateBp || a.balance - b.balance || byCreated(a, b);
+  const cmp =
+    method === "snowball"
+      ? (a, b) => a.balance - b.balance || b.rateBp - a.rateBp || byCreated(a, b)
+      : (a, b) => b.rateBp - a.rateBp || a.balance - b.balance || byCreated(a, b);
   return [...debts].sort(cmp).map((d) => d.id);
 }
 
@@ -120,31 +167,58 @@ export function projectDebts({ debts, method, extra = 0, currentPeriod }) {
   const bal = Object.fromEntries(debts.map((d) => [d.id, d.balance]));
   const D = Object.fromEntries(debts.map((d) => [d.id, d]));
   const budget = sum(debts.map((d) => d.minPayment)) + extra;
-  const paidOff = {}, interestBy = Object.fromEntries(debts.map((d) => [d.id, 0]));
+  const paidOff = {},
+    interestBy = Object.fromEntries(debts.map((d) => [d.id, 0]));
   // a debt whose minimum payment never beats its first month's interest can't be estimated on its own
-  const notCovering = debts.filter((d) => d.balance > 0 && d.minPayment <= divRoundHalfUp(d.balance * d.rateBp, 120000)).map((d) => d.id);
+  const notCovering = debts
+    .filter((d) => d.balance > 0 && d.minPayment <= divRoundHalfUp(d.balance * d.rateBp, 120000))
+    .map((d) => d.id);
   let month = 0;
   while (Object.values(bal).some((b) => b > 0) && month < MAX_MONTHS) {
     month++;
-    for (const id of order) if (bal[id] > 0) { const i = divRoundHalfUp(bal[id] * D[id].rateBp, 120000); bal[id] += i; interestBy[id] += i; }
+    for (const id of order)
+      if (bal[id] > 0) {
+        const i = divRoundHalfUp(bal[id] * D[id].rateBp, 120000);
+        bal[id] += i;
+        interestBy[id] += i;
+      }
     let pool = budget;
-    for (const id of order) if (bal[id] > 0) { const p = Math.min(D[id].minPayment, bal[id], pool); bal[id] -= p; pool -= p; }
-    for (const id of order) if (bal[id] > 0 && pool > 0) { const p = Math.min(pool, bal[id]); bal[id] -= p; pool -= p; }
+    for (const id of order)
+      if (bal[id] > 0) {
+        const p = Math.min(D[id].minPayment, bal[id], pool);
+        bal[id] -= p;
+        pool -= p;
+      }
+    for (const id of order)
+      if (bal[id] > 0 && pool > 0) {
+        const p = Math.min(pool, bal[id]);
+        bal[id] -= p;
+        pool -= p;
+      }
     for (const id of order) if (bal[id] === 0 && !(id in paidOff)) paidOff[id] = month;
   }
   const done = Object.values(bal).every((b) => b === 0);
   return {
-    order, monthlyBudget: budget, notCovering,
-    debts: order.map((id) => ({ id, months: paidOff[id] ?? null, period: paidOff[id] ? addMonths(currentPeriod, paidOff[id]) : null, interest: interestBy[id] })),
+    order,
+    monthlyBudget: budget,
+    notCovering,
+    debts: order.map((id) => ({
+      id,
+      months: paidOff[id] ?? null,
+      period: paidOff[id] ? addMonths(currentPeriod, paidOff[id]) : null,
+      interest: interestBy[id],
+    })),
     debtFree: done ? { months: month, period: addMonths(currentPeriod, month) } : null,
     totalInterest: sum(Object.values(interestBy)),
   };
 }
 
 // ---- formatting (§7) -----------------------------------------------------
-const NBSP = " ", MINUS = "−";
+const NBSP = " ",
+  MINUS = "−";
 export function formatZAR(cents) {
-  const neg = cents < 0, a = Math.abs(cents);
+  const neg = cents < 0,
+    a = Math.abs(cents);
   const r = String(Math.floor(a / 100)).replace(/\B(?=(\d{3})+(?!\d))/g, NBSP);
   return `${neg ? MINUS : ""}R${NBSP}${r},${pad(a % 100)}`;
 }

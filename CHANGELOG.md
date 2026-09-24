@@ -5,6 +5,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 ## [Unreleased]
 
 ### Added
+- A3 app bootstrap: Next.js 16 + TypeScript + Tailwind 4 wired to the brand tokens; public marketing pages (landing from the L1 concept, pilot, legal drafts), auth placeholders, protected app shell (side nav, icon rail, phone tab bar) with per-page `verifySession()`; error, not-found and loading states; env validation (Zod); money formatting and parsing in cents; ESLint, Prettier, Vitest (62 unit tests), Playwright smoke tests with axe (26); CI workflow; `CLAUDE.md` project rules.
 - L2 MVP PRD (`docs/l2/prd.md`): 40 user stories with acceptance criteria, route map, empty states, privacy requirements and release slices.
 - A2 project docs: product brief, personas, user journeys, MVP scope, non-functional requirements, data classification, threat model, analytics plan and release checklist (`docs/`).
 - L4 calculation spec (`docs/l4/calculation-spec.md`), 43 test vectors (`docs/l4/test-vectors.json`), reference implementation and verifier (`scripts/calc-reference.mjs`, `scripts/verify-calc.mjs`).
@@ -12,6 +13,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 - Shared component stylesheet `design/components.css` (used by the style guide and the screens).
 
 ### Changed
+- Scripts in `scripts/` reformatted with Prettier (no behaviour change).
 - Transactions prototype: "Transfer" replaced with "Refund"; journey J1 now signs up before paying (PRD P-1, P-2).
 - Screen prototypes aligned with L4: debt interest totals R 3 061,62 / R 3 057,67, car fund reached in February, school fees 66%, valid progress-bar values when over plan, "last working day" month start removed.
 - Brand tokens gain `sageText`, `goldText` and `warningText`. The light `label` token now uses `sageText` (D-010 accepted).

@@ -180,8 +180,8 @@ Each flow gets mobile and desktop layouts in the next L3 pass, using the compone
 
 ## 12. Tailwind mapping (for A3)
 
-Tailwind will read the CSS variables, so the tokens stay the single source. Draft (Tailwind v4 `@theme`), to be
-verified against the current Tailwind docs at bootstrap:
+**Implemented in A3:** see `src/app/globals.css`. Tailwind's default palette, fonts and type scale are removed, so
+only the tokens below exist as utilities (e.g. `bg-raised`, `text-fg-muted`, `text-h2`, `rounded-md`). The original draft:
 
 ```css
 @import "tailwindcss";
