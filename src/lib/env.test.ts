@@ -48,6 +48,20 @@ describe("parseEnv", () => {
     ).toBe("http://localhost:3100");
   });
 
+  it("treats an empty support email as unset and rejects an invalid one", () => {
+    expect(
+      parseEnv({ NODE_ENV: "development", ...base, NEXT_PUBLIC_SUPPORT_EMAIL: "" })
+        .NEXT_PUBLIC_SUPPORT_EMAIL,
+    ).toBeUndefined();
+    expect(
+      parseEnv({ NODE_ENV: "development", ...base, NEXT_PUBLIC_SUPPORT_EMAIL: "help@example.com" })
+        .NEXT_PUBLIC_SUPPORT_EMAIL,
+    ).toBe("help@example.com");
+    expect(() =>
+      parseEnv({ NODE_ENV: "development", ...base, NEXT_PUBLIC_SUPPORT_EMAIL: "not an email" }),
+    ).toThrow(/NEXT_PUBLIC_SUPPORT_EMAIL/);
+  });
+
   it("rejects invalid URLs", () => {
     expect(() =>
       parseEnv({ NODE_ENV: "development", ...base, NEXT_PUBLIC_SITE_URL: "not a url" }),

@@ -48,6 +48,7 @@ paid plan (release blocker B7 and D-048: low budget).
 | `NEXT_PUBLIC_SITE_URL` | Your staging URL, e.g. `https://theledgerloft.vercel.app` (no trailing slash) | No |
 | `NEXT_PUBLIC_SUPABASE_URL` | `https://jjdetdabqbqktwkvodtk.supabase.co` | No |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | `sb_publishable_SEyf-u2YSLUE-KNgWGEW7A_RoatJg3R` | No, public by design |
+| `NEXT_PUBLIC_SUPPORT_EMAIL` | The support and privacy contact shown on `/privacy` and `/terms` (optional; kept out of the repo, D-048) | No |
 
 **Payments on staging (optional now, needed for release blocker B2).** Add all four or none; the app refuses a
 partial set:
