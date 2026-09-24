@@ -1,8 +1,8 @@
 import "server-only";
 import { budgetSummary } from "@/lib/calc/budget";
 import { projectDebts, type DebtMethod } from "@/lib/calc/debts";
-import { goalProgress, sinkingFund } from "@/lib/calc/goals";
 import { addMonths, monthsBetween, periodFor, todayInJohannesburg } from "@/lib/calc/period";
+import { withProgress } from "@/lib/goals/progress";
 import { createClient } from "@/lib/supabase/server";
 import { isPeriod } from "./schemas";
 
@@ -25,7 +25,7 @@ export async function loadMonth(requested?: string | string[]) {
   const supabase = await createClient();
   const { data: household, error } = await supabase
     .from("households")
-    .select("id, month_start_day, budget_style, debt_method, setup_completed_at")
+    .select("id, month_start_day, budget_style, debt_method, setup_completed_at, checklist_hidden")
     .single();
   if (error || !household) throw new Error("Could not load your household");
 
@@ -73,7 +73,7 @@ export async function loadMonth(requested?: string | string[]) {
     supabase.from("income_items").select("monthly_cents").is("archived_at", null),
     supabase
       .from("goals")
-      .select("id, kind, name, target_cents, monthly_cents, starting_cents, due_period, created_at")
+      .select("id, kind, name, target_cents, monthly_cents, starting_cents, due_period")
       .is("archived_at", null)
       .order("created_at"),
     supabase.from("goal_contributions").select("goal_id, direction, amount_cents"),
@@ -111,47 +111,7 @@ export async function loadMonth(requested?: string | string[]) {
   const byCategory = new Map(summary.categories.map((c) => [c.category, c]));
   const categories = lineRows.map((l) => ({ ...l, ...byCategory.get(l.categoryId)! }));
 
-  // Goals: saved = starting amount + money added − money taken out (L4 §5)
-  const net = new Map<string, number>();
-  for (const c of contributions.data ?? [])
-    net.set(
-      c.goal_id,
-      (net.get(c.goal_id) ?? 0) + (c.direction === "in" ? c.amount_cents : -c.amount_cents),
-    );
-  const goalRows = (goals.data ?? []).map((g) => {
-    const saved = g.starting_cents + (net.get(g.id) ?? 0);
-    const base = {
-      id: g.id,
-      name: g.name,
-      kind: g.kind as "goal" | "sinking_fund",
-      saved,
-      target: g.target_cents,
-      monthly: g.monthly_cents,
-      due: g.due_period,
-    };
-    return g.kind === "sinking_fund" && g.due_period
-      ? {
-          ...base,
-          fund: sinkingFund({
-            saved,
-            target: g.target_cents,
-            monthly: g.monthly_cents,
-            currentPeriod: current,
-            duePeriod: g.due_period,
-          }),
-          goal: null,
-        }
-      : {
-          ...base,
-          goal: goalProgress({
-            saved,
-            target: g.target_cents,
-            monthly: g.monthly_cents,
-            currentPeriod: current,
-          }),
-          fund: null,
-        };
-  });
+  const goalRows = withProgress(goals.data ?? [], contributions.data ?? [], current);
 
   const debtRows = (debts.data ?? []).map((d) => ({
     id: d.id,
@@ -197,10 +157,12 @@ export async function loadMonth(requested?: string | string[]) {
       method,
       projection,
       totalOwed: debtRows.reduce((a, d) => a + d.balance, 0),
-      totalMinimums: debtRows.reduce((a, d) => a + d.minPayment, 0),
+      // Paid-off debts have no minimum to pay.
+      totalMinimums: debtRows.filter((d) => d.balance > 0).reduce((a, d) => a + d.minPayment, 0),
       paidThisMonth: debtPaymentsCategory?.actual ?? 0,
     },
     checklistDone: checklist.done ?? {},
+    checklistHidden: household.checklist_hidden ?? [],
   };
 }
 

@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import type { Route } from "next";
 import { CalendarX2 } from "lucide-react";
 import { Checklist } from "@/components/budget/checklist";
+import { ChecklistSettings } from "@/components/budget/checklist-settings";
+import { DebtHelp } from "@/components/debts/debt-help";
 import { MonthSwitcher } from "@/components/budget/month-switcher";
 import { StatCard } from "@/components/budget/stat-card";
 import { Working } from "@/components/budget/working";
@@ -226,7 +228,19 @@ export default async function Page({ searchParams }: PageProps<"/app">) {
         <Card>
           <Eyebrow>This month</Eyebrow>
           <h2 className="mb-2 mt-1 text-h3">Checklist</h2>
-          <Checklist budgetId={m.budget.id} items={checklist} done={m.checklistDone} />
+          {checklist.some((c) => !m.checklistHidden.includes(c.key)) ? (
+            <Checklist
+              budgetId={m.budget.id}
+              items={checklist.filter((c) => !m.checklistHidden.includes(c.key))}
+              done={m.checklistDone}
+            />
+          ) : (
+            <p className="text-fg-muted">All checklist items are hidden.</p>
+          )}
+          <ChecklistSettings
+            items={CHECKLIST.map((c) => ({ key: c.key, label: c.label }))}
+            hidden={m.checklistHidden}
+          />
         </Card>
       </div>
 
@@ -323,15 +337,9 @@ export default async function Page({ searchParams }: PageProps<"/app">) {
       </div>
 
       {m.debts.totalMinimums > s.incomePlanned && m.debts.rows.length ? (
-        <Card className="mt-4 border-l-[3px] border-l-border-strong">
-          <h2 className="mb-2 text-h3">Need help with debt?</h2>
-          <p className="m-0 text-fg-muted">
-            Your minimum debt payments are more than the income you&apos;ve entered. That&apos;s
-            hard, and you&apos;re not alone. Independent help is available: the National Credit
-            Regulator explains your rights and how to find a registered debt counsellor. This app
-            can keep helping you organise your numbers either way.
-          </p>
-        </Card>
+        <div className="mt-4">
+          <DebtHelp minimumsOverIncome />
+        </div>
       ) : null}
     </>
   );

@@ -553,6 +553,7 @@ export type Database = {
       households: {
         Row: {
           budget_style: string;
+          checklist_hidden: string[];
           created_at: string;
           created_by: string | null;
           currency: string;
@@ -567,6 +568,7 @@ export type Database = {
         };
         Insert: {
           budget_style?: string;
+          checklist_hidden?: string[];
           created_at?: string;
           created_by?: string | null;
           currency?: string;
@@ -581,6 +583,7 @@ export type Database = {
         };
         Update: {
           budget_style?: string;
+          checklist_hidden?: string[];
           created_at?: string;
           created_by?: string | null;
           currency?: string;
@@ -786,7 +789,46 @@ export type Database = {
         Args: { p_budget: string; p_group: string; p_name: string; p_planned: number };
         Returns: string;
       };
+      create_debt: {
+        Args: {
+          p_balance: number;
+          p_min: number;
+          p_name: string;
+          p_note: string | null;
+          p_rate: number | null;
+        };
+        Returns: string;
+      };
+      create_goal: {
+        Args: {
+          p_due: string | null;
+          p_kind: string;
+          p_monthly: number;
+          p_name: string;
+          p_starting: number;
+          p_target: number;
+        };
+        Returns: string;
+      };
+      debt_record_payment: {
+        Args: {
+          p_cents: number;
+          p_confirm_over?: boolean;
+          p_debt: string;
+          p_note: string | null;
+          p_on: string;
+        };
+        Returns: number;
+      };
+      debt_set_balance: {
+        Args: { p_cents: number; p_debt: string; p_note: string | null; p_on: string };
+        Returns: undefined;
+      };
       ensure_budget: { Args: { p_period: string }; Returns: string };
+      goal_move_money: {
+        Args: { p_cents: number; p_direction: string; p_goal: string; p_on: string };
+        Returns: string;
+      };
       move_budget_money: {
         Args: { p_budget: string; p_cents: number; p_from: string; p_to: string };
         Returns: undefined;
@@ -796,6 +838,8 @@ export type Database = {
         Returns: Record<string, unknown>;
       };
       remove_category: { Args: { p_category: string }; Returns: string };
+      remove_debt: { Args: { p_debt: string; p_mode: string }; Returns: string };
+      remove_goal: { Args: { p_goal: string; p_mode: string }; Returns: string };
       period_bounds: {
         Args: { d: string; start_day: number };
         Returns: Record<string, unknown>;

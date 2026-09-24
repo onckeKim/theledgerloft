@@ -24,6 +24,27 @@ export default async function Page({ params }: PageProps<"/app/transactions/[id]
   ]);
   const startDay = household?.month_start_day ?? 1;
   const back = `/app/transactions?period=${periodFor(tx.occurred_on, startDay).label}`;
+  const goalId = tx.goal_contributions[0]?.goal_id;
+  const debtId = tx.debt_payments[0]?.debt_id;
+
+  if (goalId || debtId)
+    return (
+      <>
+        <PageHeader eyebrow="Transactions" title="Edit transaction" />
+        <Card className="max-w-[560px]">
+          <p>
+            This transaction was recorded from {goalId ? "a goal" : "a debt"}, so it changes from
+            there. That keeps {goalId ? "the amount saved" : "the balance"} and your budget in step.
+          </p>
+          <Link href={(goalId ? `/app/goals/${goalId}` : `/app/debts/${debtId}`) as never}>
+            Open the {goalId ? "goal" : "debt"}
+          </Link>
+        </Card>
+        <p className="mt-4">
+          <Link href={back as never}>Back to transactions</Link>
+        </p>
+      </>
+    );
 
   return (
     <>
@@ -31,7 +52,9 @@ export default async function Page({ params }: PageProps<"/app/transactions/[id]
       <Card className="max-w-[560px]">
         <TransactionForm
           id={tx.id}
-          categories={categories.map((c) => ({ id: c.id, name: c.name, group: c.category_group }))}
+          categories={categories
+            .filter((c) => !c.system_key || c.id === tx.category_id)
+            .map((c) => ({ id: c.id, name: c.name, group: c.category_group }))}
           monthStartDay={startDay}
           today={todayInJohannesburg()}
           afterSave={back}

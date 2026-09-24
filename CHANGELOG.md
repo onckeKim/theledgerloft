@@ -5,6 +5,10 @@ All notable changes to this project are documented here. Format based on [Keep a
 ## [Unreleased]
 
 ### Added
+- L7b goals and debts: goals and sinking funds page (progress, L4 status copy with "Estimate", "how short and on track are worked out", optional "use this total in this month's plan"); goal page to add money, take money out (never below R 0,00), edit, and remove (keep history by default, or delete everything); debts page with snowball/avalanche order (remembered, no default recommendation), payoff estimates and interest, assumptions, "explore paying extra", paid-off list and the always-present "Need help with debt?" card; debt page to record a payment (confirms an overpayment; the balance never goes below R 0,00), update the balance from a statement, edit and remove.
+- Database functions `create_goal`, `goal_move_money`, `remove_goal`, `create_debt`, `debt_record_payment`, `debt_set_balance`, `remove_debt`: each writes the goal or debt record and its matching transaction in one call (P-3, P-4); audit events for money moved; `supabase/tests/goals_debts_flow.sql` (28 checks).
+- Rename a category or move it between fixed bills and everyday spending (US-23); choose which checklist items show each month (US-25 AC2).
+- End-to-end test for goals and debts on desktop and phone.
 - L7 budget dashboard: dashboard (stat cards, spending card, monthly checklist, goals and debt snapshots with "Estimate" labels, "How this was calculated" on every figure); monthly budget page (planned/actual/remaining by group, inline planned amounts, add category, remove or archive a category, move money between categories, month switcher that never invents far-past months); transactions (add spending, income or refund, edit, delete with 10-second undo, filter by month and category, search, 20 per page).
 - Budget database functions: `period_range`, `ensure_budget` (creates a month by copying the last plan, skipping archived categories), `move_budget_money`, `add_category`, `remove_category` (deletes if unused, otherwise archives); `supabase/tests/budget_flow.sql` (16 checks).
 - Deleting an account now deletes the household data it alone belongs to (trigger on `auth.users`), so nothing is left orphaned (US-44, N11, T15); `supabase/tests/account_deletion.sql` (6 checks).
@@ -24,6 +28,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 - Shared component stylesheet `design/components.css` (used by the style guide and the screens).
 
 ### Changed
+- Transactions recorded by a goal or debt link to it and can't be edited or deleted on their own (a database guard keeps saved amounts and budget actuals in step); the app-managed categories aren't offered when adding a transaction.
 - Forms stay disabled until the page is interactive, so anything typed can't be replaced by the form's starting values on a slow phone.
 - Links are underlined by default (accessibility); button-styled links opt out.
 - Removed the temporary `APP_PREVIEW` mode (D-020). Every page now renders per request so the CSP nonce applies.

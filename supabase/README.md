@@ -11,6 +11,7 @@ Project: **theledgerloft** (`jjdetdabqbqktwkvodtk`), region **eu-west-2 (London)
 | `config.toml` | Local stack settings (mirrors production auth rules: email confirmation on, 10-character passwords) |
 | `tests/setup_flow.sql` | Guided setup functions: atomic saves, replace-the-list behaviour, setup-only, cross-household safety |
 | `tests/budget_flow.sql` | Monthly budget functions: period ranges, creating a month from the last plan, moving money, adding and removing categories, cross-household safety |
+| `tests/goals_debts_flow.sql` | Goals, sinking funds and debts: paired records, no negative saved amounts, overpayment confirmation, linked-transaction guard, archive or delete, cross-household safety |
 | `tests/account_deletion.sql` | Deleting a user deletes the households they alone belong to, and keeps shared ones |
 
 ## Rules

@@ -29,6 +29,10 @@ const GENERIC: ActionResult = {
   status: "error",
   message: "We couldn't save that just now. Please try again.",
 };
+const LINKED: ActionResult = {
+  status: "error",
+  message: "This one belongs to a goal or debt. Change it from the Goals or Debts page.",
+};
 const done = (extra: Partial<ActionResult> = {}): ActionResult => {
   revalidatePath("/app", "layout");
   return { status: "ok", ...extra };
@@ -117,6 +121,53 @@ export async function moveMoney(
   return done();
 }
 
+/** Rename a category or move it to another group (PRD US-23). App-managed categories keep their name and group. */
+export async function renameCategory(
+  categoryId: string,
+  input: { name: string; group: string },
+): Promise<ActionResult> {
+  await verifySession("/app/budget");
+  if (!isUuid(categoryId)) return GENERIC;
+  const parsed = parseNewCategory({ ...input, planned: "0" });
+  if (!parsed.ok) return { status: "error", errors: parsed.errors };
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("categories")
+    .update({ name: parsed.data.name, category_group: parsed.data.group })
+    .eq("id", categoryId)
+    .is("system_key", null)
+    .is("archived_at", null)
+    .select("id");
+  if (error?.code === "23505")
+    return {
+      status: "error",
+      errors: { name: `You already have a category called “${parsed.data.name}”` },
+    };
+  if (error || !data?.length) return GENERIC;
+  return done({ message: "Saved." });
+}
+
+/** Show or hide a default checklist item in every month (PRD US-25 AC2). */
+export async function setChecklistHidden(key: string, hidden: boolean): Promise<ActionResult> {
+  await verifySession("/app");
+  if (!isChecklistKey(key)) return GENERIC;
+  const supabase = await createClient();
+  const { data: household } = await supabase
+    .from("households")
+    .select("id, checklist_hidden")
+    .single();
+  if (!household) return GENERIC;
+  const next = new Set(household.checklist_hidden ?? []);
+  if (hidden) next.add(key);
+  else next.delete(key);
+  const { error } = await supabase
+    .from("households")
+    .update({ checklist_hidden: [...next] })
+    .eq("id", household.id);
+  if (error) return GENERIC;
+  return done();
+}
+
 export async function setChecklist(
   budgetId: string,
   key: string,
@@ -179,6 +230,7 @@ export async function saveTransaction(
             .single()
         : null;
   if (!result) return GENERIC;
+  if (result.error?.hint === "linked") return LINKED;
   if (result.error?.code === "23503")
     return { status: "error", errors: { categoryId: "Choose one of your categories" } };
   if (result.error || !result.data) return GENERIC;
@@ -197,6 +249,7 @@ export async function deleteTransaction(id: string): Promise<ActionResult> {
     .update({ deleted_at: new Date().toISOString() })
     .eq("id", id)
     .select("id");
+  if (error?.hint === "linked") return LINKED;
   if (error || !data?.length) return GENERIC;
   // No revalidation here: the row stays on screen with its Undo button; the page refreshes when the undo window ends.
   return { status: "ok", id };

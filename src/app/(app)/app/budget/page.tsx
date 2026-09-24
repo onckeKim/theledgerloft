@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { CalendarX2 } from "lucide-react";
 import { AddCategoryForm } from "@/components/budget/add-category-form";
 import { MonthSwitcher } from "@/components/budget/month-switcher";
 import { MoveMoneyForm } from "@/components/budget/move-money-form";
 import { PlannedCell } from "@/components/budget/planned-cell";
 import { RemoveCategoryButton } from "@/components/budget/remove-category-button";
+import { RenameCategory } from "@/components/budget/rename-category";
 import { StatCard } from "@/components/budget/stat-card";
 import { Working } from "@/components/budget/working";
 import { Alert } from "@/components/ui/alert";
@@ -158,11 +160,31 @@ export default async function Page({ searchParams }: PageProps<"/app/budget">) {
                             <span className="font-semibold sm:font-normal">{c.name}</span>
                             {c.archived ? <Badge tone="neutral">Archived</Badge> : null}
                             {!c.system && !c.archived ? (
-                              <RemoveCategoryButton
-                                categoryId={c.categoryId}
-                                name={c.name}
-                                period={m.period}
-                              />
+                              <>
+                                <RenameCategory
+                                  categoryId={c.categoryId}
+                                  name={c.name}
+                                  group={c.group}
+                                />
+                                <RemoveCategoryButton
+                                  categoryId={c.categoryId}
+                                  name={c.name}
+                                  period={m.period}
+                                />
+                              </>
+                            ) : null}
+                            {c.system ? (
+                              <Link
+                                href={
+                                  (c.system === "debt_payments"
+                                    ? "/app/debts"
+                                    : "/app/goals") as never
+                                }
+                                className="p-1 text-body-sm"
+                              >
+                                {c.system === "debt_payments" ? "Debts" : "Goals"}
+                                <span className="sr-only"> page for {c.name}</span>
+                              </Link>
                             ) : null}
                           </div>
                           <div className="mt-2 max-w-[320px]">

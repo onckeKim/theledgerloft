@@ -33,10 +33,10 @@ test("plan, record and review a month", async ({ page }) => {
     await expectAccessible(page);
 
     // Checklist remembers ticks
-    await page.getByLabel("Pay fixed bills").check();
+    await page.getByLabel("Pay fixed bills", { exact: true }).check();
     await page.waitForTimeout(500);
     await page.reload();
-    await expect(page.getByLabel("Pay fixed bills")).toBeChecked();
+    await expect(page.getByLabel("Pay fixed bills", { exact: true })).toBeChecked();
 
     // Transactions: add spending, income, refund
     await page.goto("/app/transactions");

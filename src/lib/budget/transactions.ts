@@ -19,9 +19,10 @@ export async function listTransactions({
   const supabase = await createClient();
   let query = supabase
     .from("transactions_manual")
-    .select("id, kind, amount_cents, occurred_on, description, category_id, categories(name)", {
-      count: "exact",
-    })
+    .select(
+      "id, kind, amount_cents, occurred_on, description, category_id, categories(name), goal_contributions(goal_id), debt_payments(debt_id)",
+      { count: "exact" },
+    )
     .eq("period", period)
     .is("deleted_at", null)
     .order("occurred_on", { ascending: false })
@@ -40,6 +41,12 @@ export async function listTransactions({
       description: t.description,
       categoryId: t.category_id,
       category: t.categories?.name ?? null,
+      // Written by a goal or debt: changed from there, not here.
+      linked: t.goal_contributions[0]
+        ? { href: `/app/goals/${t.goal_contributions[0].goal_id}`, label: "Goal" }
+        : t.debt_payments[0]
+          ? { href: `/app/debts/${t.debt_payments[0].debt_id}`, label: "Debt" }
+          : null,
     })),
     total: count ?? 0,
   };
@@ -50,7 +57,9 @@ export async function getTransaction(id: string) {
   const supabase = await createClient();
   const { data } = await supabase
     .from("transactions_manual")
-    .select("id, kind, amount_cents, occurred_on, description, category_id")
+    .select(
+      "id, kind, amount_cents, occurred_on, description, category_id, goal_contributions(goal_id), debt_payments(debt_id)",
+    )
     .eq("id", id)
     .is("deleted_at", null)
     .maybeSingle();

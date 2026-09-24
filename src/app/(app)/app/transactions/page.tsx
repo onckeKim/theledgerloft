@@ -180,13 +180,22 @@ export default async function Page({ searchParams }: PageProps<"/app/transaction
                               {amount}
                             </span>
                             <span className="flex w-full items-center justify-end gap-3 sm:w-auto">
-                              <Link
-                                href={`/app/transactions/${t.id}` as never}
-                                className="p-1 text-body-sm"
-                              >
-                                Edit<span className="sr-only"> {title}</span>
-                              </Link>
-                              <DeleteTransactionButton id={t.id} label={title} />
+                              {t.linked ? (
+                                <Link href={t.linked.href as never} className="p-1 text-body-sm">
+                                  Open {t.linked.label.toLowerCase()}
+                                  <span className="sr-only"> for {title}</span>
+                                </Link>
+                              ) : (
+                                <>
+                                  <Link
+                                    href={`/app/transactions/${t.id}` as never}
+                                    className="p-1 text-body-sm"
+                                  >
+                                    Edit<span className="sr-only"> {title}</span>
+                                  </Link>
+                                  <DeleteTransactionButton id={t.id} label={title} />
+                                </>
+                              )}
                             </span>
                           </li>
                         );
@@ -212,14 +221,20 @@ export default async function Page({ searchParams }: PageProps<"/app/transaction
               New transaction
             </h2>
             <TransactionForm
-              categories={categories.map((c) => ({
-                id: c.id,
-                name: c.name,
-                group: c.category_group,
-              }))}
+              categories={categories
+                .filter((c) => !c.system_key)
+                .map((c) => ({
+                  id: c.id,
+                  name: c.name,
+                  group: c.category_group,
+                }))}
               monthStartDay={startDay}
               today={today}
             />
+            <p className="mb-0 mt-4 border-t border-border pt-4 text-body-sm text-fg-muted">
+              Adding to a goal or paying a debt? Use <Link href={"/app/goals" as never}>Goals</Link>{" "}
+              or <Link href={"/app/debts" as never}>Debts</Link> so its balance updates too.
+            </p>
           </Card>
         </aside>
       </div>
