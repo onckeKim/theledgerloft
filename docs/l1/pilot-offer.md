@@ -1,7 +1,7 @@
 # Founding Pilot Offer
 
 Status: Draft v0.1 (Playbook step L1) · Date: 2026-09-24
-**Prices are placeholders for the owner to set.** I haven't researched competitor pricing, so none is quoted.
+**Price set by the owner on 2026-09-24: R 50,00 once-off for 90 days (D-043).** No competitor pricing was researched.
 
 ## Purpose
 
@@ -15,7 +15,7 @@ Get a small group of real users to (a) pay something, which proves demand, (b) u
 | Name | The Ledger Loft Founding Members |
 | Size | ASSUMPTION: 20–30 places. Say "limited" only if the cap is real |
 | Duration | 3 months of access to the MVP as it is built |
-| Price | `R[OWNER TO SET]` once-off for the 3 months, **or** a founding monthly price locked for 12 months after launch |
+| Price | **R 50,00 once-off** for 90 days of access (set in `private.plans`; no subscription) |
 | Bonus | A free digital Ledger Loft planner of their choice (an existing product, so no extra cost to make) |
 | Commitment asked | One 20-minute feedback call per month, plus in-app check-ins |
 | Refund | Full refund within the first 14 days, no questions asked. ASSUMPTION: confirm against the ECT Act cooling-off rules (see `safety-boundary.md`) |
