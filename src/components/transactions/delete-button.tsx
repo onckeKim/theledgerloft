@@ -48,7 +48,7 @@ export function DeleteTransactionButton({ id, label }: { id: string; label: stri
       </span>
     );
   if (state === "deleted") return <span className="text-body-sm text-fg-muted">Deleted</span>;
-  return (
+  const deleteButton = (
     <button
       type="button"
       disabled={pending}
@@ -66,4 +66,15 @@ export function DeleteTransactionButton({ id, label }: { id: string; label: stri
       Delete<span className="sr-only"> {label}</span>
     </button>
   );
+  // After Undo, say so (and announce it), then offer Delete again.
+  if (state === "restored")
+    return (
+      <span className="inline-flex items-center gap-2">
+        <span role="status" className="text-body-sm text-fg-muted">
+          Restored.
+        </span>
+        {deleteButton}
+      </span>
+    );
+  return deleteButton;
 }

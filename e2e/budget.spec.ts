@@ -99,6 +99,7 @@ test("plan, record and review a month", async ({ page }) => {
     // Delete with undo
     await page.getByRole("button", { name: "Delete Parking refund" }).click();
     await page.getByRole("button", { name: /Undo/ }).click();
+    await expect(page.getByRole("status").filter({ hasText: "Restored." })).toBeVisible();
     await page.reload();
     await expect(page.locator("strong").filter({ hasText: "Parking refund" })).toBeVisible();
 

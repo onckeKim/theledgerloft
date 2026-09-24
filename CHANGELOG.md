@@ -5,6 +5,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 ## [Unreleased]
 
 ### Added
+- Staging deployment kit (release review B1): `docs/release/staging-deploy.md` (Vercel project, environment variables, Supabase auth URLs and email, sandbox payments, a by-hand walkthrough), `vercel.json` (functions in London next to the database), `scripts/smoke-staging.mjs` (read-only checks of headers, public pages, signed-out refusals, forged payment notifications and Supabase email confirmation) and a manually run "Staging smoke test" workflow.
 - Settings (PRD US-41, US-42, US-44, US-45): a Settings hub; **Budget setup** (pay frequency, style, and month start day, which applies from next month with a one-off transition month and a confirmation giving the exact dates); **Profile** (name, email change with confirmation link, password change that checks the current password, appearance light/dark/device remembered per device); **Delete my account** under Your data (two steps: explains and offers the download, then type DELETE and the password; deletes the sign-in and all household data, keeps a data-free audit event, signs out to `/account-deleted`).
 - Database functions `change_budget_setup` and `delete_my_account`; budget months now follow existing budgets (`private.period_of`) and new months never overlap (L4 §3.1); `supabase/tests/settings_flow.sql` (16 checks); unit tests for settings validation; end-to-end settings test; the responsive sweep covers the new pages.
 - Release candidate review (`docs/release/rc-review-2026-09-24.md`): **no-go** with 9 blockers, test evidence, manual path review, risks, env, monitoring and rollback plan.
@@ -43,6 +44,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 
 ### Changed
 - Session cookies are HttpOnly, SameSite=Lax and Secure in production (US-04 AC3).
+- Undo after deleting a transaction now says "Restored." (announced to screen readers); the budget e2e test waits for it, fixing a timing failure first seen in CI.
 - Bulleted lists show their bullets again (error summaries, join page, landing and pilot pages, account deletion).
 - Transactions page no longer scrolls sideways at 320 px; the Spending/Income/Refund switch shares the width.
 - CI's database job runs every end-to-end spec, not just setup.
