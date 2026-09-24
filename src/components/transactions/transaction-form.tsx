@@ -97,11 +97,11 @@ export function TransactionForm({
         <ErrorSummary items={summary} message={errors.form} focusToken={focusToken} />
         <fieldset className="mb-5 border-0 p-0" id="tx-kind">
           <legend className="mb-1 font-semibold">Type</legend>
-          <div className="inline-flex overflow-hidden rounded-md border border-control">
+          <div className="grid w-full max-w-[360px] grid-cols-3 overflow-hidden rounded-md border border-control">
             {KINDS.map((k, i) => (
               <label
                 key={k.value}
-                className={`cursor-pointer px-4 py-2 text-body-sm font-semibold has-[:checked]:bg-fg has-[:checked]:text-bg has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-focus ${i ? "border-l border-control" : ""}`}
+                className={`cursor-pointer px-2 py-2 text-center text-body-sm font-semibold has-[:checked]:bg-fg has-[:checked]:text-bg has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-focus ${i ? "border-l border-control" : ""}`}
               >
                 <input
                   type="radio"

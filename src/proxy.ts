@@ -2,6 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { publicEnv } from "@/lib/public-env";
 import { buildCsp } from "@/lib/security/csp";
+import { hardenCookie } from "@/lib/supabase/cookies";
 
 /**
  * Runs before every page request:
@@ -35,7 +36,7 @@ export async function proxy(request: NextRequest) {
           cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
           response = NextResponse.next({ request: { headers: requestHeaders } });
           cookiesToSet.forEach(({ name, value, options }) =>
-            response.cookies.set(name, value, options),
+            response.cookies.set(name, value, hardenCookie(options)),
           );
           Object.entries(headers).forEach(([key, value]) => response.headers.set(key, value));
         },

@@ -21,6 +21,11 @@ test("plan, record and review a month", async ({ page }) => {
     await signIn(page, user.email);
     await page.waitForURL(/\/app$/);
 
+    // Session cookies are HttpOnly and SameSite=Lax (US-04 AC3)
+    const session = (await page.context().cookies()).filter((c) => c.name.startsWith("sb-"));
+    expect(session.length).toBeGreaterThan(0);
+    for (const c of session) expect([c.httpOnly, c.sameSite]).toEqual([true, "Lax"]);
+
     // Dashboard: the L4 prototype plan
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Your month at a glance");
     await expect(page.getByText(zar("R 21 740,00"), { exact: true }).first()).toBeVisible();

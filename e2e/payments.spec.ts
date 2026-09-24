@@ -45,6 +45,7 @@ test("join the pilot: access only after a verified, matching payment", async ({ 
     // Checkout: the server's price and a valid signature go to PayFast
     await page.getByRole("button", { name: "Pay with PayFast" }).click();
     await expect.poll(() => posted.length).toBe(1);
+    await page.waitForURL(/sandbox\.payfast\.co\.za\/eng\/process/);
     const form = posted[0]!;
     expect(form.get("merchant_id")).toBe("10000100");
     expect(form.get("amount")).toBe("10.00");
@@ -77,6 +78,7 @@ test("join the pilot: access only after a verified, matching payment", async ({ 
     // A fresh checkout, paid in full: access, once
     await page.getByRole("button", { name: "Pay with PayFast" }).click();
     await expect.poll(() => posted.length).toBe(2);
+    await page.waitForURL(/sandbox\.payfast\.co\.za\/eng\/process/);
     const second = posted[1]!.get("m_payment_id")!;
     expect(second).not.toBe(paymentId);
     await page.goto("/app/join/return");

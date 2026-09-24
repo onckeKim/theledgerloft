@@ -42,7 +42,8 @@ jobs:
           retention-days: 7
 
   database:
-    # Local Supabase stack: migrations from scratch, SQL isolation/setup tests, and the setup flow end to end.
+    # Local Supabase stack: migrations from scratch and seed, every SQL test file, and every end-to-end flow that needs
+    # a database (setup, budget, goals and debts, review and export, payments).
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
@@ -64,7 +65,7 @@ jobs:
           echo "E2E_SUPABASE_PUBLISHABLE_KEY=$(grep '^PUBLISHABLE_KEY=' .supabase-status | cut -d= -f2- | tr -d '"')" >> "$GITHUB_ENV"
           echo "E2E_SUPABASE_SERVICE_KEY=$(grep '^SERVICE_ROLE_KEY=' .supabase-status | cut -d= -f2- | tr -d '"')" >> "$GITHUB_ENV"
       - run: npx playwright install --with-deps chromium
-      - run: npx playwright test e2e/setup.spec.ts
+      - run: npx playwright test
         env:
           NEXT_PUBLIC_SITE_URL: http://localhost:3100
       - if: failure()

@@ -5,6 +5,9 @@ All notable changes to this project are documented here. Format based on [Keep a
 ## [Unreleased]
 
 ### Added
+- Release candidate review (`docs/release/rc-review-2026-09-24.md`): **no-go** with 9 blockers, test evidence, manual path review, risks, env, monitoring and rollback plan.
+- `e2e/responsive.spec.ts` (every main page at 320/390/820/1280 px, light and dark, axe and no horizontal scroll) and `e2e/keyboard.spec.ts` (keyboard-only journey).
+- Rollback files for the two migrations that only had rollback comments; the full rollback chain was exercised locally.
 - L10 Etsy-to-app growth funnel proposal (`docs/l10/`): funnel map, lead magnet (a free Monthly Money Check-in printable on our own site), a 10-email onboarding sequence with no financial data, in-product upgrade and feedback moments with "never" rules, a founding-member referral concept (no friend emails collected, rewards only after a verified payment), new privacy-safe analytics events, support reply templates, and the Etsy policy questions that must be answered from Etsy's official pages before anything Etsy-facing is built. Nothing is implemented yet.
 - L9 pilot payments (PayFast, sandbox first): `/app/join` shows the offer (price and length from the database plan, never the browser) and posts a signed checkout form to PayFast; `/app/join/return` shows "Confirming your payment…" and only polls; `/app/join/cancel` comes back with a neutral message. `POST /api/payfast/notify` verifies the notification (signature with passphrase, PayFast source address, PayFast server confirmation), then the database matches amount and merchant against the pending payment, grants access once, and is safe against duplicate and out-of-order notifications.
 - Pilot access: every planner page and action needs an active entitlement (`requireAccess()`); settings and "Download all my data" don't. A test enforces it.
@@ -37,6 +40,9 @@ All notable changes to this project are documented here. Format based on [Keep a
 - Shared component stylesheet `design/components.css` (used by the style guide and the screens).
 
 ### Changed
+- Session cookies are HttpOnly, SameSite=Lax and Secure in production (US-04 AC3).
+- Transactions page no longer scrolls sideways at 320 px; the Spending/Income/Refund switch shares the width.
+- CI's database job runs every end-to-end spec, not just setup.
 - Content-Security-Policy `form-action` allows `https://*.payfast.co.za` for the checkout form.
 - Transactions recorded by a goal or debt link to it and can't be edited or deleted on their own (a database guard keeps saved amounts and budget actuals in step); the app-managed categories aren't offered when adding a transaction.
 - Forms stay disabled until the page is interactive, so anything typed can't be replaced by the form's starting values on a slow phone.

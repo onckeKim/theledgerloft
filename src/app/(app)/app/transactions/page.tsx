@@ -67,7 +67,7 @@ export default async function Page({ searchParams }: PageProps<"/app/transaction
           />
         }
       />
-      <div className="grid items-start gap-5 lg:grid-cols-[1fr_360px]">
+      <div className="grid grid-cols-1 items-start gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
         <section aria-labelledby="list-h">
           <Card>
             <h2 id="list-h" className="sr-only">
