@@ -13,7 +13,7 @@ describe("hardenCookie (US-04 AC3)", () => {
       secure: true,
     });
   });
-  it("is Secure only in production", () => {
+  it("is Secure only when asked (servedOverHttps)", () => {
     expect(hardenCookie(undefined, false)).toEqual({
       httpOnly: true,
       sameSite: "lax",

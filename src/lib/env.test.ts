@@ -34,6 +34,20 @@ describe("parseEnv", () => {
     ).toBe("production");
   });
 
+  it("requires https for the site URL in production, except on localhost", () => {
+    expect(() =>
+      parseEnv({
+        NODE_ENV: "production",
+        NEXT_PUBLIC_SITE_URL: "http://app.example.co.za",
+        ...base,
+      }),
+    ).toThrow(/must use https/);
+    expect(
+      parseEnv({ NODE_ENV: "production", NEXT_PUBLIC_SITE_URL: "http://localhost:3100", ...base })
+        .NEXT_PUBLIC_SITE_URL,
+    ).toBe("http://localhost:3100");
+  });
+
   it("rejects invalid URLs", () => {
     expect(() =>
       parseEnv({ NODE_ENV: "development", ...base, NEXT_PUBLIC_SITE_URL: "not a url" }),

@@ -2,15 +2,25 @@ import { defineConfig, devices } from "@playwright/test";
 import { LOCAL_PAYMENTS_SECRET } from "./e2e/constants";
 
 const PORT = 3100;
+// Firefox and Safari (release review R7) are opt-in: E2E_BROWSERS=firefox (the CI "browsers" job) or webkit.
+// WebKit isn't in CI: Playwright's Linux WebKit crashes at four navigations that Chromium and Firefox pass (D-049).
+const EXTRA = (process.env.E2E_BROWSERS ?? "").split(",").map((b) => b.trim());
 
 export default defineConfig({
   testDir: "e2e",
   fullyParallel: true,
   retries: process.env.CI ? 1 : 0,
-  use: { baseURL: `http://localhost:${PORT}` },
+  // Traces for failed tests in CI (uploaded as an artifact): the page, network and console at each step.
+  use: { baseURL: `http://localhost:${PORT}`, trace: process.env.CI ? "retain-on-failure" : "off" },
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"] } },
     { name: "phone", use: { ...devices["Pixel 7"] } },
+    ...(EXTRA.includes("webkit")
+      ? [{ name: "webkit", use: { ...devices["Desktop Safari"] } }]
+      : []),
+    ...(EXTRA.includes("firefox")
+      ? [{ name: "firefox", use: { ...devices["Desktop Firefox"] } }]
+      : []),
   ],
   webServer: {
     // Runs against a production build so the tests see what users get.

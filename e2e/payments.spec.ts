@@ -93,8 +93,10 @@ test("join the pilot: access only after a verified, matching payment", async ({ 
     await page.getByRole("link", { name: "Start setting up your planner" }).click();
     await page.waitForURL(/\/app\/setup/);
 
-    // With access, join sends you to the app
-    await page.goto("/app/join");
+    // With access, join sends you to the app. The page redirects itself, which interrupts page.goto (Firefox and
+    // WebKit report that as an error), so navigate as the browser would and check where it lands.
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- a test acting as the browser
+    await page.evaluate(() => window.location.assign("/app/join"));
     await page.waitForURL(/\/app\/setup/);
   } finally {
     await user.remove();

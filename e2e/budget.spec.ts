@@ -24,7 +24,10 @@ test("plan, record and review a month", async ({ page }) => {
     // Session cookies are HttpOnly and SameSite=Lax (US-04 AC3)
     const session = (await page.context().cookies()).filter((c) => c.name.startsWith("sb-"));
     expect(session.length).toBeGreaterThan(0);
-    for (const c of session) expect([c.httpOnly, c.sameSite]).toEqual([true, "Lax"]);
+    // Secure exactly when the site is https (src/lib/security/https.ts): Safari refuses Secure cookies on http.
+    const https = page.url().startsWith("https://");
+    for (const c of session)
+      expect([c.httpOnly, c.sameSite, c.secure]).toEqual([true, "Lax", https]);
 
     // Dashboard: the L4 prototype plan
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Your month at a glance");

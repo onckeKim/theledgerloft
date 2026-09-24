@@ -22,6 +22,11 @@ Time: about 30 minutes, plus the PayFast sandbox steps if you want payments on s
 
 ## 1. Create the Vercel project
 
+**Plan:** Vercel's free Hobby plan is described as being for personal, non-commercial projects. Staging without
+payments is fine to try on it. Before you take real payments, check Vercel's current terms and whether you need a
+paid plan (release blocker B7 and D-048: low budget).
+
+
 1. vercel.com → **Add New… → Project** → import `onckeKim/theledgerloft`.
 2. Framework preset **Next.js**; root directory `/`; build and install commands left at their defaults.
 3. Node.js version: **22.x** (the repo's `.nvmrc` says 22).
@@ -53,6 +58,23 @@ partial set:
 | `PAYFAST_MERCHANT_KEY` | From your PayFast sandbox account | **Yes** (mark Sensitive) |
 | `PAYFAST_PASSPHRASE` | The passphrase you set in the PayFast sandbox dashboard (letters and numbers, 12+) | **Yes** |
 | `PAYMENTS_DB_SECRET` | 32+ random characters you generate (e.g. `openssl rand -hex 32`) | **Yes** |
+
+### 2b. Without a PayFast account (the current plan, D-048)
+
+- Leave all five payment variables unset. The join page then shows "not open yet", and nothing can be charged.
+- Every planner page needs pilot access. So after you've signed up on staging with your own email, give your own
+  account test access. Run this in the Supabase SQL editor, putting your sign-up email in place of the example:
+
+```sql
+-- Test access for the owner's own account only. Never for customers without a PayFast payment (support S2).
+insert into public.entitlements (household_id, kind, starts_at, ends_at)
+select hm.household_id, 'pilot', now(), now() + interval '90 days'
+from auth.users u join public.household_members hm on hm.user_id = u.id
+where u.email = 'you@example.com';
+```
+
+- Checked on the local stack before publishing: it grants one active entitlement.
+- The release review's B2 (a real sandbox payment) waits until you have a PayFast account.
 
 **Never set on staging:**
 - a Supabase service-role or secret key (the app doesn't use one)

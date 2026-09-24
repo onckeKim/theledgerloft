@@ -1,7 +1,7 @@
 # Operations Runbook
 
 Status: v0.1, 2026-09-24. Covers release review blockers **B6** (backups and restore) and **B7** (monitoring, support
-and incidents), pilot metrics (§6), and the playbook's commercial launch gate items "backups and restoration have been tested" and "a
+and incidents), pilot metrics (§6), retention (§7), and the playbook's commercial launch gate items "backups and restoration have been tested" and "a
 support inbox, incident path and status communication template exist".
 
 **What's proven and what isn't:**
@@ -82,8 +82,9 @@ Restore into a **new** project, never over the live one. Then switch the app to 
    - It applies the backup in one transaction, with two fixes around `schema.sql`:
      - `supabase/restore/before_schema.sql` clears the new project's default grants, so the tables don't come back
        open to `anon`.
-     - `supabase/restore/after_schema.sql` puts back the default privileges and the two `auth.users` triggers
-       (sign-up creates a household; deleting an account deletes its data).
+     - `supabase/restore/after_schema.sql` puts back the default privileges, the two `auth.users` triggers (sign-up
+       creates a household; deleting an account deletes its data) and the nightly purge job (§7), which lives in
+       `cron.job` and isn't in the dump either.
 3. **Verify.** All of these must pass before anyone uses it:
    - `psql "$OLD" -XAtf scripts/db-acl-snapshot.sql > old.txt`, the same on the new database, then
      `diff old.txt new.txt`: no differences. If the old project is gone, compare with a snapshot saved at backup
@@ -346,4 +347,26 @@ select * from private.pilot_metrics('2026-10-01', '2026-10-31');  -- sign-up win
 - debt-help opens
 
 Choose a privacy-focused tool, record it as a processor, add it to the privacy notice (B5), and allow it in the CSP.
+
+## 7. Retention and the nightly purge
+
+`private.purge_expired()` runs every night at 01:17 UTC (03:17 SAST) as the pg_cron job `ledgerloft-purge-expired`
+(migration `20260924150235_retention`). It deletes:
+
+| Data | Kept for | Why |
+|---|---|---|
+| Deleted transactions | 30 days after deletion | Undo lasts seconds. Until purged they still appear in "Download all my data". 30 days matches the N11 assumption |
+| Export link rows | 7 days | A download link works for 10 minutes. The `export.created` audit event is kept separately |
+| Audit events | 12 months | N11 |
+
+Transactions linked to a goal or debt are never purged this way; they go with the goal, debt or account.
+
+**The periods are proposals (D-046):** confirm them, and write them into the privacy notice, with the legal
+review (B5).
+
+**Checks:**
+- Last runs: `select status, return_message, start_time from cron.job_run_details order by start_time desc limit 7;`
+- To run it by hand: `select * from private.purge_expired();` It returns counts only.
+
+**After a restore:** the job must exist again. `scripts/db-acl-snapshot.sql` lists it as a `cron …` line.
 

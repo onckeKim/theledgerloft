@@ -1,6 +1,7 @@
 import "server-only";
 import { z } from "zod";
 import { publicSchema } from "./public-env";
+import { isLocalHost } from "./security/https";
 
 /**
  * Server environment, validated once at start-up. Add every new variable here AND in .env.example.
@@ -46,6 +47,19 @@ const schema = publicSchema
         code: "custom",
         path: ["NEXT_PUBLIC_SITE_URL"],
         message: "is required in production",
+      });
+    }
+    // Secure cookies and upgrade-insecure-requests follow the site URL (src/lib/security/https.ts): only a local
+    // production build may use http.
+    if (
+      env.NODE_ENV === "production" &&
+      env.NEXT_PUBLIC_SITE_URL?.startsWith("http://") &&
+      !isLocalHost(env.NEXT_PUBLIC_SITE_URL)
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["NEXT_PUBLIC_SITE_URL"],
+        message: "must use https in production",
       });
     }
   });

@@ -5,6 +5,9 @@ All notable changes to this project are documented here. Format based on [Keep a
 ## [Unreleased]
 
 ### Added
+- Nightly retention purge (release review R3, D-046): `private.purge_expired()` scheduled with pg_cron removes deleted transactions after 30 days, export link rows after 7 days and audit events after 12 months, never goal- or debt-linked transactions; `supabase/tests/retention.sql` (12 checks). The restore re-creates the job, `src/lib/restore.test.ts` now also checks cron jobs, and `scripts/db-acl-snapshot.sql` lists them.
+- Firefox end-to-end runs (R7): an opt-in Playwright project `firefox` (`E2E_BROWSERS=firefox`), run on every PR by a new CI job `browsers` against the local stack, with traces uploaded when a test fails. A `webkit` (Desktop Safari) project exists for manual runs but isn't in CI: Playwright's Linux WebKit crashes at four navigations (D-049).
+- Index `entitlements_payment_household_idx` for the entitlements foreign key (R10).
 - Pilot metrics (launch gate "analytics", D-045): `private.pilot_metrics(from, to)` returns counts only (sign-ups, deletions, setup completion within 7 days and drop-off by step, activation, active in the last 30 days, the two-month check-in habit, checkout and paid), from data the app already stores, with no tracking. Owner-only, run in the SQL editor (`docs/release/operations.md` §6). `supabase/tests/pilot_metrics.sql` (13 checks).
 - Operations runbook (`docs/release/operations.md`, release review B6 and B7): backup and restore procedure with a recommendation (Pro plan before real users plus a weekly off-site copy), log lines and alerts to watch, daily and weekly checks as read-only SQL, support set-up, an incident path (payments not confirming, sign-in and email, wrong data, suspected data exposure) and status message templates.
 - `scripts/db-backup.sh` (Supabase CLI dump of roles, schema, data and migration history, with checksums), `scripts/db-restore.sh` (new, empty project only; re-applies `supabase/restore/before_schema.sql` and `after_schema.sql`) and `scripts/db-acl-snapshot.sql` (privileges, policies, RLS and triggers, to diff old against new). Rehearsed end to end on the local stack: identical row counts and privileges, all 184 SQL checks pass on the restored copy.
@@ -67,5 +70,6 @@ All notable changes to this project are documented here. Format based on [Keep a
 - Project operating plan (`docs/operating-plan.md`), decision log, changelog and `.env.example` placeholder.
 
 ### Fixed
+- Safari (WebKit) on a production build served over http on localhost: session cookies are `Secure`, and the CSP sends `upgrade-insecure-requests`, only when the site is served over https (`src/lib/security/https.ts`). WebKit rejected the cookies and upgraded the page's own scripts and styles to https, so sign-in and the forms failed in the first WebKit CI run. Production must now use an `https://` site URL (only localhost may use http), and the staging smoke test checks the header. The Firefox payments test now waits only for the join page's own redirect to start.
 - The SQL test files crashed ("malformed array literal") instead of reporting a failed check; failure messages are now typed text, so a failing check prints its name.
 - `.gitignore` excludes `backups/`, which hold personal data.
