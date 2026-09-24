@@ -49,3 +49,6 @@ next-env.d.ts
 
 # local Supabase status dump (CI)
 .supabase-status
+
+# Database backups (scripts/db-backup.sh); they hold personal data
+/backups/

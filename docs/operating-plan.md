@@ -103,5 +103,18 @@ remaining blocking questions are listed in §7 of that brief. Original questions
 
 ## 10. Next recommended step
 
-L1, A2, L2, L3, L4, A3, A4 + L5, L6, L7, L7b, L8, L9 (payments, sandbox-ready), L10 (funnel proposal) and the release candidate review (**no-go**, D-040) are done. Next: **clear the remaining blockers** in `docs/release/rc-review-2026-09-24.md` (B3 and B4 are done: deletion and settings; still open: deploy staging (steps ready in `docs/release/staging-deploy.md`), sandbox payment, backups, monitoring and support, legal, interviews, CI), **answer the Etsy policy questions** (`docs/l10/etsy-policy-questions.md`), **owner review of the 5 blocking questions in `docs/product-brief.md`**, then **owner-led interviews** using
-`docs/l1/interview-guide.md`. The A2 project docs follow once the questions above are answered.
+Every playbook build step is done, and so is the release candidate review (**no-go**, D-040). The playbook has no
+step after the review: what's left is its **commercial launch gate** (section E). The code-side work for B3, B4 and
+B9 is done, and so are the procedures for B6 and B7 (`docs/release/operations.md`).
+
+Everything that remains needs the owner:
+1. **B1:** deploy staging (`docs/release/staging-deploy.md`).
+2. **B2:** set the payments secret, then make one sandbox payment.
+3. **B6:** choose the Supabase plan (D-044) and rehearse a restore from the hosted project once.
+4. **B7:** choose the monitoring tools, and create the support inbox with a reply time.
+5. **B5:** legal review, and name the Information Officer.
+6. **B8:** interviews and MVP walkthroughs (`docs/l1/interview-guide.md`).
+7. Answer the Etsy policy questions (`docs/l10/etsy-policy-questions.md`) and the 5 blocking questions in
+   `docs/product-brief.md`.
+
+Then repeat the release review.

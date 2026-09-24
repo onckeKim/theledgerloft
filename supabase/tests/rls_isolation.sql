@@ -86,78 +86,78 @@ begin
     if n = 0 then passed := passed + 1; else failures := failures || format('B reads %s rows of A in %s', n, t); end if;
   end loop;
   select count(*) into n from public.households where id = ha;
-  if n = 0 then passed := passed + 1; else failures := failures || 'B reads A household'; end if;
+  if n = 0 then passed := passed + 1; else failures := failures || text 'B reads A household'; end if;
   select count(*) into n from public.profiles where id = a;
-  if n = 0 then passed := passed + 1; else failures := failures || 'B reads A profile'; end if;
+  if n = 0 then passed := passed + 1; else failures := failures || text 'B reads A profile'; end if;
   select count(*) into n from public.household_members where household_id = ha;
-  if n = 0 then passed := passed + 1; else failures := failures || 'B reads A membership'; end if;
+  if n = 0 then passed := passed + 1; else failures := failures || text 'B reads A membership'; end if;
 
   -- B changes nothing of A's
   update public.categories set name = 'Hacked' where id = cat_a;
   get diagnostics n = row_count;
-  if n = 0 then passed := passed + 1; else failures := failures || 'B updated A category'; end if;
+  if n = 0 then passed := passed + 1; else failures := failures || text 'B updated A category'; end if;
   update public.households set name = 'Hacked' where id = ha;
   get diagnostics n = row_count;
-  if n = 0 then passed := passed + 1; else failures := failures || 'B updated A household'; end if;
+  if n = 0 then passed := passed + 1; else failures := failures || text 'B updated A household'; end if;
   delete from public.transactions_manual where id = tx_a;
   get diagnostics n = row_count;
-  if n = 0 then passed := passed + 1; else failures := failures || 'B deleted A transaction'; end if;
+  if n = 0 then passed := passed + 1; else failures := failures || text 'B deleted A transaction'; end if;
 
   -- B cannot insert into A's household (RLS with check)
   begin
     insert into public.categories (household_id, name, category_group) values (ha, 'Planted', 'everyday');
-    failures := failures || 'B inserted into A household';
+    failures := failures || text 'B inserted into A household';
   exception when insufficient_privilege then passed := passed + 1;
   end;
 
   -- B cannot move own rows into A's household
   begin
     update public.categories set household_id = ha where id = cat_b;
-    failures := failures || 'B moved a row into A household';
+    failures := failures || text 'B moved a row into A household';
   exception when insufficient_privilege or foreign_key_violation then passed := passed + 1;
   end;
 
   -- B cannot point own rows at A's rows (composite foreign keys)
   begin
     insert into public.budget_lines (household_id, budget_id, category_id) values (hb, budget_b, cat_a);
-    failures := failures || 'B linked a budget line to A category';
+    failures := failures || text 'B linked a budget line to A category';
   exception when foreign_key_violation then passed := passed + 1;
   end;
   begin
     insert into public.transactions_manual (household_id, kind, amount_cents, occurred_on, category_id) values (hb, 'outflow', 100, '2026-09-24', cat_a);
-    failures := failures || 'B linked a transaction to A category';
+    failures := failures || text 'B linked a transaction to A category';
   exception when foreign_key_violation then passed := passed + 1;
   end;
   begin
     insert into public.debt_payments (household_id, debt_id, kind, amount_cents, happened_on) values (hb, debt_a, 'payment', 100, '2026-09-24');
-    failures := failures || 'B paid A debt';
+    failures := failures || text 'B paid A debt';
   exception when foreign_key_violation then passed := passed + 1;
   end;
   begin
     insert into public.goal_contributions (household_id, goal_id, direction, amount_cents, happened_on) values (hb, goal_a, 'in', 100, '2026-09-24');
-    failures := failures || 'B contributed to A goal';
+    failures := failures || text 'B contributed to A goal';
   exception when foreign_key_violation then passed := passed + 1;
   end;
 
   -- B cannot join A's household, forge audit events or create households
   begin
     insert into public.household_members (household_id, user_id) values (ha, b);
-    failures := failures || 'B joined A household';
+    failures := failures || text 'B joined A household';
   exception when insufficient_privilege then passed := passed + 1;
   end;
   begin
     insert into public.audit_events (household_id, actor_id, action) values (ha, b, 'forged.event');
-    failures := failures || 'B forged an audit event';
+    failures := failures || text 'B forged an audit event';
   exception when insufficient_privilege then passed := passed + 1;
   end;
   begin
     insert into public.households (name) values ('Extra');
-    failures := failures || 'B created a household directly';
+    failures := failures || text 'B created a household directly';
   exception when insufficient_privilege then passed := passed + 1;
   end;
   begin
     perform private.log_event(ha, 'forged.event', null, null);
-    failures := failures || 'B called private.log_event';
+    failures := failures || text 'B called private.log_event';
   exception when insufficient_privilege then passed := passed + 1;
   end;
 
@@ -185,15 +185,15 @@ begin
   if n = 0 then passed := passed + 1; else failures := failures || format('%s public tables without any policy', n); end if;
 
   -- period_for matches L4 vectors P1–P7
-  if public.period_for('2026-09-24', 25::smallint) = '2026-09' then passed := passed + 1; else failures := failures || 'P1'; end if;
-  if public.period_for('2026-09-25', 25::smallint) = '2026-10' then passed := passed + 1; else failures := failures || 'P2'; end if;
-  if public.period_for('2026-09-15', 1::smallint) = '2026-09' then passed := passed + 1; else failures := failures || 'P3'; end if;
-  if public.period_for('2028-02-29', 1::smallint) = '2028-02' then passed := passed + 1; else failures := failures || 'P4'; end if;
-  if public.period_for('2026-03-01', 28::smallint) = '2026-03' then passed := passed + 1; else failures := failures || 'P5'; end if;
-  if public.period_for('2026-12-26', 25::smallint) = '2027-01' then passed := passed + 1; else failures := failures || 'P6'; end if;
+  if public.period_for('2026-09-24', 25::smallint) = '2026-09' then passed := passed + 1; else failures := failures || text 'P1'; end if;
+  if public.period_for('2026-09-25', 25::smallint) = '2026-10' then passed := passed + 1; else failures := failures || text 'P2'; end if;
+  if public.period_for('2026-09-15', 1::smallint) = '2026-09' then passed := passed + 1; else failures := failures || text 'P3'; end if;
+  if public.period_for('2028-02-29', 1::smallint) = '2028-02' then passed := passed + 1; else failures := failures || text 'P4'; end if;
+  if public.period_for('2026-03-01', 28::smallint) = '2026-03' then passed := passed + 1; else failures := failures || text 'P5'; end if;
+  if public.period_for('2026-12-26', 25::smallint) = '2027-01' then passed := passed + 1; else failures := failures || text 'P6'; end if;
   begin
     perform public.period_for('2026-09-15', 31::smallint);
-    failures := failures || 'P7 accepted start day 31';
+    failures := failures || text 'P7 accepted start day 31';
   exception when invalid_parameter_value then passed := passed + 1;
   end;
 
