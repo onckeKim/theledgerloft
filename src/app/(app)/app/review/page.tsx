@@ -6,7 +6,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 import { formatPeriod } from "@/lib/calc/period";
 import { listReviews } from "@/lib/review/queries";
 
@@ -18,7 +18,7 @@ const dayMonth = (iso: string) =>
   );
 
 export default async function Page() {
-  await verifySession("/app/review");
+  await requireAccess("/app/review");
   const months = await listReviews();
   return (
     <>

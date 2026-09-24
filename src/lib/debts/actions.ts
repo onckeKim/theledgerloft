@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import type { Route } from "next";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 import { isUuid } from "@/lib/budget/schemas";
 import { createClient } from "@/lib/supabase/server";
 import type { ActionResult } from "@/lib/budget/actions";
@@ -20,7 +20,7 @@ const refresh = () => revalidatePath("/app", "layout");
 
 /** Add (id null) or edit a debt (PRD US-34). The balance changes only through payments and statement updates. */
 export async function saveDebt(id: string | null, input: DebtInput): Promise<ActionResult> {
-  await verifySession("/app/debts");
+  await requireAccess("/app/debts");
   if (id !== null && !isUuid(id)) return GENERIC;
   // When editing, the balance field isn't shown; validate it with a placeholder.
   const parsed = parseDebt(id === null ? input : { ...input, balance: "1" });
@@ -59,7 +59,7 @@ export async function recordPayment(
   input: AmountInput,
   confirmOver = false,
 ): Promise<PaymentResult> {
-  await verifySession("/app/debts");
+  await requireAccess("/app/debts");
   if (!isUuid(id)) return GENERIC;
   const parsed = parseAmount(input);
   if (!parsed.ok) return { status: "error", errors: parsed.errors };
@@ -100,7 +100,7 @@ export async function recordPayment(
 
 /** Update the balance from a statement (PRD US-36). Not a spending transaction. */
 export async function setBalance(id: string, input: AmountInput): Promise<ActionResult> {
-  await verifySession("/app/debts");
+  await requireAccess("/app/debts");
   if (!isUuid(id)) return GENERIC;
   const parsed = parseAmount(input, { allowZero: true });
   if (!parsed.ok) return { status: "error", errors: parsed.errors };
@@ -117,7 +117,7 @@ export async function setBalance(id: string, input: AmountInput): Promise<Action
 }
 
 export async function removeDebt(id: string, mode: "archive" | "delete"): Promise<ActionResult> {
-  await verifySession("/app/debts");
+  await requireAccess("/app/debts");
   if (!isUuid(id) || (mode !== "archive" && mode !== "delete")) return GENERIC;
   const supabase = await createClient();
   const { data, error } = await supabase.rpc("remove_debt", { p_debt: id, p_mode: mode });
@@ -128,7 +128,7 @@ export async function removeDebt(id: string, mode: "archive" | "delete"): Promis
 
 /** Snowball or avalanche (PRD US-37 AC1). Works as a plain form post, so it needs no JavaScript. */
 export async function setDebtMethod(formData: FormData): Promise<void> {
-  await verifySession("/app/debts");
+  await requireAccess("/app/debts");
   const method = formData.get("method");
   if (method !== "snowball" && method !== "avalanche") return;
   const supabase = await createClient();

@@ -26,7 +26,8 @@ export function buildCsp({
     "font-src": ["'self'"],
     "connect-src": ["'self'", supabase, ...(dev ? ["ws:"] : [])],
     "frame-ancestors": ["'none'"],
-    "form-action": ["'self'"],
+    // The pilot checkout posts a form to PayFast (L9). PayFast may move between its own hosts during checkout.
+    "form-action": ["'self'", "https://*.payfast.co.za"],
     "base-uri": ["'self'"],
     "object-src": ["'none'"],
   };

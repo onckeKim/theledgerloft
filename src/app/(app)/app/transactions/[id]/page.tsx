@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { TransactionForm } from "@/components/transactions/transaction-form";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 import { getTransaction, listCategories } from "@/lib/budget/transactions";
 import { periodFor, todayInJohannesburg } from "@/lib/calc/period";
 import { centsToInput } from "@/lib/money";
@@ -14,7 +14,7 @@ export const metadata: Metadata = { title: "Edit transaction" };
 
 export default async function Page({ params }: PageProps<"/app/transactions/[id]">) {
   const { id } = await params;
-  await verifySession(`/app/transactions/${id}`);
+  await requireAccess(`/app/transactions/${id}`);
   const tx = await getTransaction(id);
   if (!tx) notFound();
   const supabase = await createClient();

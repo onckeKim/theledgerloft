@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import type { Route } from "next";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 import { isUuid } from "@/lib/budget/schemas";
 import { createClient } from "@/lib/supabase/server";
 import type { ActionResult } from "@/lib/budget/actions";
@@ -18,7 +18,7 @@ const refresh = () => revalidatePath("/app", "layout");
 
 /** Create (id null) or edit a goal or sinking fund (PRD US-30, US-31, US-33). The kind can't change. */
 export async function saveGoal(id: string | null, input: GoalInput): Promise<ActionResult> {
-  await verifySession("/app/goals");
+  await requireAccess("/app/goals");
   if (id !== null && !isUuid(id)) return GENERIC;
   const supabase = await createClient();
   const { period } = await loadGoals();
@@ -71,7 +71,7 @@ export async function moveGoalMoney(
   direction: "in" | "out",
   input: AmountInput,
 ): Promise<ActionResult> {
-  await verifySession("/app/goals");
+  await requireAccess("/app/goals");
   if (!isUuid(id) || (direction !== "in" && direction !== "out")) return GENERIC;
   const parsed = parseAmount(input);
   if (!parsed.ok) return { status: "error", errors: parsed.errors };
@@ -97,7 +97,7 @@ export async function moveGoalMoney(
 
 /** Archive (keep history) or delete everything (PRD US-33 AC2). */
 export async function removeGoal(id: string, mode: "archive" | "delete"): Promise<ActionResult> {
-  await verifySession("/app/goals");
+  await requireAccess("/app/goals");
   if (!isUuid(id) || (mode !== "archive" && mode !== "delete")) return GENERIC;
   const supabase = await createClient();
   const { data, error } = await supabase.rpc("remove_goal", { p_goal: id, p_mode: mode });
@@ -108,7 +108,7 @@ export async function removeGoal(id: string, mode: "archive" | "delete"): Promis
 
 /** Set this month's plan for goals or sinking funds to the sum of their monthly amounts. Only on request. */
 export async function applyGoalPlan(kind: "goal" | "sinking_fund"): Promise<ActionResult> {
-  await verifySession("/app/goals");
+  await requireAccess("/app/goals");
   if (kind !== "goal" && kind !== "sinking_fund") return GENERIC;
   const supabase = await createClient();
   const { period, plan } = await loadGoals();

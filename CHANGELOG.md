@@ -5,6 +5,10 @@ All notable changes to this project are documented here. Format based on [Keep a
 ## [Unreleased]
 
 ### Added
+- L9 pilot payments (PayFast, sandbox first): `/app/join` shows the offer (price and length from the database plan, never the browser) and posts a signed checkout form to PayFast; `/app/join/return` shows "Confirming your payment…" and only polls; `/app/join/cancel` comes back with a neutral message. `POST /api/payfast/notify` verifies the notification (signature with passphrase, PayFast source address, PayFast server confirmation), then the database matches amount and merchant against the pending payment, grants access once, and is safe against duplicate and out-of-order notifications.
+- Pilot access: every planner page and action needs an active entitlement (`requireAccess()`); settings and "Download all my data" don't. A test enforces it.
+- Tables `payments` and `entitlements` (read-only for users), private `plans` (price set by the owner) and `app_secrets`; functions `plan_offer`, `start_checkout`, `payfast_apply_itn` (needs a server secret, no service-role key); audit events for completed and rejected payments; `supabase/tests/payments.sql` (23 checks).
+- Signature code checked against PayFast's official PHP SDK (`scripts/payfast-fixtures.php`, `src/lib/payments/fixtures.json`); unit tests for forged, tampered, wrong-source and unconfirmed notifications; end-to-end test for the join flow.
 - L8 monthly review and export: Reviews index and a review page per month (opens 3 days before the month ends, stays open): income, spent and set aside, left over, plan vs actual with differences in words, money saved and debt payments, and an optional check-in (two reflections up to 1 000 characters, up to 5 next-month actions) that marks the month complete and ticks the checklist. The dashboard links to the check-in when it opens.
 - Monthly summary PDF (US-39): A4, planner style from the brand tokens, reflections only when ticked, the short disclaimer and calculation spec version on every page. "Download all my data" (US-43) in Settings: a zip with one CSV per kind of record and a README, formula-looking text escaped (T8). Both use a download link that works for 10 minutes, are built when downloaded and never stored, and are audited.
 - `save_checkin` database function and next-action checks; `supabase/tests/review_export.sql` (16 checks). Unit tests read the PDF text back to check its content; end-to-end test for the review, both downloads and link security.
@@ -32,6 +36,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 - Shared component stylesheet `design/components.css` (used by the style guide and the screens).
 
 ### Changed
+- Content-Security-Policy `form-action` allows `https://*.payfast.co.za` for the checkout form.
 - Transactions recorded by a goal or debt link to it and can't be edited or deleted on their own (a database guard keeps saved amounts and budget actuals in step); the app-managed categories aren't offered when adding a transaction.
 - Forms stay disabled until the page is interactive, so anything typed can't be replaced by the form's starting values on a slow phone.
 - Links are underlined by default (accessibility); button-styled links opt out.

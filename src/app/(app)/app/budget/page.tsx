@@ -17,7 +17,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { Money } from "@/components/ui/money";
 import { PageHeader } from "@/components/ui/page-header";
 import { ProgressBar } from "@/components/ui/progress-bar";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 import { barLabel, leftToBudgetNote, remainingText } from "@/lib/budget/copy";
 import { GROUP_LABELS, loadMonth, type CategoryGroup } from "@/lib/budget/month";
 import { formatPeriod } from "@/lib/calc/period";
@@ -31,7 +31,7 @@ const cell =
   "px-3 py-3 max-sm:flex max-sm:justify-between max-sm:gap-3 max-sm:px-0 max-sm:py-1 max-sm:before:text-fg-muted max-sm:before:content-[attr(data-label)]";
 
 export default async function Page({ searchParams }: PageProps<"/app/budget">) {
-  await verifySession("/app/budget");
+  await requireAccess("/app/budget");
   const params = await searchParams;
   const m = await loadMonth(params.period);
   const switcher = (

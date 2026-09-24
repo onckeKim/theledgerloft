@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import type { Route } from "next";
 import type { PostgrestError } from "@supabase/supabase-js";
 import { periodFor, todayInJohannesburg } from "@/lib/calc/period";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 import {
   parseBasics,
   parseDebtsGoals,
@@ -53,7 +53,7 @@ const idsByKey = (rows: { key: string }[], ids: string[] | null | undefined) =>
   Object.fromEntries(rows.map((r, i) => [r.key, ids?.[i] ?? ""]).filter(([, id]) => id));
 
 export async function saveBasics(input: BasicsInput, intent: Intent): Promise<SaveState> {
-  await verifySession("/app/setup/basics");
+  await requireAccess("/app/setup/basics");
   const parsed = parseBasics(input);
   if (!parsed.ok) return { status: "error", errors: parsed.errors };
   const supabase = await createClient();
@@ -71,7 +71,7 @@ export async function saveMoneyStep(
   rows: MoneyRowInput[],
   intent: Intent,
 ): Promise<SaveState> {
-  await verifySession(`/app/setup/${step}`);
+  await requireAccess(`/app/setup/${step}`);
   const what = step === "income" ? "income" : step === "bills" ? "bill" : "spending category";
   const parsed = parseMoneyRows(rows, what);
   if (!parsed.ok) return { status: "error", errors: parsed.errors };
@@ -103,7 +103,7 @@ export async function saveDebtsGoals(
   goals: GoalRowInput[],
   intent: Intent,
 ): Promise<SaveState> {
-  await verifySession("/app/setup/debts-goals");
+  await requireAccess("/app/setup/debts-goals");
   const supabase = await createClient();
   const { data: household } = await supabase.from("households").select("month_start_day").single();
   const currentPeriod = periodFor(todayInJohannesburg(), household?.month_start_day ?? 1).label;
@@ -137,7 +137,7 @@ export async function saveDebtsGoals(
 }
 
 export async function finishSetup(): Promise<SaveState> {
-  await verifySession("/app/setup/review");
+  await requireAccess("/app/setup/review");
   const supabase = await createClient();
   const { error } = await supabase.rpc("setup_complete");
   if (error) return dbError(error);

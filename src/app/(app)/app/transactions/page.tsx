@@ -8,7 +8,7 @@ import { buttonClasses } from "@/components/ui/button";
 import { Card, Eyebrow } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PageHeader } from "@/components/ui/page-header";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 import { isPeriod, isUuid } from "@/lib/budget/schemas";
 import { PAGE_SIZE, listCategories, listTransactions } from "@/lib/budget/transactions";
 import { addMonths, formatPeriod, periodFor, todayInJohannesburg } from "@/lib/calc/period";
@@ -27,7 +27,7 @@ const longDate = (iso: string) =>
   }).format(new Date(`${iso}T00:00:00Z`));
 
 export default async function Page({ searchParams }: PageProps<"/app/transactions">) {
-  await verifySession("/app/transactions");
+  await requireAccess("/app/transactions");
   const params = await searchParams;
   const supabase = await createClient();
   const { data: household } = await supabase.from("households").select("month_start_day").single();

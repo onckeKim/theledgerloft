@@ -13,7 +13,7 @@ import { Card, Eyebrow } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Money } from "@/components/ui/money";
 import { PageHeader } from "@/components/ui/page-header";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 import { formatPeriod } from "@/lib/calc/period";
 import { createReviewPdf } from "@/lib/export/actions";
 import { loadReview } from "@/lib/review/queries";
@@ -36,7 +36,7 @@ const dayMonth = (iso: string) =>
 
 export default async function Page({ params }: PageProps<"/app/review/[period]">) {
   const { period } = await params;
-  await verifySession(`/app/review/${period}`);
+  await requireAccess(`/app/review/${period}`);
   const r = await loadReview(period);
   if (!r) notFound();
   const month = formatPeriod(period);

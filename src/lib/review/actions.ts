@@ -1,7 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 import type { ActionResult } from "@/lib/budget/actions";
 import { isPeriod } from "@/lib/budget/schemas";
 import { formatPeriod } from "@/lib/calc/period";
@@ -11,7 +11,7 @@ import { parseCheckin, type CheckinInput } from "./schemas";
 
 /** Save the monthly check-in (PRD US-38 AC3, AC4). Only once the review is open; editable afterwards. */
 export async function saveCheckin(period: string, input: CheckinInput): Promise<ActionResult> {
-  await verifySession(`/app/review/${period}`);
+  await requireAccess(`/app/review/${period}`);
   if (!isPeriod(period)) return { status: "error", message: "Choose a month to check in." };
   const review = await loadReview(period);
   if (!review?.open) return { status: "error", message: "This check-in isn't open yet." };

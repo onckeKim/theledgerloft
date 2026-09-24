@@ -27,3 +27,29 @@ export async function verifySession(returnTo = "/app"): Promise<Session> {
   if (!session) redirect(`/sign-in?next=${encodeURIComponent(returnTo)}` as Route);
   return session;
 }
+
+/**
+ * Pilot access (PRD P-1, US-06): an entitlement granted by a verified payment, read as the user (RLS).
+ * Settings, data export and deletion don't need it (US-43, US-44).
+ */
+export const getAccess = cache(async (): Promise<{ active: boolean; endsAt: string | null }> => {
+  const supabase = await createClient();
+  const now = new Date().toISOString();
+  const { data } = await supabase
+    .from("entitlements")
+    .select("ends_at")
+    .lte("starts_at", now)
+    .gt("ends_at", now)
+    .order("ends_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  return { active: Boolean(data), endsAt: data?.ends_at ?? null };
+});
+
+/** For pages and actions that need pilot access: signed in, verified, and entitled; otherwise /app/join. */
+export async function requireAccess(returnTo = "/app"): Promise<Session> {
+  const session = await verifySession(returnTo);
+  const access = await getAccess();
+  if (!access.active) redirect("/app/join" as Route);
+  return session;
+}

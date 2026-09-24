@@ -10,7 +10,7 @@ import { Money } from "@/components/ui/money";
 import { Notice } from "@/components/ui/notice";
 import { PageHeader } from "@/components/ui/page-header";
 import { ProgressBar } from "@/components/ui/progress-bar";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 import { addMonths, todayInJohannesburg } from "@/lib/calc/period";
 import { moveGoalMoney, removeGoal } from "@/lib/goals/actions";
 import { goalStatus } from "@/lib/goals/copy";
@@ -29,7 +29,7 @@ const longDate = (iso: string) =>
 
 export default async function Page({ params, searchParams }: PageProps<"/app/goals/[id]">) {
   const { id } = await params;
-  await verifySession(`/app/goals/${id}`);
+  await requireAccess(`/app/goals/${id}`);
   const data = await getGoal(id);
   if (!data) notFound();
   const { goal: g, history, period } = data;

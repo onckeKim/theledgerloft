@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import type { Route } from "next";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 import { createClient } from "@/lib/supabase/server";
 import {
   isChecklistKey,
@@ -43,7 +43,7 @@ export async function setPlanned(
   categoryId: string,
   amount: string,
 ): Promise<ActionResult> {
-  await verifySession("/app/budget");
+  await requireAccess("/app/budget");
   if (!isUuid(budgetId) || !isUuid(categoryId)) return GENERIC;
   const cents = parsePlannedCents(amount);
   if (cents === null)
@@ -60,7 +60,7 @@ export async function setPlanned(
 }
 
 export async function addCategory(budgetId: string, input: CategoryInput): Promise<ActionResult> {
-  await verifySession("/app/budget");
+  await requireAccess("/app/budget");
   if (!isUuid(budgetId)) return GENERIC;
   const parsed = parseNewCategory(input);
   if (!parsed.ok) return { status: "error", errors: parsed.errors };
@@ -81,7 +81,7 @@ export async function addCategory(budgetId: string, input: CategoryInput): Promi
 }
 
 export async function removeCategory(categoryId: string): Promise<ActionResult> {
-  await verifySession("/app/budget");
+  await requireAccess("/app/budget");
   if (!isUuid(categoryId)) return GENERIC;
   const supabase = await createClient();
   const { data, error } = await supabase.rpc("remove_category", { p_category: categoryId });
@@ -97,7 +97,7 @@ export async function moveMoney(
   toId: string,
   amount: string,
 ): Promise<ActionResult> {
-  await verifySession("/app/budget");
+  await requireAccess("/app/budget");
   if (!isUuid(budgetId) || !isUuid(fromId) || !isUuid(toId))
     return { status: "error", errors: { from: "Choose where to move money from and to" } };
   if (fromId === toId)
@@ -126,7 +126,7 @@ export async function renameCategory(
   categoryId: string,
   input: { name: string; group: string },
 ): Promise<ActionResult> {
-  await verifySession("/app/budget");
+  await requireAccess("/app/budget");
   if (!isUuid(categoryId)) return GENERIC;
   const parsed = parseNewCategory({ ...input, planned: "0" });
   if (!parsed.ok) return { status: "error", errors: parsed.errors };
@@ -149,7 +149,7 @@ export async function renameCategory(
 
 /** Show or hide a default checklist item in every month (PRD US-25 AC2). */
 export async function setChecklistHidden(key: string, hidden: boolean): Promise<ActionResult> {
-  await verifySession("/app");
+  await requireAccess("/app");
   if (!isChecklistKey(key)) return GENERIC;
   const supabase = await createClient();
   const { data: household } = await supabase
@@ -173,7 +173,7 @@ export async function setChecklist(
   key: string,
   checked: boolean,
 ): Promise<ActionResult> {
-  await verifySession("/app");
+  await requireAccess("/app");
   if (!isUuid(budgetId) || !isChecklistKey(key)) return GENERIC;
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -200,7 +200,7 @@ export async function saveTransaction(
   input: TransactionInput,
   returnTo?: string,
 ): Promise<ActionResult> {
-  await verifySession("/app/transactions");
+  await requireAccess("/app/transactions");
   const parsed = parseTransaction(input);
   if (!parsed.ok) return { status: "error", errors: parsed.errors };
   const supabase = await createClient();
@@ -241,7 +241,7 @@ export async function saveTransaction(
 
 /** Soft delete so it can be undone (PRD US-27). */
 export async function deleteTransaction(id: string): Promise<ActionResult> {
-  await verifySession("/app/transactions");
+  await requireAccess("/app/transactions");
   if (!isUuid(id)) return GENERIC;
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -256,7 +256,7 @@ export async function deleteTransaction(id: string): Promise<ActionResult> {
 }
 
 export async function restoreTransaction(id: string): Promise<ActionResult> {
-  await verifySession("/app/transactions");
+  await requireAccess("/app/transactions");
   if (!isUuid(id)) return GENERIC;
   const supabase = await createClient();
   const { data, error } = await supabase

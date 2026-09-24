@@ -9,7 +9,7 @@ import { Card, Eyebrow } from "@/components/ui/card";
 import { Money } from "@/components/ui/money";
 import { Notice } from "@/components/ui/notice";
 import { PageHeader } from "@/components/ui/page-header";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 import { todayInJohannesburg } from "@/lib/calc/period";
 import { recordPayment, removeDebt, setBalance } from "@/lib/debts/actions";
 import { getDebt } from "@/lib/debts/queries";
@@ -27,7 +27,7 @@ const longDate = (iso: string) =>
 
 export default async function Page({ params, searchParams }: PageProps<"/app/debts/[id]">) {
   const { id } = await params;
-  await verifySession(`/app/debts/${id}`);
+  await requireAccess(`/app/debts/${id}`);
   const data = await getDebt(id);
   if (!data) notFound();
   const { debt: d, history } = data;

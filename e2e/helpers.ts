@@ -1,6 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { createClient } from "@supabase/supabase-js";
 import { expect, type Page } from "@playwright/test";
+import { LOCAL_PAYMENTS_SECRET } from "./constants";
 
 export const localStack = {
   url: process.env.E2E_SUPABASE_URL,
@@ -23,14 +24,51 @@ async function admin(path: string, init: RequestInit) {
   return res.json();
 }
 
-/** A confirmed synthetic user on the LOCAL stack only. */
-export async function createUser(prefix: string) {
+/**
+ * A confirmed synthetic user on the LOCAL stack only. By default they get pilot access the way a real payment
+ * does: a checkout at the plan's price, then a verified-style notification applied with the local test secret.
+ */
+export async function createUser(prefix: string, { access = true } = {}) {
   const email = `${prefix}-${Date.now()}-${Math.floor(Math.random() * 1e6)}@example.test`;
   const user = (await admin("users", {
     method: "POST",
     body: JSON.stringify({ email, password: PASSWORD, email_confirm: true }),
   })) as { id: string };
+  if (access) await grantAccess(email);
   return { email, id: user.id, remove: () => admin(`users/${user.id}`, { method: "DELETE" }) };
+}
+
+/** Applies a PayFast notification as the notify route would after verifying it (local test secret). */
+export async function applyNotification(
+  paymentId: string,
+  amountCents: number,
+  status = "COMPLETE",
+) {
+  const anon = createClient(localStack.url!, localStack.anonKey!, {
+    auth: { persistSession: false },
+  });
+  const { data, error } = await anon.rpc(
+    "payfast_apply_itn" as never,
+    {
+      p_secret: LOCAL_PAYMENTS_SECRET,
+      p_payment_id: paymentId,
+      p_pf_payment_id: `e2e-${paymentId}`,
+      p_status: status,
+      p_amount_cents: amountCents,
+      p_merchant_ok: true,
+    } as never,
+  );
+  if (error) throw error;
+  return data as unknown as string;
+}
+
+export async function grantAccess(email: string) {
+  const sb = await userClient(email);
+  const { data, error } = await sb.rpc("start_checkout" as never);
+  if (error) throw error;
+  const row = (data as unknown as { payment_id: string; amount_cents: number }[])[0]!;
+  const outcome = await applyNotification(row.payment_id, row.amount_cents);
+  if (outcome !== "granted") throw new Error(`access not granted: ${outcome}`);
 }
 
 /** Completes setup with the prototype household (L4 B1) through the real setup functions, as that user. */

@@ -67,3 +67,12 @@ begin
     (hid, 'sinking_fund', 'Car licence & service', 300000, 25000, 175000, '2027-03');
 end;
 $$;
+
+-- LOCAL ONLY payments setup (playbook L9). A test price, a test secret and pilot access for Sam.
+-- The hosted project starts with the plan closed and no secret; the owner sets both (supabase/README.md).
+update private.plans set price_cents = 1000, active = true where code = 'pilot'; -- R 10,00, test value only
+insert into private.app_secrets (name, secret_hash)
+values ('payments', extensions.crypt('local-payments-secret-not-for-production', extensions.gen_salt('bf')));
+insert into public.entitlements (household_id, kind, starts_at, ends_at)
+select m.household_id, 'pilot', now(), now() + interval '90 days'
+from public.household_members m where m.user_id = '00000000-0000-4000-8000-00000000005a';

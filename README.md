@@ -5,7 +5,7 @@ downloadable planners. It is a planning and education tool, **not financial advi
 
 ## Status
 
-Playbook steps done: A1, L1, A2, L2, L3, L4, A3, A4 + L5, L6, L7, L7b, **L8 (review and export)**.
+Playbook steps done: A1, L1, A2, L2, L3, L4, A3, A4 + L5, L6, L7, L7b, L8, **L9 (pilot payments, sandbox-ready)**.
 See [`docs/operating-plan.md`](docs/operating-plan.md).
 
 ## Getting started

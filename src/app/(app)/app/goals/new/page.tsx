@@ -3,14 +3,14 @@ import Link from "next/link";
 import { GoalForm } from "@/components/goals/goal-form";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 import { addMonths } from "@/lib/calc/period";
 import { loadGoals } from "@/lib/goals/queries";
 
 export const metadata: Metadata = { title: "New goal or fund" };
 
 export default async function Page({ searchParams }: PageProps<"/app/goals/new">) {
-  await verifySession("/app/goals/new");
+  await requireAccess("/app/goals/new");
   const { kind } = await searchParams;
   const { period } = await loadGoals();
   return (

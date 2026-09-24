@@ -1,5 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
+import { grantAccess } from "./helpers";
 
 /**
  * Guided setup against a real (local) Supabase stack: `npx supabase start`, then run with
@@ -69,6 +70,7 @@ test.beforeAll(async () => {
     method: "POST",
     body: JSON.stringify({ email, password, email_confirm: true }),
   });
+  await grantAccess(email); // setup needs pilot access (PRD route map [E])
 });
 
 test.afterAll(async () => {

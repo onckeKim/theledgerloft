@@ -3,12 +3,12 @@ import Link from "next/link";
 import { DebtForm } from "@/components/debts/debt-form";
 import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 
 export const metadata: Metadata = { title: "Add a debt" };
 
 export default async function Page() {
-  await verifySession("/app/debts/new");
+  await requireAccess("/app/debts/new");
   return (
     <>
       <PageHeader eyebrow="Debts" title="Add a debt" />

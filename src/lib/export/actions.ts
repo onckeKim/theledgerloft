@@ -1,6 +1,6 @@
 "use server";
 
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess, verifySession } from "@/lib/auth/dal";
 import type { ActionResult } from "@/lib/budget/actions";
 import { isPeriod } from "@/lib/budget/schemas";
 import { CALC_SPEC_VERSION } from "@/lib/calc/version";
@@ -54,7 +54,7 @@ export async function createReviewPdf(
   period: string,
   includeReflections: boolean,
 ): Promise<ExportResult> {
-  await verifySession(`/app/review/${period}`);
+  await requireAccess(`/app/review/${period}`);
   if (!isPeriod(period)) return { status: "error", message: "Choose a month to download." };
   const review = await loadReview(period);
   if (!review?.open || review.review.empty)

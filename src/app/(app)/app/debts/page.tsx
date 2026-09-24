@@ -11,7 +11,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { Money } from "@/components/ui/money";
 import { Notice } from "@/components/ui/notice";
 import { PageHeader } from "@/components/ui/page-header";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 import { formatPeriod } from "@/lib/calc/period";
 import { setDebtMethod } from "@/lib/debts/actions";
 import { loadDebts } from "@/lib/debts/queries";
@@ -36,7 +36,7 @@ const longDate = (iso: string) =>
   }).format(new Date(`${iso}T00:00:00Z`));
 
 export default async function Page({ searchParams }: PageProps<"/app/debts">) {
-  await verifySession("/app/debts");
+  await requireAccess("/app/debts");
   const params = await searchParams;
   const rawExtra = typeof params.extra === "string" ? params.extra.trim() : "";
   const extra = rawExtra ? parseRandToCents(rawExtra) : 0;

@@ -7,7 +7,7 @@ import { MoneyRowsForm } from "@/components/setup/money-rows-form";
 import { Review } from "@/components/setup/review";
 import { StepFrame } from "@/components/setup/step-frame";
 import { Welcome } from "@/components/setup/welcome";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 import { bpToInput, centsToInput } from "@/lib/money";
 import { loadSetup } from "@/lib/setup/queries";
 import { BILL_SUGGESTIONS, SPENDING_SUGGESTIONS, isSetupRoute, stepInfo } from "@/lib/setup/steps";
@@ -31,7 +31,7 @@ const rowsFrom = (items: { id: string; name: string; cents: number }[]) =>
 
 export default async function Page({ params }: PageProps<"/app/setup/[step]">) {
   const { step } = await params;
-  await verifySession(`/app/setup/${step}`);
+  await requireAccess(`/app/setup/${step}`);
   if (!isSetupRoute(step)) notFound();
 
   const data = await loadSetup();

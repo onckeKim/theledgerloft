@@ -357,6 +357,51 @@ export type Database = {
           },
         ];
       };
+      entitlements: {
+        Row: {
+          created_at: string;
+          ends_at: string;
+          household_id: string;
+          id: string;
+          kind: string;
+          payment_id: string | null;
+          starts_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          ends_at: string;
+          household_id: string;
+          id?: string;
+          kind?: string;
+          payment_id?: string | null;
+          starts_at: string;
+        };
+        Update: {
+          created_at?: string;
+          ends_at?: string;
+          household_id?: string;
+          id?: string;
+          kind?: string;
+          payment_id?: string | null;
+          starts_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "entitlements_household_id_fkey";
+            columns: ["household_id"];
+            isOneToOne: false;
+            referencedRelation: "households";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "entitlements_payment_id_household_id_fkey";
+            columns: ["payment_id", "household_id"];
+            isOneToOne: true;
+            referencedRelation: "payments";
+            referencedColumns: ["id", "household_id"];
+          },
+        ];
+      };
       exports: {
         Row: {
           created_at: string;
@@ -689,6 +734,62 @@ export type Database = {
           },
         ];
       };
+      payments: {
+        Row: {
+          access_days: number;
+          amount_cents: number;
+          completed_at: string | null;
+          created_at: string;
+          household_id: string;
+          id: string;
+          pf_payment_id: string | null;
+          pf_status: string | null;
+          plan_code: string;
+          reject_reason: string | null;
+          status: string;
+          updated_at: string;
+          user_id: string | null;
+        };
+        Insert: {
+          access_days: number;
+          amount_cents: number;
+          completed_at?: string | null;
+          created_at?: string;
+          household_id: string;
+          id?: string;
+          pf_payment_id?: string | null;
+          pf_status?: string | null;
+          plan_code: string;
+          reject_reason?: string | null;
+          status?: string;
+          updated_at?: string;
+          user_id?: string | null;
+        };
+        Update: {
+          access_days?: number;
+          amount_cents?: number;
+          completed_at?: string | null;
+          created_at?: string;
+          household_id?: string;
+          id?: string;
+          pf_payment_id?: string | null;
+          pf_status?: string | null;
+          plan_code?: string;
+          reject_reason?: string | null;
+          status?: string;
+          updated_at?: string;
+          user_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "payments_household_id_fkey";
+            columns: ["household_id"];
+            isOneToOne: false;
+            referencedRelation: "households";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       profiles: {
         Row: {
           created_at: string;
@@ -829,6 +930,17 @@ export type Database = {
         Args: { p_cents: number; p_direction: string; p_goal: string; p_on: string };
         Returns: string;
       };
+      payfast_apply_itn: {
+        Args: {
+          p_amount_cents: number;
+          p_merchant_ok: boolean;
+          p_payment_id: string;
+          p_pf_payment_id: string;
+          p_secret: string;
+          p_status: string;
+        };
+        Returns: string;
+      };
       move_budget_money: {
         Args: { p_budget: string; p_cents: number; p_from: string; p_to: string };
         Returns: undefined;
@@ -845,6 +957,10 @@ export type Database = {
         Returns: Record<string, unknown>;
       };
       period_for: { Args: { d: string; start_day: number }; Returns: string };
+      plan_offer: {
+        Args: { p_plan?: string };
+        Returns: { access_days: number; name: string; open: boolean; price_cents: number | null }[];
+      };
       save_checkin: {
         Args: {
           p_next: Json;
@@ -853,6 +969,10 @@ export type Database = {
           p_went_well: string | null;
         };
         Returns: undefined;
+      };
+      start_checkout: {
+        Args: { p_plan?: string };
+        Returns: { amount_cents: number; item_name: string; payment_id: string }[];
       };
       setup_complete: { Args: never; Returns: undefined };
       setup_save_basics: {

@@ -12,7 +12,7 @@ describe("buildCsp", () => {
   it("blocks framing, plugins and foreign form posts", () => {
     expect(prod).toContain("frame-ancestors 'none'");
     expect(prod).toContain("object-src 'none'");
-    expect(prod).toContain("form-action 'self'");
+    expect(prod).toContain("form-action 'self' https://*.payfast.co.za");
   });
 
   it("lets the browser talk to Supabase and nothing else", () => {

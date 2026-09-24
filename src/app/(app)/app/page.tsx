@@ -17,7 +17,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { Money } from "@/components/ui/money";
 import { PageHeader } from "@/components/ui/page-header";
 import { ProgressBar } from "@/components/ui/progress-bar";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 import { barLabel } from "@/lib/budget/copy";
 import { loadMonth } from "@/lib/budget/month";
 import { CHECKLIST } from "@/lib/budget/schemas";
@@ -35,7 +35,7 @@ const dayMonth = (iso: string) =>
   );
 
 export default async function Page({ searchParams }: PageProps<"/app">) {
-  await verifySession("/app");
+  await requireAccess("/app");
   const status = await setupStatus();
 
   // First visit: go straight to the welcome step. Part-way through: offer to continue (PRD US-16 AC4).

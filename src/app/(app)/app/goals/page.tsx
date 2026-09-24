@@ -11,7 +11,7 @@ import { Money } from "@/components/ui/money";
 import { Notice } from "@/components/ui/notice";
 import { PageHeader } from "@/components/ui/page-header";
 import { ProgressBar } from "@/components/ui/progress-bar";
-import { verifySession } from "@/lib/auth/dal";
+import { requireAccess } from "@/lib/auth/dal";
 import { addMonths, formatPeriod } from "@/lib/calc/period";
 import { goalStatus } from "@/lib/goals/copy";
 import type { GoalWithProgress } from "@/lib/goals/progress";
@@ -96,7 +96,7 @@ function PlanNote({
 }
 
 export default async function Page({ searchParams }: PageProps<"/app/goals">) {
-  await verifySession("/app/goals");
+  await requireAccess("/app/goals");
   const params = await searchParams;
   const { goals, funds, plan, period } = await loadGoals();
   const example =
