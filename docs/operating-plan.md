@@ -55,7 +55,7 @@ One step per conversation turn. Each step ends with the A5 quality gate before m
 | 3 | **A2** Project docs | `docs/product-brief.md`, personas, journeys, MVP scope, NFRs, data classification, threat model, analytics plan, release checklist | Measurable acceptance criteria exist |
 | 4 | **L2** MVP PRD | PRD, user stories, route map, out-of-scope list | PRD approved |
 | 5 | **L4** Calculation spec | Formulas, rounding, edge cases, worked synthetic examples | Every formula has test vectors |
-| 6 | **L3** Brand and UX system | Tokens, components, responsive flows, microcopy | WCAG 2.2 AA contrast checked |
+| 6 | **L3** Brand and UX system: foundations ✅ from store tokens (`docs/l3/`); screen flows next | Tokens, components, responsive flows, microcopy | WCAG 2.2 AA contrast checked |
 | 7 | **A3** Repo bootstrap | Next.js app, lint, format, env validation, test setup | CI green |
 | 8 | **A4 + L5** Supabase foundation and schema | Migrations, RLS, synthetic seed, generated types | Cross-household isolation tests pass |
 | 9 | **L6** Guided onboarding slice | End-to-end onboarding | A5 gate |

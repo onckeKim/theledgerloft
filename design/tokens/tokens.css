@@ -1,0 +1,153 @@
+:root {
+  /* brand + neutrals */
+  --ll-color-navy: #1E2A38;
+  --ll-color-navy-deep: #141E29;
+  --ll-color-navy-soft: #2A3641;
+  --ll-color-cream: #F7F4EE;
+  --ll-color-cream-deep: #EFEBE2;
+  --ll-color-sage: #7C9D8B;
+  --ll-color-sage-deep: #5E7B6C;
+  --ll-color-gold: #D4B16A;
+  --ll-color-gold-deep: #A8853F;
+  --ll-color-ink: #1E2A38;
+  --ll-color-ink-muted: #5C6A78;
+  --ll-color-ink-faint: #8A97A3;
+  --ll-color-line: #D9D2C4;
+  --ll-color-line-strong: #B9B0A0;
+  --ll-color-line-dark: #2E3A46;
+  --ll-color-success: #2F6B4C;
+  --ll-color-success-bg: #E7F0EA;
+  --ll-color-warning: #9C6B15;
+  --ll-color-warning-bg: #F7EEDC;
+  --ll-color-danger: #A33726;
+  --ll-color-danger-bg: #F6E4E0;
+  --ll-color-info: #33566F;
+  --ll-color-info-bg: #E4EBF2;
+
+  /* semantic — light */
+  --ll-bg: #F7F4EE;
+  --ll-bg-raised: #FFFFFF;
+  --ll-bg-sunken: #EFEBE2;
+  --ll-text-primary: #1E2A38;
+  --ll-text-secondary: #5C6A78;
+  --ll-text-tertiary: #8A97A3;
+  --ll-text-on-dark: #F7F4EE;
+  --ll-border: #D9D2C4;
+  --ll-border-strong: #B9B0A0;
+  --ll-accent: #D4B16A;
+  --ll-accent-text: #A8853F;
+  --ll-label: #5E7B6C;
+
+  /* space */
+  --ll-space-0: 0px;
+  --ll-space-1: 4px;
+  --ll-space-2: 8px;
+  --ll-space-3: 12px;
+  --ll-space-4: 16px;
+  --ll-space-5: 24px;
+  --ll-space-6: 32px;
+  --ll-space-7: 48px;
+  --ll-space-8: 64px;
+  --ll-space-9: 96px;
+  --ll-space-10: 128px;
+
+  /* radius, border */
+  --ll-radius-none: 0px;
+  --ll-radius-sm: 2px;
+  --ll-radius-md: 4px;
+  --ll-radius-lg: 8px;
+  --ll-radius-pill: 999px;
+  --ll-border-hairline: 1px;
+  --ll-border-rule: 2px;
+  --ll-border-accent: 3px;
+
+  /* shadow */
+  --ll-shadow-none: none;
+  --ll-shadow-sm: 0 1px 2px rgba(20,30,41,.06);
+  --ll-shadow-md: 0 10px 22px -12px rgba(20,30,41,.35);
+  --ll-shadow-lg: 0 26px 54px -18px rgba(20,30,41,.42);
+  --ll-shadow-xl: 0 34px 70px -22px rgba(20,30,41,.55);
+
+  /* motion */
+  --ll-motion-instant: 0ms linear;
+  --ll-motion-fast: 120ms cubic-bezier(.2,0,.38,.9);
+  --ll-motion-base: 200ms cubic-bezier(.2,0,.38,.9);
+  --ll-motion-slow: 320ms cubic-bezier(.2,0,.38,.9);
+
+  /* type */
+  --ll-font-display: 'Playfair Display', Georgia, serif;
+  --ll-font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --ll-text-display-size: 40px;
+  --ll-text-display-lh: 1.1;
+  --ll-text-h1-size: 32px;
+  --ll-text-h1-lh: 1.15;
+  --ll-text-h2-size: 24px;
+  --ll-text-h2-lh: 1.2;
+  --ll-text-h3-size: 19px;
+  --ll-text-h3-lh: 1.25;
+  --ll-text-body-lg-size: 17px;
+  --ll-text-body-lg-lh: 1.5;
+  --ll-text-body-size: 15px;
+  --ll-text-body-lh: 1.5;
+  --ll-text-body-sm-size: 13px;
+  --ll-text-body-sm-lh: 1.45;
+  --ll-text-label-size: 11px;
+  --ll-text-label-lh: 1.3;
+  --ll-text-label-sm-size: 10px;
+  --ll-text-label-sm-lh: 1.3;
+  --ll-text-numeric-size: 15px;
+  --ll-text-numeric-lh: 1.4;
+  --ll-text-numeric-lg-size: 34px;
+  --ll-text-numeric-lg-lh: 1.0;
+}
+
+/* dark theme — opt in with [data-theme="dark"], or let the media query run */
+[data-theme="dark"] {
+  --ll-bg: #141E29;
+  --ll-bg-raised: #2A3641;
+  --ll-bg-sunken: #0D141C;
+  --ll-text-primary: #F7F4EE;
+  --ll-text-secondary: #B4BFC9;
+  --ll-text-tertiary: #8A97A3;
+  --ll-text-on-dark: #F7F4EE;
+  --ll-border: #2E3A46;
+  --ll-border-strong: #3C4A57;
+  --ll-accent: #D4B16A;
+  --ll-accent-text: #D4B16A;
+  --ll-label: #D4B16A;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ll-bg: #141E29;
+    --ll-bg-raised: #2A3641;
+    --ll-bg-sunken: #0D141C;
+    --ll-text-primary: #F7F4EE;
+    --ll-text-secondary: #B4BFC9;
+    --ll-text-tertiary: #8A97A3;
+    --ll-text-on-dark: #F7F4EE;
+    --ll-border: #2E3A46;
+    --ll-border-strong: #3C4A57;
+    --ll-accent: #D4B16A;
+    --ll-accent-text: #D4B16A;
+    --ll-label: #D4B16A;
+  }
+}
+
+/* base — the two rules that make it look like the brand rather than a default */
+body {
+  background: var(--ll-bg);
+  color: var(--ll-text-primary);
+  font-family: var(--ll-font-body);
+  font-size: var(--ll-text-body-size);
+  line-height: var(--ll-text-body-lh);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, .ll-display { font-family: var(--ll-font-display); font-weight: 600; }
+.ll-label {
+  font-size: var(--ll-text-label-size);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ll-label);
+}
+.ll-numeric { font-variant-numeric: tabular-nums; }

@@ -12,6 +12,11 @@ build sequence and [`docs/decisions.md`](docs/decisions.md) for decisions made s
 
 Next.js (TypeScript, App Router) · Supabase (Postgres + RLS, Auth, Storage) · Tailwind CSS · Vercel · PayFast (sandbox first)
 
+## Design
+
+The app uses The Ledger Loft Co store design system. See [`design/`](design/) and [`docs/l3/design-system.md`](docs/l3/design-system.md).
+Run `node scripts/check-tokens.mjs` after changing tokens.
+
 ## Repository conventions
 
 - `CHANGELOG.md`: notable changes
