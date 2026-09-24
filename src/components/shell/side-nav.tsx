@@ -15,7 +15,8 @@ export function SideNav() {
         className="mb-8 block text-center font-display text-[22px] font-semibold text-cream no-underline lg:pl-3 lg:text-left"
       >
         <span className="hidden lg:inline">
-          The Ledger Loft
+          {/* Non-breaking spaces keep "Loft & Co" together when the name wraps in the 240px rail. */}
+          {"The Ledger Loft\u00a0&\u00a0Co"}
           <small className="block font-sans text-label-sm font-semibold uppercase tracking-[0.2em] text-gold">
             Planner
           </small>
@@ -23,7 +24,7 @@ export function SideNav() {
         <span className="lg:hidden" aria-hidden="true">
           LL
         </span>
-        <span className="sr-only lg:hidden">The Ledger Loft</span>
+        <span className="sr-only lg:hidden">The Ledger Loft &amp; Co</span>
       </Link>
       <nav aria-label="Main">
         <ul className="m-0 list-none p-0">

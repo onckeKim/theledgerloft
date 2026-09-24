@@ -9,7 +9,7 @@ export default function SetupLayout({ children }: LayoutProps<"/app/setup">) {
       <header className="border-b border-border">
         <div className="mx-auto flex max-w-[720px] items-center justify-between gap-4 px-4 py-4">
           <Link href="/app" className="font-display text-[19px] font-semibold no-underline">
-            The Ledger Loft
+            The Ledger Loft &amp; Co
           </Link>
           <Link
             href="/app"

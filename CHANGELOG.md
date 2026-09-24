@@ -51,6 +51,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 - Shared component stylesheet `design/components.css` (used by the style guide and the screens).
 
 ### Changed
+- Every header now shows the business name **The Ledger Loft & Co**: the public site header, the app's side navigation and mobile header, and the setup header. Page titles and product copy still call the app "The Ledger Loft".
 - Session cookies are HttpOnly, SameSite=Lax and Secure in production (US-04 AC3).
 - Undo after deleting a transaction now says "Restored." (announced to screen readers); the budget e2e test waits for it, fixing a timing failure first seen in CI.
 - Bulleted lists show their bullets again (error summaries, join page, landing and pilot pages, account deletion).
@@ -71,6 +72,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 - Project operating plan (`docs/operating-plan.md`), decision log, changelog and `.env.example` placeholder.
 
 ### Fixed
+- The "Founding pilot" button in the public header showed on phones: `inline-flex` from the button styles overrode `hidden` (`cn()` doesn't merge conflicting classes). It now uses `max-sm:hidden`, and the header fits on one line at 320px.
 - Safari (WebKit) on a production build served over http on localhost: session cookies are `Secure`, and the CSP sends `upgrade-insecure-requests`, only when the site is served over https (`src/lib/security/https.ts`). WebKit rejected the cookies and upgraded the page's own scripts and styles to https, so sign-in and the forms failed in the first WebKit CI run. Production must now use an `https://` site URL (only localhost may use http), and the staging smoke test checks the header. The Firefox payments test now waits only for the join page's own redirect to start.
 - The SQL test files crashed ("malformed array literal") instead of reporting a failed check; failure messages are now typed text, so a failing check prints its name.
 - `.gitignore` excludes `backups/`, which hold personal data.
