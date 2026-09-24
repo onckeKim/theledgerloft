@@ -51,6 +51,13 @@ Numbers are **targets the owner sets**, not forecasts. They are ASSUMPTIONS to a
 4. **Households:** confirm A-02 (single-person MVP).
 5. **Support:** which email address, and what reply time can you realistically commit to?
 
+**Owner answers (2026-09-24, D-048):**
+1. The owner reviews the wording themselves.
+2. The trading name is "The Ledger Loft & Co", not formally registered.
+3. The price is R 50,00 once-off for 90 days (D-043).
+4. A-02 is confirmed: one person per account. Linked profiles or household groups come later.
+5. Support uses the owner's personal email for now. The reply time is still to set.
+
 ## 8. Risks
 | Risk | Likelihood | Impact | Mitigation |
 |---|---|---|---|
