@@ -1,6 +1,7 @@
 # Staging Deployment (release review B1)
 
-Status: **ready for the owner to run.** Date: 2026-09-24.
+Status: **deployed** at `https://theledgerloft.vercel.app` (Vercel, from `main`). The smoke test passed 24/24 on
+2026-09-24. The steps below remain the reference for settings and for a production project later.
 
 Why the owner runs it: the build environment can't reach Vercel (the network policy blocks `vercel.com` and
 `api.vercel.com`), and there's no Vercel connector or token here. Everything that doesn't need a Vercel login is
@@ -47,6 +48,7 @@ paid plan (release blocker B7 and D-048: low budget).
 | `NEXT_PUBLIC_SITE_URL` | Your staging URL, e.g. `https://theledgerloft.vercel.app` (no trailing slash) | No |
 | `NEXT_PUBLIC_SUPABASE_URL` | `https://jjdetdabqbqktwkvodtk.supabase.co` | No |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | `sb_publishable_SEyf-u2YSLUE-KNgWGEW7A_RoatJg3R` | No, public by design |
+| `NEXT_PUBLIC_SUPPORT_EMAIL` | The support and privacy contact shown on `/privacy` and `/terms` (optional; kept out of the repo, D-048) | No |
 
 **Payments on staging (optional now, needed for release blocker B2).** Add all four or none; the app refuses a
 partial set:

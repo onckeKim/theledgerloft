@@ -5,6 +5,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 ## [Unreleased]
 
 ### Added
+- Draft privacy notice and terms of use on `/privacy` and `/terms` (release review B5, D-050), written from what the app does: data collected and not collected, cookies, processors and the London hosting, retention, rights, the founding pilot and refund. They carry a "Draft for review" badge; the open points are in `docs/legal/review-notes.md`. A new optional `NEXT_PUBLIC_SUPPORT_EMAIL` supplies the contact address.
 - Nightly retention purge (release review R3, D-046): `private.purge_expired()` scheduled with pg_cron removes deleted transactions after 30 days, export link rows after 7 days and audit events after 12 months, never goal- or debt-linked transactions; `supabase/tests/retention.sql` (12 checks). The restore re-creates the job, `src/lib/restore.test.ts` now also checks cron jobs, and `scripts/db-acl-snapshot.sql` lists them.
 - Firefox end-to-end runs (R7): an opt-in Playwright project `firefox` (`E2E_BROWSERS=firefox`), run on every PR by a new CI job `browsers` against the local stack, with traces uploaded when a test fails. A `webkit` (Desktop Safari) project exists for manual runs but isn't in CI: Playwright's Linux WebKit crashes at four navigations (D-049).
 - Index `entitlements_payment_household_idx` for the entitlements foreign key (R10).
