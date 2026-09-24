@@ -10,7 +10,7 @@ export default function AppLayout({ children }: LayoutProps<"/app">) {
       <SideNav />
       <div>
         <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-border bg-bg px-4 md:hidden">
-          <span className="font-display text-[19px] font-semibold">The Ledger Loft</span>
+          <span className="font-display text-[19px] font-semibold">The Ledger Loft &amp; Co</span>
         </header>
         <main
           id="main"
