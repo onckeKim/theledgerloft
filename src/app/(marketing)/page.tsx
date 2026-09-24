@@ -120,7 +120,7 @@ export default function Home() {
           <h2 id="privacy-h" className="mb-3 mt-3 text-h2">
             Private by design
           </h2>
-          <ul className="m-0 grid gap-2 pl-5">
+          <ul className="m-0 grid list-disc gap-2 pl-5">
             <li>No bank logins, ever. You enter only what you choose.</li>
             <li>Download or delete your data at any time.</li>
             <li>We don&apos;t sell your personal financial data.</li>

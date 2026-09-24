@@ -16,7 +16,7 @@ export default function PilotPage() {
       </p>
       <Card className="my-8">
         <h2 className="mb-3 text-h3">What&apos;s included</h2>
-        <ul className="m-0 grid gap-2 pl-5">
+        <ul className="m-0 grid list-disc gap-2 pl-5">
           <li>
             Three months of access as each part is released: setup, monthly budget, goals, debts and
             monthly summaries

@@ -43,6 +43,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 
 ### Changed
 - Session cookies are HttpOnly, SameSite=Lax and Secure in production (US-04 AC3).
+- Bulleted lists show their bullets again (error summaries, join page, landing and pilot pages, account deletion).
 - Transactions page no longer scrolls sideways at 320 px; the Spending/Income/Refund switch shares the width.
 - CI's database job runs every end-to-end spec, not just setup.
 - Content-Security-Policy `form-action` allows `https://*.payfast.co.za` for the checkout form.

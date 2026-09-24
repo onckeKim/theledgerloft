@@ -29,7 +29,7 @@ export function ErrorSummary({
           {message ?? (count === 1 ? "There's 1 thing to fix" : `There are ${count} things to fix`)}
         </p>
         {count ? (
-          <ul className="mb-0 mt-1 pl-5">
+          <ul className="mb-0 mt-1 list-disc pl-5">
             {items.map((i) => (
               <li key={i.href}>
                 <a href={i.href}>{i.message}</a>

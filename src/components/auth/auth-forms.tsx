@@ -27,7 +27,7 @@ function ErrorSummary({ state }: { state: FormState }) {
           <p className="font-semibold">There&apos;s something to fix</p>
         )}
         {errors.length > 0 ? (
-          <ul className="mb-0 mt-1 pl-5">
+          <ul className="mb-0 mt-1 list-disc pl-5">
             {errors.map(([field, message]) => (
               <li key={field}>
                 <a href={`#${field}`}>{message}</a>

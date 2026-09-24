@@ -35,7 +35,7 @@ export default async function Page({ searchParams }: PageProps<"/app/join">) {
         <Card>
           <Eyebrow>What&apos;s included</Eyebrow>
           <h2 className="mb-3 mt-1 text-h3">The Ledger Loft planner, as it&apos;s built</h2>
-          <ul className="mb-4 pl-5">
+          <ul className="mb-4 list-disc pl-5">
             {PILOT_INCLUDES.map((i) => (
               <li key={i} className="mb-1">
                 {i}

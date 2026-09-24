@@ -19,7 +19,7 @@ export function DeleteAccount() {
     return (
       <div>
         <p>This permanently deletes:</p>
-        <ul className="mb-4 pl-5">
+        <ul className="mb-4 list-disc pl-5">
           <li>your sign-in and profile</li>
           <li>your plan, transactions, goals, debts, check-ins and payment records</li>
         </ul>
