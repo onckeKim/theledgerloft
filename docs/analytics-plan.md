@@ -41,6 +41,8 @@ Properties are limited to those listed. **Forbidden in every event:** amounts, b
 | `account_deleted` | Deletion completed | — |
 | `pilot_payment_confirmed` | Verified PayFast notification (server-side event) | `plan` |
 
+Growth funnel events (lead magnet, emails, upgrade moments, referrals) are proposed in `docs/l10/growth-funnel.md` §7 under the same rules.
+
 ## 4. Identity and consent
 - Events use a random pseudonymous id per account, not the email or the database user id.
 - Marketing pages: cookie-less, aggregate analytics without a consent banner, **if** the chosen tool supports that and legal review agrees. Otherwise ask for consent.

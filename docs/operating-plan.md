@@ -62,7 +62,7 @@ One step per conversation turn. Each step ends with the A5 quality gate before m
 | 10 | **L7** Budget dashboard ✅, **L7b** goals and debts ✅ (e2e on a real local stack) | Dashboard and calculation unit tests | A5 gate |
 | 11 | **L8** Reports and export ✅ (review, PDF and data export e2e on a real local stack) | Monthly review and branded export with audit event | A5 gate |
 | 12 | **L9** Pricing and PayFast sandbox ✅ (sandbox-ready; forged, tampered, duplicate and out-of-order tests pass) | Server-side entitlements, verified ITN handling | Duplicate/forged notification tests pass |
-| 13 | **L10** Etsy-to-app funnel | Lead magnet, emails, referral, ethical analytics | Etsy policy questions answered from official docs |
+| 13 | **L10** Etsy-to-app funnel ✅ proposal (`docs/l10/`); build waits on the Etsy questions | Lead magnet, emails, referral, ethical analytics | Etsy policy questions answered from official docs |
 | 14 | **Release review** | Release-candidate report with go/no-go | Commercial launch gate (playbook section E) |
 
 The plan put L4 before L3. In practice the L3 screens came first, so L4's test vectors were written to reproduce every number on the screens, and the screens were corrected where the spec's rounding differed.
@@ -103,5 +103,5 @@ remaining blocking questions are listed in §7 of that brief. Original questions
 
 ## 10. Next recommended step
 
-L1, A2, L2, L3, L4, A3, A4 + L5, L6, L7, L7b, L8 and L9 (payments, sandbox-ready) are done. Next: **owner steps to open the pilot** (set the price, PayFast sandbox account and a test payment; `supabase/README.md` "Payments"), **L10 Etsy-to-app funnel**, **owner review of the 5 blocking questions in `docs/product-brief.md`**, then **owner-led interviews** using
+L1, A2, L2, L3, L4, A3, A4 + L5, L6, L7, L7b, L8, L9 (payments, sandbox-ready) and L10 (funnel proposal) are done. Next: **owner steps to open the pilot** (set the price, PayFast sandbox account and a test payment; `supabase/README.md` "Payments"), **answer the Etsy policy questions** (`docs/l10/etsy-policy-questions.md`), then the **release candidate review**, **owner review of the 5 blocking questions in `docs/product-brief.md`**, then **owner-led interviews** using
 `docs/l1/interview-guide.md`. The A2 project docs follow once the questions above are answered.

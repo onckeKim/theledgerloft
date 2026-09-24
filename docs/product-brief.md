@@ -58,5 +58,5 @@ Numbers are **targets the owner sets**, not forecasts. They are ASSUMPTIONS to a
 | Wording slides into advice | Medium | High | Safety boundary checklist on every feature; legal review |
 | Data breach of financial data | Low | Very high | RLS, threat model, minimal data, no bank credentials |
 | Calculation error erodes trust | Low | High | L4 spec + vectors, "show the working" on every number |
-| Etsy policy limits the funnel | Unknown | Medium | L10: check official Etsy policy before any in-listing promotion |
+| Etsy policy limits the funnel | Unknown | Medium | L10: questions listed in `docs/l10/etsy-policy-questions.md`; nothing Etsy-facing is built until they are answered from official Etsy pages |
 | Owner capacity | Medium | Medium | One product in active build; small vertical slices |
