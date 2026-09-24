@@ -70,5 +70,6 @@ All notable changes to this project are documented here. Format based on [Keep a
 - Project operating plan (`docs/operating-plan.md`), decision log, changelog and `.env.example` placeholder.
 
 ### Fixed
+- Safari (WebKit) on a production build served over http on localhost: session cookies are `Secure`, and the CSP sends `upgrade-insecure-requests`, only when the site is served over https (`src/lib/security/https.ts`). WebKit rejected the cookies and upgraded the page's own scripts and styles to https, so sign-in and the forms failed in the first WebKit CI run. Production must now use an `https://` site URL (only localhost may use http), and the staging smoke test checks the header. The Firefox payments test now waits only for the join page's own redirect to start.
 - The SQL test files crashed ("malformed array literal") instead of reporting a failed check; failure messages are now typed text, so a failing check prints its name.
 - `.gitignore` excludes `backups/`, which hold personal data.

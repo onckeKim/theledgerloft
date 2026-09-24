@@ -7,10 +7,13 @@ export function buildCsp({
   nonce,
   supabaseUrl,
   dev,
+  https,
 }: {
   nonce: string;
   supabaseUrl: string;
   dev: boolean;
+  /** servedOverHttps(): only then may the browser upgrade every request to https. */
+  https: boolean;
 }): string {
   const supabase = new URL(supabaseUrl).origin;
   const directives: Record<string, string[]> = {
@@ -32,6 +35,6 @@ export function buildCsp({
     "object-src": ["'none'"],
   };
   const policy = Object.entries(directives).map(([k, v]) => `${k} ${v.join(" ")}`);
-  if (!dev) policy.push("upgrade-insecure-requests");
+  if (https) policy.push("upgrade-insecure-requests");
   return policy.join("; ");
 }

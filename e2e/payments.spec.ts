@@ -93,8 +93,9 @@ test("join the pilot: access only after a verified, matching payment", async ({ 
     await page.getByRole("link", { name: "Start setting up your planner" }).click();
     await page.waitForURL(/\/app\/setup/);
 
-    // With access, join sends you to the app
-    await page.goto("/app/join");
+    // With access, join sends you to the app. The page itself redirects, so wait only for the navigation to start
+    // (Firefox reports the interrupted first load as aborted).
+    await page.goto("/app/join", { waitUntil: "commit" });
     await page.waitForURL(/\/app\/setup/);
   } finally {
     await user.remove();

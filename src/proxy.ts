@@ -2,6 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { publicEnv } from "@/lib/public-env";
 import { buildCsp } from "@/lib/security/csp";
+import { servedOverHttps } from "@/lib/security/https";
 import { hardenCookie } from "@/lib/supabase/cookies";
 
 /**
@@ -16,6 +17,7 @@ export async function proxy(request: NextRequest) {
     nonce,
     supabaseUrl: publicEnv.NEXT_PUBLIC_SUPABASE_URL,
     dev: process.env.NODE_ENV === "development",
+    https: servedOverHttps(),
   });
 
   const requestHeaders = new Headers(request.headers);

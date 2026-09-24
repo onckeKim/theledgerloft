@@ -28,6 +28,13 @@ check(
   /form-action 'self' https:\/\/\*\.payfast\.co\.za/.test(csp),
 );
 check("HSTS", /max-age=\d+/.test(home.headers.get("strict-transport-security") ?? ""));
+// Over https every real deployment must upgrade insecure requests (src/lib/security/https.ts); a local http run
+// must not, or Safari breaks.
+const https = base.startsWith("https://");
+check(
+  https ? "CSP upgrades insecure requests" : "CSP leaves local http alone",
+  csp.includes("upgrade-insecure-requests") === https,
+);
 check("X-Frame-Options DENY", home.headers.get("x-frame-options") === "DENY");
 check("X-Content-Type-Options nosniff", home.headers.get("x-content-type-options") === "nosniff");
 check("no X-Powered-By", !home.headers.get("x-powered-by"));
