@@ -1,7 +1,17 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-const PUBLIC_PAGES = ["/", "/pilot", "/disclaimer", "/privacy", "/terms", "/sign-in"];
+const PUBLIC_PAGES = [
+  "/",
+  "/pilot",
+  "/disclaimer",
+  "/privacy",
+  "/terms",
+  "/sign-in",
+  "/sign-up",
+  "/forgot-password",
+  "/check-email",
+];
 
 test.describe("public pages", () => {
   for (const path of PUBLIC_PAGES) {
@@ -60,6 +70,27 @@ test("unknown pages return a branded 404", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("We couldn't find that page");
 });
 
+test.describe("sign-in form", () => {
+  test("shows a focused error summary for an invalid email, without calling the server's auth", async ({
+    page,
+  }) => {
+    await page.goto("/sign-in?next=/app/budget");
+    await page.getByLabel("Email").fill("not-an-email");
+    await page.getByLabel("Password").fill("anything");
+    await page.getByRole("button", { name: "Sign in" }).click();
+    const summary = page.getByRole("alert").filter({ hasText: "Enter an email address" });
+    await expect(summary).toBeVisible();
+    await expect(page.locator(":focus")).toContainText("There's something to fix");
+    await expect(page.getByLabel("Email")).toHaveAttribute("aria-invalid", "true");
+    await expect(page.getByLabel("Email")).toHaveValue("not-an-email");
+  });
+
+  test("keeps only safe return paths", async ({ page }) => {
+    await page.goto("/sign-in?next=https://evil.example");
+    await expect(page.locator('input[name="next"]')).toHaveValue("/app");
+  });
+});
+
 test("security headers are set", async ({ request }) => {
   const response = await request.get("/");
   const h = response.headers();
@@ -68,4 +99,17 @@ test("security headers are set", async ({ request }) => {
   expect(h["referrer-policy"]).toBe("strict-origin-when-cross-origin");
   expect(h["strict-transport-security"]).toContain("max-age=");
   expect(h["x-powered-by"]).toBeUndefined();
+  const csp = h["content-security-policy"] ?? "";
+  expect(csp).toMatch(/script-src 'self' 'nonce-[A-Za-z0-9+/=]+' 'strict-dynamic'/);
+  expect(csp).toContain("frame-ancestors 'none'");
+});
+
+test("each response gets a fresh CSP nonce", async ({ request }) => {
+  const nonce = async () =>
+    /'nonce-([^']+)'/.exec(
+      (await request.get("/")).headers()["content-security-policy"] ?? "",
+    )?.[1];
+  const [a, b] = [await nonce(), await nonce()];
+  expect(a).toBeTruthy();
+  expect(a).not.toBe(b);
 });

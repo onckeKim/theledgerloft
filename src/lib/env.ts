@@ -1,29 +1,16 @@
 import "server-only";
 import { z } from "zod";
+import { publicSchema } from "./public-env";
 
 /**
  * Server environment, validated once at start-up. Add every new variable here AND in .env.example.
- * Secrets (added from A4) must never use the NEXT_PUBLIC_ prefix.
+ * Secrets (service-role key from later steps, PayFast in L9) must never use the NEXT_PUBLIC_ prefix.
  */
-const schema = z
-  .object({
+const schema = publicSchema
+  .extend({
     NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
-    /** Public base URL, used for absolute links and redirects. Required in production. */
-    NEXT_PUBLIC_SITE_URL: z.url().optional(),
-    /**
-     * Development-only preview of signed-in screens with synthetic data (no accounts until A4).
-     * Refused in production so it can never bypass sign-in on a real deployment.
-     */
-    APP_PREVIEW: z.enum(["off", "synthetic"]).default("off"),
   })
   .superRefine((env, ctx) => {
-    if (env.NODE_ENV === "production" && env.APP_PREVIEW !== "off") {
-      ctx.addIssue({
-        code: "custom",
-        path: ["APP_PREVIEW"],
-        message: "must be 'off' in production",
-      });
-    }
     if (env.NODE_ENV === "production" && !env.NEXT_PUBLIC_SITE_URL) {
       ctx.addIssue({
         code: "custom",
@@ -44,3 +31,8 @@ export function parseEnv(source: Record<string, string | undefined>): Env {
 }
 
 export const env: Env = parseEnv(process.env);
+
+/** Absolute URL for links in emails (verification, password reset). */
+export function siteUrl(path: string): string {
+  return new URL(path, env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").toString();
+}

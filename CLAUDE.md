@@ -2,7 +2,7 @@
 
 # The Ledger Loft: project rules
 
-A guided budgeting web app for South Africa (Next.js 16, TypeScript, Tailwind v4; Supabase from A4).
+A guided budgeting web app for South Africa (Next.js 16, TypeScript, Tailwind v4, Supabase).
 Build follows `docs/operating-plan.md` one playbook step at a time.
 
 ## Before changing code
@@ -20,10 +20,12 @@ Build follows `docs/operating-plan.md` one playbook step at a time.
   neutral wording for negative states.
 - **No real user data** anywhere in code, tests, fixtures or conversations. Synthetic only.
 - No `dangerouslySetInnerHTML`; secrets only in server code; new env vars go in `src/lib/env.ts` and `.env.example`.
+- Server code uses the user's Supabase client (`src/lib/supabase/server.ts`), never a service-role key; protect with
+  `getClaims()` via the DAL, never trust `getSession()` on the server.
 
 ## Commands
-`npm run dev` · `npm run check` (lint, types, format, unit tests, token and calc checks) · `npm run test:e2e` ·
-`APP_PREVIEW=synthetic npm run dev` to view app screens before sign-in exists (development only).
+`npm run dev` · `npm run check` (lint, types, format, unit tests, token and calc checks) · `npm run test:e2e`.
+Database: follow `supabase/README.md` (every migration → advisors, `supabase/tests/rls_isolation.sql`, regenerate types).
 
 ## Keep current
 `README.md`, `CHANGELOG.md`, `.env.example`, `docs/decisions.md`.

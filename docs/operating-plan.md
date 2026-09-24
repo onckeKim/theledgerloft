@@ -57,7 +57,7 @@ One step per conversation turn. Each step ends with the A5 quality gate before m
 | 5 | **L4** Calculation spec ✅ (`docs/l4/`, 43 vectors passing) | Formulas, rounding, edge cases, worked synthetic examples | Every formula has test vectors |
 | 6 | **L3** Brand and UX system ✅ tokens, components and screen prototypes (`docs/l3/`, `design/screens/`) | Tokens, components, responsive flows, microcopy | WCAG 2.2 AA contrast checked |
 | 7 | **A3** Repo bootstrap ✅ (Next.js 16 app, checks and CI) | Next.js app, lint, format, env validation, test setup | CI green |
-| 8 | **A4 + L5** Supabase foundation and schema | Migrations, RLS, synthetic seed, generated types | Cross-household isolation tests pass |
+| 8 | **A4 + L5** Supabase foundation and schema ✅ (RLS isolation 60/60, sign-in) | Migrations, RLS, synthetic seed, generated types | Cross-household isolation tests pass |
 | 9 | **L6** Guided onboarding slice | End-to-end onboarding | A5 gate |
 | 10 | **L7** Budget dashboard | Dashboard and calculation unit tests | A5 gate |
 | 11 | **L8** Reports and export | Monthly review and branded export with audit event | A5 gate |
@@ -103,5 +103,5 @@ remaining blocking questions are listed in §7 of that brief. Original questions
 
 ## 10. Next recommended step
 
-L1, A2, L2, L3, L4 and A3 are done. Next: **A4 + L5 Supabase foundation and schema**, **owner review of the 5 blocking questions in `docs/product-brief.md`**, then **owner-led interviews** using
+L1, A2, L2, L3, L4, A3 and A4 + L5 are done. Next: **L6 guided onboarding**, **owner review of the 5 blocking questions in `docs/product-brief.md`**, then **owner-led interviews** using
 `docs/l1/interview-guide.md`. The A2 project docs follow once the questions above are answered.

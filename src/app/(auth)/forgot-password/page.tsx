@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
-import { AccountsSoon } from "@/components/marketing/accounts-soon";
+import { ForgotPasswordForm } from "@/components/auth/auth-forms";
 
 export const metadata: Metadata = { title: "Reset your password", robots: { index: false } };
 
-// Supabase Auth replaces this placeholder in A4 (PRD US-02…US-05).
 export default function Page() {
-  return <AccountsSoon title="Reset your password" />;
+  return (
+    <>
+      <h1 className="mb-2 text-h1">Reset your password</h1>
+      <p className="mb-6 text-fg-muted">
+        Enter your email and we&apos;ll send you a link to choose a new password.
+      </p>
+      <ForgotPasswordForm />
+    </>
+  );
 }

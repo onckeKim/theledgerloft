@@ -13,6 +13,11 @@ export default defineConfig({
   test: {
     environment: "node",
     include: ["src/**/*.test.{ts,tsx}"],
+    // Placeholders so env validation passes at import time; unit tests never call Supabase.
+    env: {
+      NEXT_PUBLIC_SUPABASE_URL: "https://placeholder.supabase.co",
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_placeholder_for_tests",
+    },
     // Component tests opt in with `// @vitest-environment jsdom` at the top of the file.
   },
 });

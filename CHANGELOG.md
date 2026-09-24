@@ -5,6 +5,8 @@ All notable changes to this project are documented here. Format based on [Keep a
 ## [Unreleased]
 
 ### Added
+- A4 + L5: Supabase project (London); schema for households, income, categories, budgets, transactions, debts, goals, check-ins, exports and audit events with RLS on every table, composite cross-household foreign keys, sign-up provisioning and audit triggers; rollback scripts; RLS isolation test (60 checks, always rolls back); synthetic local seed; generated database types.
+- Supabase Auth: sign-up with email confirmation, sign-in, password reset, email-link callback, sign-out; `proxy.ts` with per-request CSP nonce and session refresh; `getClaims()`-based data access layer.
 - A3 app bootstrap: Next.js 16 + TypeScript + Tailwind 4 wired to the brand tokens; public marketing pages (landing from the L1 concept, pilot, legal drafts), auth placeholders, protected app shell (side nav, icon rail, phone tab bar) with per-page `verifySession()`; error, not-found and loading states; env validation (Zod); money formatting and parsing in cents; ESLint, Prettier, Vitest (62 unit tests), Playwright smoke tests with axe (26); CI workflow; `CLAUDE.md` project rules.
 - L2 MVP PRD (`docs/l2/prd.md`): 40 user stories with acceptance criteria, route map, empty states, privacy requirements and release slices.
 - A2 project docs: product brief, personas, user journeys, MVP scope, non-functional requirements, data classification, threat model, analytics plan and release checklist (`docs/`).
@@ -13,6 +15,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 - Shared component stylesheet `design/components.css` (used by the style guide and the screens).
 
 ### Changed
+- Removed the temporary `APP_PREVIEW` mode (D-020). Every page now renders per request so the CSP nonce applies.
 - Scripts in `scripts/` reformatted with Prettier (no behaviour change).
 - Transactions prototype: "Transfer" replaced with "Refund"; journey J1 now signs up before paying (PRD P-1, P-2).
 - Screen prototypes aligned with L4: debt interest totals R 3 061,62 / R 3 057,67, car fund reached in February, school fees 66%, valid progress-bar values when over plan, "last working day" month start removed.

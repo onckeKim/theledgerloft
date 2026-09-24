@@ -42,7 +42,7 @@ address (unless needed for invoicing, then C2), date of birth, gender.
 
 | Processor | Data | Location | Action |
 |---|---|---|---|
-| Supabase | C2, C3, C4 | Region chosen at A4 (A-06) | Choose region; review Supabase DPA; document the cross-border transfer basis if outside South Africa (POPIA s72, for legal review) |
+| Supabase | C2, C3, C4 | eu-west-2, London (D-022) | Choose region; review Supabase DPA; document the cross-border transfer basis if outside South Africa (POPIA s72, for legal review) |
 | Vercel | C2 in transit and logs | Global edge | Keep C3 out of logs; review DPA |
 | PayFast | Payment and card data | South Africa | Card data never touches our servers |
 | Email provider (to be chosen) | C2 (email, name) | TBD | No financial data in emails |

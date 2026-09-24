@@ -1,34 +1,45 @@
 import { describe, expect, it } from "vitest";
 import { parseEnv } from "./env";
 
-describe("parseEnv", () => {
-  it("applies safe defaults in development", () => {
-    expect(parseEnv({ NODE_ENV: "development" })).toMatchObject({ APP_PREVIEW: "off" });
-  });
+const base = {
+  NEXT_PUBLIC_SUPABASE_URL: "https://example.supabase.co",
+  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_test_key_000000",
+};
 
-  it("allows synthetic preview in development", () => {
-    expect(parseEnv({ NODE_ENV: "development", APP_PREVIEW: "synthetic" }).APP_PREVIEW).toBe(
-      "synthetic",
+describe("parseEnv", () => {
+  it("accepts a valid development setup", () => {
+    expect(parseEnv({ NODE_ENV: "development", ...base }).NEXT_PUBLIC_SUPABASE_URL).toBe(
+      base.NEXT_PUBLIC_SUPABASE_URL,
     );
   });
 
-  it("refuses preview mode in production", () => {
+  it("requires the Supabase URL and key", () => {
+    expect(() => parseEnv({ NODE_ENV: "development" })).toThrow(/NEXT_PUBLIC_SUPABASE_URL/);
     expect(() =>
       parseEnv({
-        NODE_ENV: "production",
-        APP_PREVIEW: "synthetic",
-        NEXT_PUBLIC_SITE_URL: "https://example.com",
+        NODE_ENV: "development",
+        NEXT_PUBLIC_SUPABASE_URL: base.NEXT_PUBLIC_SUPABASE_URL,
       }),
-    ).toThrow(/APP_PREVIEW/);
+    ).toThrow(/NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY/);
   });
 
-  it("rejects an invalid site URL", () => {
-    expect(() => parseEnv({ NODE_ENV: "development", NEXT_PUBLIC_SITE_URL: "not a url" })).toThrow(
-      /NEXT_PUBLIC_SITE_URL/,
-    );
+  it("requires the site URL in production", () => {
+    expect(() => parseEnv({ NODE_ENV: "production", ...base })).toThrow(/NEXT_PUBLIC_SITE_URL/);
+    expect(
+      parseEnv({
+        NODE_ENV: "production",
+        NEXT_PUBLIC_SITE_URL: "https://app.example.co.za",
+        ...base,
+      }).NODE_ENV,
+    ).toBe("production");
   });
 
-  it("rejects unknown preview values", () => {
-    expect(() => parseEnv({ NODE_ENV: "development", APP_PREVIEW: "yes" })).toThrow(/APP_PREVIEW/);
+  it("rejects invalid URLs", () => {
+    expect(() =>
+      parseEnv({ NODE_ENV: "development", ...base, NEXT_PUBLIC_SITE_URL: "not a url" }),
+    ).toThrow(/NEXT_PUBLIC_SITE_URL/);
+    expect(() =>
+      parseEnv({ NODE_ENV: "development", ...base, NEXT_PUBLIC_SUPABASE_URL: "nope" }),
+    ).toThrow(/NEXT_PUBLIC_SUPABASE_URL/);
   });
 });

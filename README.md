@@ -5,8 +5,8 @@ downloadable planners. It is a planning and education tool, **not financial advi
 
 ## Status
 
-Playbook steps done: A1, L1, A2, L2, L3, L4, **A3 (app bootstrap)**. There are no accounts or data storage yet; those
-arrive with Supabase in A4. See [`docs/operating-plan.md`](docs/operating-plan.md).
+Playbook steps done: A1, L1, A2, L2, L3, L4, A3, **A4 + L5 (Supabase schema, row level security, sign-in)**.
+See [`docs/operating-plan.md`](docs/operating-plan.md).
 
 ## Getting started
 
@@ -14,9 +14,8 @@ Requires Node.js 20.9+ (22 recommended, see `.nvmrc`).
 
 ```bash
 npm install
-cp .env.example .env.local
+cp .env.example .env.local                 # fill in the Supabase URL and publishable key
 npm run dev                                # http://localhost:3000
-APP_PREVIEW=synthetic npm run dev          # also shows /app screens (development only)
 ```
 
 ## Checks
@@ -33,11 +32,14 @@ CI runs all of these on every pull request (`.github/workflows/ci.yml`).
 
 ```
 src/app/(marketing)/   public pages: landing, pilot, legal
-src/app/(auth)/        sign-in, sign-up, password reset (placeholders until A4)
+src/app/(auth)/        sign-in, sign-up, password reset (Supabase Auth)
+src/app/auth/callback/ email link handler (verification, password reset)
 src/app/(app)/app/     signed-in app; every page calls verifySession()
 src/components/ui/     design-system components (tokens only)
 src/components/shell/  app navigation: side nav, icon rail, phone tab bar
-src/lib/               env validation, money (cents), auth data access layer
+src/lib/               env validation, money (cents), auth data access layer, Supabase clients and types
+src/proxy.ts           per-request CSP nonce, session refresh, early redirects
+supabase/              migrations, rollbacks, RLS isolation tests, synthetic seed (see supabase/README.md)
 design/                brand tokens (source of truth), style guide, screen prototypes
 docs/                  plan, PRD, calculation spec, security, privacy, decisions
 scripts/               token check, calculation reference and vector verifier

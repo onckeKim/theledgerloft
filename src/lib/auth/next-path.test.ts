@@ -6,6 +6,7 @@ describe("safeNextPath", () => {
     "keeps %j",
     (p) => expect(safeNextPath(p)).toBe(p),
   );
+
   it.each([
     null,
     undefined,
@@ -17,4 +18,12 @@ describe("safeNextPath", () => {
     "/sign-in",
     "/app/\u0000x",
   ])("falls back for %j", (p) => expect(safeNextPath(p)).toBe("/app"));
+
+  it("allows extra prefixes only when asked", () => {
+    expect(safeNextPath("/reset-password")).toBe("/app");
+    expect(safeNextPath("/reset-password", "/app", ["/app", "/reset-password"])).toBe(
+      "/reset-password",
+    );
+    expect(safeNextPath("/reset-passwordX", "/app", ["/app", "/reset-password"])).toBe("/app");
+  });
 });

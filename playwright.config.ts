@@ -17,6 +17,12 @@ export default defineConfig({
     url: `http://localhost:${PORT}`,
     timeout: 240_000,
     reuseExistingServer: !process.env.CI,
-    env: { NEXT_PUBLIC_SITE_URL: `http://localhost:${PORT}`, APP_PREVIEW: "off" },
+    env: {
+      NEXT_PUBLIC_SITE_URL: `http://localhost:${PORT}`,
+      // Smoke tests never sign in, so a placeholder project is enough (no network calls without a session).
+      NEXT_PUBLIC_SUPABASE_URL: process.env.E2E_SUPABASE_URL ?? "https://placeholder.supabase.co",
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:
+        process.env.E2E_SUPABASE_PUBLISHABLE_KEY ?? "sb_publishable_placeholder_for_e2e",
+    },
   },
 });

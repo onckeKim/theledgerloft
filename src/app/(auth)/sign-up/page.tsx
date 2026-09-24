@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
-import { AccountsSoon } from "@/components/marketing/accounts-soon";
+import { SignUpForm } from "@/components/auth/auth-forms";
 
 export const metadata: Metadata = { title: "Create an account", robots: { index: false } };
 
-// Supabase Auth replaces this placeholder in A4 (PRD US-02…US-05).
 export default function Page() {
-  return <AccountsSoon title="Create an account" />;
+  return (
+    <>
+      <h1 className="mb-2 text-h1">Create an account</h1>
+      <p className="mb-6 text-fg-muted">
+        For the founding pilot. You&apos;ll set up your planner after confirming your email.
+      </p>
+      <SignUpForm />
+    </>
+  );
 }

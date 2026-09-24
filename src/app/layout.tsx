@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import { connection } from "next/server";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -28,7 +29,9 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  // Render every page per request so Next.js can apply the CSP nonce set in proxy.ts (decision D-019).
+  await connection();
   return (
     <html lang="en-ZA" className={`${playfair.variable} ${inter.variable}`}>
       <body className="min-h-dvh">
