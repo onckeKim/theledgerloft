@@ -5,7 +5,7 @@ downloadable planners. It is a planning and education tool, **not financial advi
 
 ## Status
 
-Playbook steps done: A1, L1, A2, L2, L3, L4, A3, **A4 + L5 (Supabase schema, row level security, sign-in)**.
+Playbook steps done: A1, L1, A2, L2, L3, L4, A3, A4 + L5, **L6 (guided onboarding)**.
 See [`docs/operating-plan.md`](docs/operating-plan.md).
 
 ## Getting started
@@ -18,12 +18,27 @@ cp .env.example .env.local                 # fill in the Supabase URL and publis
 npm run dev                                # http://localhost:3000
 ```
 
+### Local database (Docker)
+
+```bash
+npm run db:start      # local Supabase: Postgres, Auth, REST, Mailpit (emails at http://127.0.0.1:54324)
+npm run db:test       # SQL isolation and setup tests
+npm run db:reset      # re-apply migrations and the synthetic seed (sam@example.test / Synthetic-seed-2026)
+npm run db:stop
+```
+
+Point `.env.local` at `http://127.0.0.1:54321` and the local publishable key from `npx supabase status` to develop
+without touching the hosted project. If Docker Hub isn't your default registry, prefix `db:start` with
+`SUPABASE_INTERNAL_IMAGE_REGISTRY=docker.io`.
+```
+
 ## Checks
 
 | Command | What it runs |
 |---|---|
 | `npm run check` | ESLint, TypeScript, Prettier, unit tests (Vitest), design-token check, calculation vectors |
-| `npm run test:e2e` | Production build + Playwright smoke tests (desktop and phone), including axe accessibility scans |
+| `npm run test:e2e` | Production build + Playwright tests (desktop and phone) with axe scans; the setup flow runs when `E2E_SUPABASE_*` point at a local stack |
+| `npm run db:test` | SQL tests in `supabase/tests` against the local stack |
 | `npm run build` | Production build |
 
 CI runs all of these on every pull request (`.github/workflows/ci.yml`).

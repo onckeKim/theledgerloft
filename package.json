@@ -18,7 +18,11 @@
     "test:e2e": "playwright test",
     "check:tokens": "node scripts/check-tokens.mjs",
     "check:calc": "node scripts/verify-calc.mjs",
-    "check": "npm run lint && npm run typecheck && npm run format:check && npm run test && npm run check:tokens && npm run check:calc"
+    "check": "npm run lint && npm run typecheck && npm run format:check && npm run test && npm run check:tokens && npm run check:calc",
+    "db:start": "supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,realtime,storage-api,postgres-meta",
+    "db:stop": "supabase stop",
+    "db:reset": "supabase db reset",
+    "db:test": "bash scripts/db-test.sh"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",
@@ -45,6 +49,7 @@
     "eslint-config-prettier": "^10.1.8",
     "jsdom": "^30.1.1",
     "prettier": "^3.9.9",
+    "supabase": "^2.117.0",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^5.0.1"

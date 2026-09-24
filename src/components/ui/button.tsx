@@ -8,10 +8,10 @@ type Size = "md" | "sm";
 const base =
   "inline-flex items-center justify-center gap-2 rounded-sm font-sans font-semibold leading-none transition-colors duration-150 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60";
 const variants: Record<Variant, string> = {
-  primary: "bg-btn text-btn-fg border border-btn hover:bg-btn-hover",
-  secondary: "bg-transparent text-fg border border-fg hover:bg-sunken",
+  primary: "bg-btn text-btn-fg border border-btn hover:bg-btn-hover no-underline",
+  secondary: "bg-transparent text-fg border border-fg hover:bg-sunken no-underline",
   quiet: "bg-transparent text-fg underline underline-offset-4 border-0 px-2",
-  danger: "bg-transparent text-negative border border-negative hover:bg-sunken",
+  danger: "bg-transparent text-negative border border-negative hover:bg-sunken no-underline",
 };
 const sizes: Record<Size, string> = {
   md: "min-h-11 px-6 text-body",

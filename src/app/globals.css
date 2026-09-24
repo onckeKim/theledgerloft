@@ -135,3 +135,11 @@
     animation: none !important;
   }
 }
+
+/* Links look like links unless a component opts out with `no-underline` (WCAG 1.4.1: not colour alone). */
+@layer base {
+  a {
+    text-decoration-line: underline;
+    text-underline-offset: 3px;
+  }
+}

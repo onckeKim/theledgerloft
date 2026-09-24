@@ -8,6 +8,8 @@ Project: **theledgerloft** (`jjdetdabqbqktwkvodtk`), region **eu-west-2 (London)
 | `rollback/` | Hand-written rollback for each migration (run newest first; the foundation rollback **destroys all data**) |
 | `tests/rls_isolation.sql` | Tenant-isolation and schema checks. Always rolls back |
 | `seed.sql` | **Synthetic** data for local development only. Never run it against a project with real users |
+| `config.toml` | Local stack settings (mirrors production auth rules: email confirmation on, 10-character passwords) |
+| `tests/setup_flow.sql` | Guided setup functions: atomic saves, replace-the-list behaviour, setup-only, cross-household safety |
 
 ## Rules
 - Every table in `public` has RLS **and** at least one policy; household tables use `private.is_household_member()`.
@@ -22,7 +24,8 @@ Project: **theledgerloft** (`jjdetdabqbqktwkvodtk`), region **eu-west-2 (London)
 Run the whole of `tests/rls_isolation.sql` as the database owner (SQL editor or `psql`). It creates two synthetic
 users, exercises every table as each of them and as a signed-out visitor, then raises
 `RLS_TESTS passed=N failed=0` to roll everything back. Any failure is listed by name.
-Last run (2026-09-24): **passed=60 failed=0**, plus a negative control confirming a deliberately leaky policy is caught.
+Last run (2026-09-24): `rls_isolation.sql` **60/60**, `setup_flow.sql` **17/17** (hosted project and local stack), plus a negative
+control confirming a deliberately leaky policy is caught. Locally: `npm run db:test`.
 
 ## Dashboard settings to check (not managed in code yet)
 - Authentication → URL configuration: **Site URL** = the production URL; **Redirect URLs** include

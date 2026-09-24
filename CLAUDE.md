@@ -24,7 +24,8 @@ Build follows `docs/operating-plan.md` one playbook step at a time.
   `getClaims()` via the DAL, never trust `getSession()` on the server.
 
 ## Commands
-`npm run dev` · `npm run check` (lint, types, format, unit tests, token and calc checks) · `npm run test:e2e`.
+`npm run dev` · `npm run check` (lint, types, format, unit tests, token and calc checks) · `npm run test:e2e` ·
+`npm run db:start` / `db:test` / `db:reset` (local Supabase in Docker).
 Database: follow `supabase/README.md` (every migration → advisors, `supabase/tests/rls_isolation.sql`, regenerate types).
 
 ## Keep current

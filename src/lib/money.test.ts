@@ -1,6 +1,14 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { formatRate, formatZAR, parseRandToCents, toCents } from "./money";
+import {
+  bpToInput,
+  centsToInput,
+  formatRate,
+  formatZAR,
+  parseRandToCents,
+  parseRateToBp,
+  toCents,
+} from "./money";
 
 type Vector = { id: string; fn: string; input: Record<string, number>; expected: unknown };
 const { vectors } = JSON.parse(
@@ -53,4 +61,27 @@ describe("parseRandToCents", () => {
     "12,",
     ",5",
   ])("rejects %j", (input) => expect(parseRandToCents(input)).toBeNull());
+});
+
+describe("parseRateToBp", () => {
+  it.each([
+    ["21", 2100],
+    ["20,75", 2075],
+    ["20.75%", 2075],
+    [" 0 ", 0],
+    ["100", 10000],
+    ["7,5", 750],
+  ])("%j → %i bp", (input, expected) => expect(parseRateToBp(input)).toBe(expected));
+  it.each(["", "abc", "-1", "100,01", "12,345", "1000"])("rejects %j", (input) =>
+    expect(parseRateToBp(input)).toBeNull(),
+  );
+});
+
+describe("input round trips", () => {
+  it("formats cents and rates for editing, and parses them back", () => {
+    expect(centsToInput(2174000)).toBe("21 740,00");
+    expect(parseRandToCents(centsToInput(2174000))).toBe(2174000);
+    expect(bpToInput(2075)).toBe("20,75");
+    expect(parseRateToBp(bpToInput(2075))).toBe(2075);
+  });
 });

@@ -782,7 +782,29 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      period_bounds: {
+        Args: { d: string; start_day: number };
+        Returns: Record<string, unknown>;
+      };
       period_for: { Args: { d: string; start_day: number }; Returns: string };
+      setup_complete: { Args: never; Returns: undefined };
+      setup_save_basics: {
+        Args: {
+          p_budget_style: string;
+          p_month_start_day: number;
+          p_pay_frequency: string;
+        };
+        Returns: undefined;
+      };
+      setup_save_categories: {
+        Args: { p_group: string; p_items: Json };
+        Returns: string[];
+      };
+      setup_save_debts_goals: {
+        Args: { p_debts: Json; p_goals: Json };
+        Returns: Json;
+      };
+      setup_save_income: { Args: { p_items: Json }; Returns: string[] };
     };
     Enums: {
       [_ in never]: never;

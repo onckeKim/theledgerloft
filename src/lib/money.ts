@@ -52,3 +52,28 @@ export function parseRandToCents(input: string): Cents | null {
     return null;
   return cents as Cents;
 }
+
+/** Largest rate a user may enter: 100,00% (L4 §1). */
+export const MAX_RATE_BP = 10_000;
+
+/**
+ * Parse a yearly interest rate as typed (`21`, `20,75`, `20.75%`) into basis points. Up to 2 decimals.
+ * Returns null for anything else or anything above 100%.
+ */
+export function parseRateToBp(input: string): number | null {
+  const s = input.trim().replace(/%$/, "").trim();
+  const match = /^(\d{1,3})(?:[.,](\d{1,2}))?$/.exec(s);
+  if (!match) return null;
+  const bp = Number(match[1]) * 100 + Number((match[2] ?? "").padEnd(2, "0"));
+  return bp <= MAX_RATE_BP ? bp : null;
+}
+
+/** Cents to the plain text shown in an input box: `1 234,56` (no R, normal spaces so people can edit it). */
+export function centsToInput(cents: number): string {
+  return formatZAR(cents).replace(/^R /, "").replace(/ /g, " ");
+}
+
+/** Basis points to input text: `20,75`. */
+export function bpToInput(bp: number): string {
+  return formatRate(bp).replace(/%$/, "");
+}
