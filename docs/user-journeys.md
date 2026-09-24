@@ -6,7 +6,7 @@ Status: v0.1 (Playbook step A2). Screens refer to `design/screens/`. Numbers fol
 | Step | User does | Product does | Screen |
 |---|---|---|---|
 | 1 | Buys or downloads a planner and sees the insert about the app (L10, subject to Etsy policy) | Link to landing page with source tag `etsy` | Landing |
-| 2 | Joins the pilot and pays (PayFast once-off) | Creates account after payment is confirmed server-to-server (L9) | Sign-up |
+| 2 | Creates an account, verifies email, then pays for the pilot (PayFast once-off) | Grants access only after the payment is confirmed server-to-server (L9, PRD P-1) | Sign-up, /app/join |
 | 3 | Starts setup | Welcome: time estimate, no bank logins, disclaimer | onboarding-welcome |
 | 4 | Enters basics, income, bills, spending, optional debts and goals | Autosaves each field; validates on the server; errors in a summary | onboarding-* |
 | 5 | Reviews and finishes | Shows left to budget and its working; saves the first period | onboarding-review |

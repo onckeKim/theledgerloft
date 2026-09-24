@@ -23,7 +23,7 @@ sensitive C3: never index it for analytics, never log it, never send it to third
 | profiles | display name, email, created | C2 | Account | Until deletion |
 | auth (Supabase) | email, password hash, sessions | C2 / C4 | Sign-in | Until deletion |
 | households, memberships | name, member role | C2 | Access control | Until deletion |
-| accounts_manual | name, type, opening balance | C3 | Tracking (no bank data) | Until deletion |
+| accounts_manual | name, type, opening balance | C3 | Tracking (no bank data). **Table created in L5, feature later** (PRD P-2) | Until deletion |
 | income_items, expense_items | name, amount, frequency | C3 | Planning | Until deletion |
 | categories, budgets, budget_lines | names, planned amounts, period | C3 | Budgeting | Until deletion |
 | transactions_manual | date, amount, kind, category, description | C3 | Tracking | Until deletion |

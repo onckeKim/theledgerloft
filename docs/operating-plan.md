@@ -53,7 +53,7 @@ One step per conversation turn. Each step ends with the A5 quality gate before m
 | 1 | **L1** Positioning and safety boundary ✅ drafted (`docs/l1/`) | Positioning, disclaimer boundary, interview guide, pilot offer | Disclaimer wording reviewed; no outcome promises |
 | 2 | **Validate** (manual, owner-led) | 5–10 interviews with planner buyers, pilot target | Real users confirm the problem |
 | 3 | **A2** Project docs ✅ (assumptions A-01…A-07 in `docs/product-brief.md`) | `docs/product-brief.md`, personas, journeys, MVP scope, NFRs, data classification, threat model, analytics plan, release checklist | Measurable acceptance criteria exist |
-| 4 | **L2** MVP PRD | PRD, user stories, route map, out-of-scope list | PRD approved |
+| 4 | **L2** MVP PRD ✅ (`docs/l2/prd.md`, 40 stories) | PRD, user stories, route map, out-of-scope list | PRD approved |
 | 5 | **L4** Calculation spec ✅ (`docs/l4/`, 43 vectors passing) | Formulas, rounding, edge cases, worked synthetic examples | Every formula has test vectors |
 | 6 | **L3** Brand and UX system ✅ tokens, components and screen prototypes (`docs/l3/`, `design/screens/`) | Tokens, components, responsive flows, microcopy | WCAG 2.2 AA contrast checked |
 | 7 | **A3** Repo bootstrap | Next.js app, lint, format, env validation, test setup | CI green |
@@ -103,5 +103,5 @@ remaining blocking questions are listed in §7 of that brief. Original questions
 
 ## 10. Next recommended step
 
-L1, A2, L3 and L4 are drafted. Next: **L2 PRD** (user stories), **owner review of the 5 blocking questions in `docs/product-brief.md`**, then **owner-led interviews** using
+L1, A2, L2, L3 and L4 are drafted. Next: **A3 repository bootstrap** (first code), **owner review of the 5 blocking questions in `docs/product-brief.md`**, then **owner-led interviews** using
 `docs/l1/interview-guide.md`. The A2 project docs follow once the questions above are answered.

@@ -59,7 +59,7 @@ Every page has a "Skip to content" link, a single `h1`, landmarks (`nav`, `main`
 
 ### 4. Transactions (`transactions.html`)
 - Grouped by date, search and category filter, 20 per page with "Show more".
-- Add form: Spending / Income / Transfer, amount, description, category, date. It sits beside the list on desktop and opens as a full-screen sheet from a + button on phones.
+- Add form: Spending / Income / Refund, amount, description, category, date. No transfers in MVP (PRD P-2). It sits beside the list on desktop and opens as a full-screen sheet from a + button on phones.
 - Money in shows "+R" in the positive colour. Money out shows "−R" in the normal text colour, because spending isn't bad.
 
 ### 5. Goals and sinking funds (`goals.html`)
