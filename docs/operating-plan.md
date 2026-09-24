@@ -50,7 +50,7 @@ One step per conversation turn. Each step ends with the A5 quality gate before m
 | # | Playbook step | Output | Gate to pass |
 |---|---|---|---|
 | 0 | **A1** Operating plan | This document, repo hygiene files | Owner reviews the plan |
-| 1 | **L1** Positioning and safety boundary | Positioning, disclaimer boundary, interview guide, pilot offer | Disclaimer wording reviewed; no outcome promises |
+| 1 | **L1** Positioning and safety boundary ✅ drafted (`docs/l1/`) | Positioning, disclaimer boundary, interview guide, pilot offer | Disclaimer wording reviewed; no outcome promises |
 | 2 | **Validate** (manual, owner-led) | 5–10 interviews with planner buyers, pilot target | Real users confirm the problem |
 | 3 | **A2** Project docs | `docs/product-brief.md`, personas, journeys, MVP scope, NFRs, data classification, threat model, analytics plan, release checklist | Measurable acceptance criteria exist |
 | 4 | **L2** MVP PRD | PRD, user stories, route map, out-of-scope list | PRD approved |
@@ -100,5 +100,5 @@ risky logic tested · lint and type-check pass · docs and `.env.example` curren
 
 ## 10. Next recommended step
 
-**Prompt L1 (positioning and safety boundary)**, then owner-led interviews. The A2 project docs follow once the
-questions above are answered.
+L1 is drafted in `docs/l1/`. Next: **owner review of L1**, then **owner-led interviews** using
+`docs/l1/interview-guide.md`. The A2 project docs follow once the questions above are answered.
