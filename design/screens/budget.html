@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Budget · The Ledger Loft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/app.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body data-page="budget">
+<main>
+<div class="page-head">
+  <div><span class="ll-label">Monthly budget</span><h1>September plan</h1></div>
+  <div class="row"><a class="btn btn-secondary btn-sm" href="transactions.html">+ Add spending</a><div class="month-switch"><a class="icon-btn" href="#" aria-label="Previous month">‹</a><span>Sep 2026</span><a class="icon-btn" href="#" aria-label="Next month">›</a></div></div>
+</div>
+<div class="grid g-3" style="margin-bottom:var(--ll-space-5)">
+  <div class="card"><span class="ll-label">Income</span><div class="num-md" style="margin-top:var(--ll-space-2)">R 21 740,00</div></div>
+  <div class="card"><span class="ll-label">Planned</span><div class="num-md" style="margin-top:var(--ll-space-2)">R 18 500,00</div></div>
+  <div class="card current"><span class="ll-label">Left to budget</span><div class="num-md" style="margin-top:var(--ll-space-2)">R 3 240,00</div></div>
+</div>
+<div class="alert a-info"><span data-icon="info" data-size="20"></span><p><strong>Flexible budget.</strong> It's fine to leave money unassigned. Prefer every rand to have a job? Switch to zero-based in <a href="settings.html">Settings</a>.</p></div>
+<div class="card section">
+  <div class="between"><h3>Categories</h3><button class="btn btn-quiet btn-sm" type="button">+ Add category</button></div>
+  <div class="table-wrap">
+  <table class="table-stack">
+    <thead><tr><th class="ll-label" scope="col">Category</th><th class="ll-label r" scope="col">Planned</th><th class="ll-label r" scope="col">Actual</th><th class="ll-label r" scope="col">Remaining</th></tr></thead>
+    <tbody><tr class="grp"><td colspan="4">Fixed bills</td></tr>
+<tr><td>Housing</td><td class="r" data-label="Planned">R 6 200,00</td><td class="r" data-label="Actual">R 6 200,00</td><td class="r" data-label="Remaining">R 0,00</td></tr>
+<tr><td>Electricity &amp; water</td><td class="r" data-label="Planned">R 1 100,00</td><td class="r" data-label="Actual">R 1 100,00</td><td class="r" data-label="Remaining">R 0,00</td></tr>
+<tr><td>Phone &amp; data</td><td class="r" data-label="Planned">R 450,00</td><td class="r" data-label="Actual">R 450,00</td><td class="r" data-label="Remaining">R 0,00</td></tr>
+<tr><td>Insurance</td><td class="r" data-label="Planned">R 600,00</td><td class="r" data-label="Actual">R 600,00</td><td class="r" data-label="Remaining">R 0,00</td></tr>
+<tr class="grp"><td colspan="4">Everyday spending</td></tr>
+<tr><td>Groceries</td><td class="r" data-label="Planned"><label class="visually-hidden" for="g-plan">Groceries planned</label><div class="input-money" style="max-width:150px;margin-left:auto"><input class="input" id="g-plan" value="3 400,00" style="height:40px;font-size:15px;text-align:right"></div></td><td class="r" data-label="Actual">R 3 650,00</td><td class="r" data-label="Remaining"><span class="neg">R 250,00 over</span></td></tr>
+<tr><td>Transport</td><td class="r" data-label="Planned">R 1 400,00</td><td class="r" data-label="Actual">R 980,00</td><td class="r" data-label="Remaining">R 420,00</td></tr>
+<tr><td>Personal &amp; fun</td><td class="r" data-label="Planned">R 600,00</td><td class="r" data-label="Actual">R 410,00</td><td class="r" data-label="Remaining">R 190,00</td></tr>
+<tr class="grp"><td colspan="4">Debts</td></tr>
+<tr><td>Debt payments</td><td class="r" data-label="Planned">R 2 600,00</td><td class="r" data-label="Actual">R 2 600,00</td><td class="r" data-label="Remaining">R 0,00</td></tr>
+<tr class="grp"><td colspan="4">Saving</td></tr>
+<tr><td>Sinking funds</td><td class="r" data-label="Planned">R 1 350,00</td><td class="r" data-label="Actual">R 1 350,00</td><td class="r" data-label="Remaining">R 0,00</td></tr>
+<tr><td>Savings goals</td><td class="r" data-label="Planned">R 800,00</td><td class="r" data-label="Actual">R 800,00</td><td class="r" data-label="Remaining">R 0,00</td></tr></tbody>
+    <tfoot><tr><td>Total</td><td class="r" data-label="Planned">R 18 500,00</td><td class="r" data-label="Actual">R 18 140,00</td><td class="r" data-label="Remaining">R 360,00</td></tr></tfoot>
+  </table>
+  </div>
+  <details style="margin-top:var(--ll-space-4)"><summary>How “Remaining” is calculated</summary><div class="working"><dl>
+    <dt>Groceries planned</dt><dd>R 3 400,00</dd><dt>Groceries actual (12 transactions)</dt><dd>−R 3 650,00</dd>
+    <dt class="total">Remaining</dt><dd class="total">−R 250,00 (over)</dd></dl></div></details>
+  <p class="sm muted" style="margin:var(--ll-space-3) 0 0">Editing Groceries. Changes save when you leave the field.</p>
+</div>
+</main>
+<script src="shell.js"></script>
+</body>
+</html>

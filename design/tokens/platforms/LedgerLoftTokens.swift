@@ -10,8 +10,10 @@ enum LL {
         static let creamDeep = SwiftUI.Color(red: 0.9373, green: 0.9216, blue: 0.8863)  // #EFEBE2
         static let sage = SwiftUI.Color(red: 0.4863, green: 0.6157, blue: 0.5451)  // #7C9D8B
         static let sageDeep = SwiftUI.Color(red: 0.3686, green: 0.4824, blue: 0.4235)  // #5E7B6C
+        static let sageText = SwiftUI.Color(red: 0.3373, green: 0.4392, blue: 0.3843)  // #567062
         static let gold = SwiftUI.Color(red: 0.8314, green: 0.6941, blue: 0.4157)  // #D4B16A
         static let goldDeep = SwiftUI.Color(red: 0.6588, green: 0.5216, blue: 0.2471)  // #A8853F
+        static let goldText = SwiftUI.Color(red: 0.5059, green: 0.4000, blue: 0.1922)  // #816631
         static let ink = SwiftUI.Color(red: 0.1176, green: 0.1647, blue: 0.2196)  // #1E2A38
         static let inkMuted = SwiftUI.Color(red: 0.3608, green: 0.4157, blue: 0.4706)  // #5C6A78
         static let inkFaint = SwiftUI.Color(red: 0.5412, green: 0.5922, blue: 0.6392)  // #8A97A3
@@ -21,6 +23,7 @@ enum LL {
         static let success = SwiftUI.Color(red: 0.1843, green: 0.4196, blue: 0.2980)  // #2F6B4C
         static let successBg = SwiftUI.Color(red: 0.9059, green: 0.9412, blue: 0.9176)  // #E7F0EA
         static let warning = SwiftUI.Color(red: 0.6118, green: 0.4196, blue: 0.0824)  // #9C6B15
+        static let warningText = SwiftUI.Color(red: 0.5569, green: 0.3804, blue: 0.0745)  // #8E6113
         static let warningBg = SwiftUI.Color(red: 0.9686, green: 0.9333, blue: 0.8627)  // #F7EEDC
         static let danger = SwiftUI.Color(red: 0.6392, green: 0.2157, blue: 0.1490)  // #A33726
         static let dangerBg = SwiftUI.Color(red: 0.9647, green: 0.8941, blue: 0.8784)  // #F6E4E0

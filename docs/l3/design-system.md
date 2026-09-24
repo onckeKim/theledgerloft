@@ -5,10 +5,10 @@ Built on **The Ledger Loft Co store tokens**, so the app matches the existing st
 
 | File | Role |
 |---|---|
-| `design/tokens/tokens.json` | **Source of truth** (W3C design-token format), copied unchanged from the store |
+| `design/tokens/tokens.json` | **Source of truth** (W3C design-token format), from the store plus 3 approved text tones (D-010). **Copy these 4 files back to the store system** |
 | `design/tokens/tokens.css` | Web CSS variables, light and dark themes, base rules |
 | `design/tokens/platforms/*.kt, *.swift` | Android and iOS equivalents (for a possible later native app) |
-| `design/tokens/app.css` | App-only additions for accessibility (**proposed**, see section 3) |
+| `design/tokens/app.css` | App-only semantic tokens (focus, control border, positive/negative), see section 3 |
 | `scripts/check-tokens.mjs` | Checks the four brand files agree and audits contrast. Run `node scripts/check-tokens.mjs` |
 | `design/preview.html` | Visual style guide. Open it in a browser |
 
@@ -34,32 +34,35 @@ Gender-neutral, with no pastel-pink or "girl-boss" styling and no neon fintech g
 | `creamDeep` | #EFEBE2 | Table stripes, subtle fills, disabled surface | |
 | white (`bg-raised`) | #FFFFFF | Cards and inputs sitting on cream | |
 | `sage` | #7C9D8B | Decorative accents, chart fills, icons | Text of any size (2.71:1) |
-| `sageDeep` | #5E7B6C | Labels at 14px bold / 18px and up | Small labels (4.23:1). Use `--ll-label-text` |
+| `sageDeep` | #5E7B6C | Labels at 14px bold / 18px and up | Small labels (4.23:1). Use `sageText` |
+| `sageText` | #567062 | Small uppercase labels (the light `label` token) | |
 | `gold` | #D4B16A | **One accent per view.** Rules, underlines, highlights on navy | Fill on cream; text on cream (1.86:1); focus ring on light |
-| `goldDeep` | #A8853F | Gold-toned text at 24px and up (large) | Text below 24px (3.14:1). Use `--ll-accent-text-sm` |
+| `goldDeep` | #A8853F | Gold-toned text at 24px and up (large) | Text below 24px (3.14:1). Use `goldText` |
+| `goldText` | #816631 | Gold-toned text at any size | |
 | `inkMuted` | #5C6A78 | Secondary text, helper text, **form control borders** | |
 | `inkFaint` | #8A97A3 | Placeholders, disabled text only | Anything the user must read (2.72:1) |
 | `line` / `lineStrong` | #D9D2C4 / #B9B0A0 | Decorative dividers and card borders | Input borders (not 3:1) |
 | `success` / `danger` / `info` (+ `Bg`) | | Status text and alert backgrounds | Colour as the *only* signal |
-| `warning` | #9C6B15 | Warning icons, borders, large text | Body text (4.23:1). Use `--ll-warning-text` |
+| `warning` | #9C6B15 | Warning icons, borders, large text | Body text (4.23:1). Use `warningText` |
+| `warningText` | #8E6113 | Warning message text | |
 
 ### Contrast audit (from `scripts/check-tokens.mjs`)
 
 Most pairings pass WCAG 2.2 AA. These do **not** pass for normal-size text and are restricted:
 
-| Pairing | Ratio | Needs | Fix in app |
+| Pairing | Ratio | Needs | Fix (approved) |
 |---|---|---|---|
-| sageDeep label (11px) on cream | 4.23 | 4.5 | `--ll-label-text` #567062 (4.92) |
-| goldDeep text on cream | 3.14 | 4.5 | Large text only, or `--ll-accent-text-sm` #816631 (4.93) |
-| warning on cream / warningBg | 4.23 / 4.02 | 4.5 | `--ll-warning-text` #8E6113 (4.71 on warningBg) |
+| sageDeep label (11px) on cream | 4.23 | 4.5 | `sageText` #567062 (4.92), now the light `label` token |
+| goldDeep text on cream | 3.14 | 4.5 | Large text only, or `goldText` #816631 (4.93) |
+| warning on cream / warningBg | 4.23 / 4.02 | 4.5 | `warningText` #8E6113 (4.71 on warningBg) |
 | gold focus ring on cream | 1.86 | 3 | `--ll-focus`: navy on light, gold on dark |
 | line / lineStrong as input border | 1.37 / 1.96 | 3 | `--ll-control-border`: inkMuted (5.05) |
 | inkFaint (tertiary) on cream | 2.72 | 4.5 | Placeholder and disabled only |
 
 ## 3. App additions (`design/tokens/app.css`)
 
-**PROPOSED: needs owner approval (D-010).** The darkened sage, gold and warning are the same hue made slightly
-darker, so they look nearly identical but pass AA. If the store is updated too, move them into `tokens.json`.
+**ACCEPTED (D-010).** The darker sage, gold and warning are now brand tokens (`sageText`, `goldText`, `warningText`)
+in `tokens.json`. The variables below alias them so components have one semantic name.
 
 | Token | Light | Dark | Why |
 |---|---|---|---|
@@ -89,14 +92,14 @@ darker, so they look nearly identical but pass AA. If the store is updated too, 
 Rules:
 - Load Playfair Display (600) and Inter (400, 600) with `next/font` in A3, and self-host them.
 - **Minimum body size in forms is 16px on mobile** so iOS doesn't zoom into inputs. Inputs use `bodyLg` (17px).
-- Labels are 11px, so they must use `--ll-label-text`, never `sage`.
+- Labels are 11px, so they use the `label` token (`sageText` on light, gold on dark), never `sage` or `sageDeep`.
 - Headings are sentence case. Only `.ll-label` is uppercase.
 
 ## 5. Money display
 
 - Currency: ZAR by default. Format with `Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR' })`.
-  Checked in Node 22: this gives `R 1 234,56` (non-breaking space as the thousands separator, comma for decimals).
-  Confirm the owner prefers this to `R1,234.56` (open question D-011), then use one shared formatter in the app and exports.
+  **Decided (D-011): `R 1 234,56`** (non-breaking space as the thousands separator, comma for decimals, checked in Node 22).
+  One shared formatter is used in the app and exports.
 - Always `font-variant-numeric: tabular-nums` (`.ll-numeric`). Right-align amounts in tables.
 - Negative amounts: `Intl` outputs a hyphen (`-R 250,00`); the shared formatter swaps in a real minus sign (−R 250,00) plus a word ("over", "short") or an icon. **Never colour alone.**
 - Over budget uses `--ll-negative` with the text "R 250,00 over". Never "overspent!" or red-only styling (see microcopy).

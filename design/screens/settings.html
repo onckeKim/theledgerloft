@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settings · The Ledger Loft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/app.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body data-page="settings">
+<main>
+<style>.srow { padding: var(--ll-space-3) 0; border-bottom: 1px solid var(--ll-border); } .srow:last-child { border-bottom: none; } .settings { max-width: 720px; }</style>
+<div class="page-head"><div><span class="ll-label">Account</span><h1>Settings</h1></div></div>
+<div class="settings stack">
+  <section class="card" aria-labelledby="h-prof"><h2 id="h-prof" class="ll-label" style="font-size:var(--ll-text-label-size)">Profile</h2>
+    <div class="between srow"><div><strong>Name</strong><div class="sm muted">Sam</div></div><a class="btn btn-quiet btn-sm" href="#">Change</a></div><div class="between srow"><div><strong>Email</strong><div class="sm muted">sam@example.com</div></div><a class="btn btn-quiet btn-sm" href="#">Change</a></div><div class="between srow"><div><strong>Password</strong><div class="sm muted">Last changed 2 months ago</div></div><a class="btn btn-quiet btn-sm" href="#">Change</a></div></section>
+  <section class="card" aria-labelledby="h-bud"><h2 id="h-bud" class="ll-label" style="font-size:var(--ll-text-label-size)">Budget setup</h2>
+    <div class="between srow"><div><strong>Currency</strong><div class="sm muted">South African rand (R 1 234,56)</div></div><a class="btn btn-quiet btn-sm" href="#"></a></div><div class="between srow"><div><strong>Budget month starts</strong><div class="sm muted">1st of the month</div></div><a class="btn btn-quiet btn-sm" href="#">Change</a></div><div class="between srow"><div><strong>Pay frequency</strong><div class="sm muted">Monthly</div></div><a class="btn btn-quiet btn-sm" href="#">Change</a></div><div class="between srow"><div><strong>Budgeting style</strong><div class="sm muted">Flexible</div></div><a class="btn btn-quiet btn-sm" href="#">Change</a></div></section>
+  <section class="card" aria-labelledby="h-hh"><h2 id="h-hh" class="ll-label" style="font-size:var(--ll-text-label-size)">Household</h2>
+    <div class="between srow"><div><strong>Members</strong><div class="sm muted">Just you</div></div><a class="btn btn-quiet btn-sm" href="#"></a></div><p class="sm muted" style="margin:var(--ll-space-3) 0 0">Sharing a budget with a partner is planned for a later release.</p></section>
+  <section class="card" aria-labelledby="h-plan"><h2 id="h-plan" class="ll-label" style="font-size:var(--ll-text-label-size)">Plan</h2>
+    <div class="between srow"><div><strong>Founding pilot <span class="badge badge-success">Active</span></strong><div class="sm muted">Pricing and billing details to be confirmed before launch</div></div><a class="btn btn-quiet btn-sm" href="#">Manage</a></div></section>
+  <section class="card" aria-labelledby="h-data"><h2 id="h-data" class="ll-label" style="font-size:var(--ll-text-label-size)">Your data</h2>
+    <p class="muted">We never ask for bank logins. Everything here is information you entered.</p>
+    <div class="between srow"><div><strong>Download all my data</strong><div class="sm muted">Every entry, as CSV files in a zip</div></div><a class="btn btn-quiet btn-sm" href="#">Download</a></div><div class="between srow"><div><strong>Privacy notice</strong><div class="sm muted">How we collect and use your information</div></div><a class="btn btn-quiet btn-sm" href="#">Read</a></div>
+    <div class="alert a-danger" style="margin:var(--ll-space-4) 0 0"><span data-icon="alert" data-size="20"></span><div><p><strong>Delete my account</strong></p><p class="sm">Permanently deletes your account and all budget data. You'll be asked to confirm and can download your data first.</p>
+      <button class="btn btn-danger btn-sm" type="button" style="margin-top:var(--ll-space-3)">Delete account…</button></div></div></section>
+  <section class="card" aria-labelledby="h-help"><h2 id="h-help" class="ll-label" style="font-size:var(--ll-text-label-size)">Help</h2>
+    <div class="between srow"><div><strong>Contact support</strong><div class="sm muted">Support email and reply times to be confirmed before launch</div></div><a class="btn btn-quiet btn-sm" href="#">Email</a></div><div class="between srow"><div><strong>Need help with debt?</strong><div class="sm muted">Independent organisations that can help</div></div><a class="btn btn-quiet btn-sm" href="#">View</a></div></section>
+</div>
+</main>
+<script src="shell.js"></script>
+</body>
+</html>

@@ -7,8 +7,10 @@
   --ll-color-cream-deep: #EFEBE2;
   --ll-color-sage: #7C9D8B;
   --ll-color-sage-deep: #5E7B6C;
+  --ll-color-sage-text: #567062;
   --ll-color-gold: #D4B16A;
   --ll-color-gold-deep: #A8853F;
+  --ll-color-gold-text: #816631;
   --ll-color-ink: #1E2A38;
   --ll-color-ink-muted: #5C6A78;
   --ll-color-ink-faint: #8A97A3;
@@ -18,6 +20,7 @@
   --ll-color-success: #2F6B4C;
   --ll-color-success-bg: #E7F0EA;
   --ll-color-warning: #9C6B15;
+  --ll-color-warning-text: #8E6113;
   --ll-color-warning-bg: #F7EEDC;
   --ll-color-danger: #A33726;
   --ll-color-danger-bg: #F6E4E0;
@@ -36,7 +39,7 @@
   --ll-border-strong: #B9B0A0;
   --ll-accent: #D4B16A;
   --ll-accent-text: #A8853F;
-  --ll-label: #5E7B6C;
+  --ll-label: #567062;
 
   /* space */
   --ll-space-0: 0px;

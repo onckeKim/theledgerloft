@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home · The Ledger Loft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/app.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body data-page="dashboard">
+<main>
+<div class="page-head">
+  <div><span class="ll-label">September 2026</span><h1>Your month at a glance</h1></div>
+  <div class="row"><div class="month-switch"><a class="icon-btn" href="#" aria-label="Previous month">‹</a><span>Sep 2026</span><a class="icon-btn" href="#" aria-label="Next month">›</a></div></div>
+</div>
+<div class="grid g-3" style="margin-bottom:var(--ll-space-4)">
+  <div class="card"><span class="ll-label">Income</span><div class="num-lg">R 21 740,00</div><div class="sm muted">From 2 sources</div></div>
+  <div class="card"><span class="ll-label">Planned</span><div class="num-lg">R 18 500,00</div><div class="sm muted">Across 10 categories</div></div>
+  <div class="card current"><span class="ll-label">Left to budget</span><div class="num-lg">R 3 240,00</div>
+    <details><summary>How this was calculated</summary><div class="working"><dl>
+      <dt>Income</dt><dd>R 21 740,00</dd><dt>Planned</dt><dd>−R 18 500,00</dd>
+      <dt class="total">Left to budget</dt><dd class="total">R 3 240,00</dd></dl></div></details></div>
+</div>
+<div class="grid g-2" style="margin-bottom:var(--ll-space-4)">
+  <div class="card">
+    <div class="between"><div><span class="ll-label">Spending</span><h3>Categories</h3></div><a class="sm" href="budget.html">See all 10</a></div>
+    <div class="between" style="margin-bottom:var(--ll-space-2)"><span class="muted sm">Spent so far</span><span class="amt"><strong>R 18 140,00</strong> of R 18 500,00</span></div>
+    <div class="track" role="progressbar" aria-label="Total spent" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100"><div class="fill navy" style="width:98%"></div></div>
+    <div style="margin-top:var(--ll-space-3)">
+    <div class="cat"><span>Groceries</span><span class="ll-numeric sm"><span class="neg"><span class="amt">R 250,00</span> over</span> · <span class="amt">R 3 650,00</span> of <span class="amt">R 3 400,00</span></span><div class="track" role="progressbar" aria-label="Groceries" aria-valuenow="107" aria-valuemin="0" aria-valuemax="100"><div class="fill over" style="width:100%"></div></div></div>
+    <div class="cat"><span>Transport</span><span class="ll-numeric sm"><span class="amt">R 980,00</span> of <span class="amt">R 1 400,00</span></span><div class="track" role="progressbar" aria-label="Transport" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:70%"></div></div></div>
+    <div class="cat"><span>Personal &amp; fun</span><span class="ll-numeric sm"><span class="amt">R 410,00</span> of <span class="amt">R 600,00</span></span><div class="track" role="progressbar" aria-label="Personal and fun" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:68%"></div></div></div>
+    </div>
+    <p class="sm muted" style="margin:var(--ll-space-3) 0 0">Groceries is R 250,00 over plan this month. <a href="budget.html">Move money from another category?</a></p>
+  </div>
+  <div class="card">
+    <span class="ll-label">This month</span><h3>Checklist</h3>
+    <ul class="checklist">
+      <li><input type="checkbox" id="c1" checked><label for="c1"><span>Record this month's income</span></label></li>
+      <li><input type="checkbox" id="c2" checked><label for="c2"><span>Pay fixed bills</span></label></li>
+      <li><input type="checkbox" id="c3"><label for="c3"><span>Add this week's spending</span></label></li>
+      <li><input type="checkbox" id="c4"><label for="c4"><span>Decide what to do with the R 3 240,00 left to budget</span></label></li>
+      <li><input type="checkbox" id="c5"><label for="c5"><span>Monthly check-in <span class="sm muted">(opens 28 Sep)</span></span></label></li>
+    </ul>
+  </div>
+</div>
+<div class="grid g-2" style="margin-bottom:var(--ll-space-4)">
+  <div class="card">
+    <div class="between"><div><span class="ll-label">Saving</span><h3>Goals and sinking funds</h3></div><a class="sm" href="goals.html">View</a></div>
+    <div class="cat"><span>Emergency fund</span><span class="ll-numeric sm"><span class="amt">R 6 400,00</span> of <span class="amt">R 20 000,00</span></span><div class="track" role="progressbar" aria-label="Emergency fund" aria-valuenow="32" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:32%"></div></div></div>
+    <div class="cat"><span>School fees <span class="sm muted">· Jan 2027</span></span><span class="ll-numeric sm"><span class="amt">R 4 800,00</span> of <span class="amt">R 7 200,00</span></span><div class="track" role="progressbar" aria-label="School fees" aria-valuenow="67" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:67%"></div></div></div>
+    <div class="cat"><span>December <span class="sm muted">· Dec 2026</span></span><span class="ll-numeric sm"><span class="amt">R 4 000,00</span> of <span class="amt">R 5 000,00</span></span><div class="track" role="progressbar" aria-label="December" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:80%"></div></div></div>
+  </div>
+  <div class="card">
+    <div class="between"><div><span class="ll-label">Debts</span><h3>Debt snapshot</h3></div><a class="sm" href="debts.html">View</a></div>
+    <div class="grid" style="grid-template-columns:1fr 1fr;gap:var(--ll-space-4)">
+      <div><span class="sm muted">Total owed</span><div class="num-md">R 25 650,00</div></div>
+      <div><span class="sm muted">Paid this month</span><div class="num-md">R 2 600,00</div></div>
+    </div>
+    <p style="margin:var(--ll-space-4) 0 0">Next in your snowball order: <strong>Store card</strong>, <span class="amt">R 2 150,00</span> left.</p>
+    <p class="sm muted" style="margin:var(--ll-space-1) 0 0"><span class="badge">Estimate</span> Paid off around Mar 2027 at your current payments.</p>
+  </div>
+</div>
+</main>
+<script src="shell.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ledger Loft Screens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/app.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="shell.css">
+<style>
+  .ob main { max-width: 1120px; }
+  .tile { display: block; text-decoration: none; }
+  .tile:hover { border-color: var(--ll-border-strong); box-shadow: var(--ll-shadow-md); }
+  .tile h3 { margin-bottom: var(--ll-space-2); }
+  .tile p { margin: 0; }
+</style>
+</head>
+<body data-shell="onboarding" data-step="welcome">
+<main>
+  <div class="page-head" style="margin-top:var(--ll-space-5)"><div><span class="ll-label">Design prototypes · L3 · synthetic data</span><h1>Screens</h1></div></div>
+  <p class="lg muted" style="max-width:62ch">Static, clickable prototypes built from The Ledger Loft Co tokens. Every number comes from one made-up household, so totals agree across screens. Resize the window to see the phone, tablet and desktop layouts.</p>
+
+  <section class="section" aria-labelledby="h-ob">
+    <h2 id="h-ob">Onboarding</h2>
+    <div class="grid g-2">
+      <a class="card tile" href="onboarding-welcome.html"><span class="ll-label">Start</span><h3>Welcome</h3><p class="muted sm">What to expect, the no-bank-logins promise, and the disclaimer.</p></a>
+      <a class="card tile" href="onboarding-basics.html"><span class="ll-label">Step 1 of 6</span><h3>Basics</h3><p class="muted sm">Currency, pay frequency, month start and budgeting style.</p></a>
+      <a class="card tile" href="onboarding-income.html"><span class="ll-label">Step 2 of 6</span><h3>Income, with an error</h3><p class="muted sm">Repeating money fields, running total, and the accessible error summary.</p></a>
+      <a class="card tile" href="onboarding-review.html"><span class="ll-label">Step 6 of 6</span><h3>Review</h3><p class="muted sm">Section totals, "how this was calculated", and edit links before saving.</p></a>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="h-app">
+    <h2 id="h-app">App</h2>
+    <div class="grid g-3">
+      <a class="card tile" href="dashboard.html"><span class="ll-label">Home</span><h3>Dashboard</h3><p class="muted sm">Stat cards, category progress, checklist, goals and debt snapshots.</p></a>
+      <a class="card tile" href="budget.html"><span class="ll-label">Budget</span><h3>Monthly budget</h3><p class="muted sm">Grouped categories, planned vs actual, inline edit.</p></a>
+      <a class="card tile" href="transactions.html"><span class="ll-label">Transactions</span><h3>Transactions</h3><p class="muted sm">Date-grouped list, search and filter, add form.</p></a>
+      <a class="card tile" href="goals.html"><span class="ll-label">Saving</span><h3>Goals and sinking funds</h3><p class="muted sm">Progress, on track or short, labelled estimates.</p></a>
+      <a class="card tile" href="debts.html"><span class="ll-label">Debts</span><h3>Debts</h3><p class="muted sm">Snowball and avalanche toggle, estimates, and where to find help.</p></a>
+      <a class="card tile" href="reports.html"><span class="ll-label">Reports</span><h3>Monthly review and export</h3><p class="muted sm">Plan vs actual, reflection, and a planner-style PDF preview.</p></a>
+      <a class="card tile" href="settings.html"><span class="ll-label">Account</span><h3>Settings</h3><p class="muted sm">Budget setup, plan, data export and account deletion.</p></a>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="h-states">
+    <h2 id="h-states">States</h2>
+    <p class="muted">Every data card has these three states as well as the filled one.</p>
+    <div class="grid g-3">
+      <div class="card"><span class="ll-label">Empty</span>
+        <div class="empty" style="padding:var(--ll-space-5) 0"><span data-icon="goals" data-size="40"></span><h3>No goals yet</h3><p class="sm muted">Add something you're saving towards, big or small.</p><button class="btn btn-primary btn-sm" type="button">+ Add a goal</button></div></div>
+      <div class="card" aria-busy="true"><span class="ll-label">Loading</span><h3 class="visually-hidden">Loading categories</h3>
+        <div class="skel" style="width:40%;margin-top:var(--ll-space-4)"></div><div class="skel" style="height:34px;width:70%"></div>
+        <div class="skel"></div><div class="skel" style="width:85%"></div><div class="skel" style="width:60%"></div></div>
+      <div class="card"><span class="ll-label">Error</span>
+        <div class="empty" style="padding:var(--ll-space-5) 0"><span data-icon="alert" data-size="40" style="color:var(--ll-negative)"></span><h3>We couldn't load your categories</h3><p class="sm muted">Your data is safe. Check your connection and try again.</p><button class="btn btn-secondary btn-sm" type="button">Try again</button></div></div>
+    </div>
+  </section>
+</main>
+<script src="shell.js"></script>
+</body>
+</html>

@@ -76,6 +76,10 @@ const pairs = [
   ["light text-primary on bg-raised", L.textPrimary, L.bgRaised, 4.5, true],
   ["light text-secondary on bg", L.textSecondary, L.bg, 4.5, true],
   ["light text-secondary on bg-sunken", L.textSecondary, L.bgSunken, 4.5, true],
+  ["light label (sageText, 11px) on bg", L.label, L.bg, 4.5, true],
+  ["light label (sageText, 11px) on bg-raised", L.label, L.bgRaised, 4.5, true],
+  ["goldText on cream", colors.goldText, colors.cream, 4.5, true],
+  ["warningText on warningBg", colors.warningText, colors.warningBg, 4.5, true],
   ["success on cream", colors.success, colors.cream, 4.5, true],
   ["success on successBg", colors.success, colors.successBg, 4.5, true],
   ["danger on cream", colors.danger, colors.cream, 4.5, true],
@@ -105,7 +109,6 @@ const pairs = [
   ["app dark positive on bg-raised", AD("positive"), D.bgRaised, 4.5, true],
   ["app dark negative on bg-raised", AD("negative"), D.bgRaised, 4.5, true],
   // Restricted: allowed only where the design system says so (large text, icons, decoration)
-  ["light label (sageDeep) on bg — 11px label", L.label, L.bg, 4.5, false],
   ["light accent-text (goldDeep) on bg", L.accentText, L.bg, 4.5, false],
   ["warning on cream", colors.warning, colors.cream, 4.5, false],
   ["warning on warningBg", colors.warning, colors.warningBg, 4.5, false],

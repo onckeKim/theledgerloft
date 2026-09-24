@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Review · The Ledger Loft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/app.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body data-shell="onboarding">
+<main>
+<div class="ob-progress">
+  <div class="between"><span class="ll-label">Step 6 of 6 · Review</span><span class="sm muted">About 1 min left</span></div>
+  <div class="track" role="progressbar" aria-label="Setup progress" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><div class="fill navy" style="width:100%"></div></div>
+</div>
+<h1 style="margin-bottom:var(--ll-space-2)">Review your plan</h1>
+<p class="lg muted">Here's your first month. Nothing is final: you can change anything from your dashboard.</p>
+<div class="card current" style="margin-bottom:var(--ll-space-5)">
+  <span class="ll-label">Left to budget</span>
+  <div class="num-lg">R 3 240,00</div>
+  <details><summary>How this was calculated</summary>
+    <div class="working"><dl>
+      <dt>Income</dt><dd>R 21 740,00</dd>
+      <dt>Planned spending, debts and saving</dt><dd>−R 18 500,00</dd>
+      <dt class="total">Left to budget</dt><dd class="total">R 3 240,00</dd>
+    </dl></div></details>
+  <p class="sm muted" style="margin:var(--ll-space-3) 0 0">With a flexible budget it's fine to leave this unassigned. You can give it a job later.</p>
+</div>
+<div class="table-wrap">
+<table class="table-stack">
+  <thead><tr><th class="ll-label" scope="col">Section</th><th class="ll-label r" scope="col">Per month</th><th scope="col"><span class="visually-hidden">Edit</span></th></tr></thead>
+  <tbody>
+    <tr><td>Income (2)</td><td class="r" data-label="Per month">R 21 740,00</td><td class="r" data-label=""><a href="onboarding-income.html">Edit</a></td></tr>
+    <tr><td>Fixed bills (4)</td><td class="r" data-label="Per month">R 8 350,00</td><td class="r" data-label=""><a href="#">Edit</a></td></tr>
+    <tr><td>Everyday spending (3)</td><td class="r" data-label="Per month">R 5 400,00</td><td class="r" data-label=""><a href="#">Edit</a></td></tr>
+    <tr><td>Debt payments (3 debts)</td><td class="r" data-label="Per month">R 2 600,00</td><td class="r" data-label=""><a href="#">Edit</a></td></tr>
+    <tr><td>Sinking funds (3)</td><td class="r" data-label="Per month">R 1 350,00</td><td class="r" data-label=""><a href="#">Edit</a></td></tr>
+    <tr><td>Savings goals (2)</td><td class="r" data-label="Per month">R 800,00</td><td class="r" data-label=""><a href="#">Edit</a></td></tr>
+  </tbody>
+  <tfoot><tr><td>Total planned</td><td class="r" data-label="Per month">R 18 500,00</td><td></td></tr></tfoot>
+</table>
+</div>
+<p class="sm muted" style="margin-top:var(--ll-space-4)">By finishing, your plan is saved to your account. The Ledger Loft is a planning tool and doesn't give financial advice.</p>
+<div class="ob-actions">
+  <a class="btn btn-secondary" href="onboarding-income.html">Back</a>
+  
+  <a class="btn btn-primary" href="dashboard.html">Finish and go to my dashboard</a>
+</div>
+</main>
+<script src="shell.js"></script>
+</body>
+</html>

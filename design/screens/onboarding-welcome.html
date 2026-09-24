@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome · The Ledger Loft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/app.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body data-shell="onboarding" data-step="welcome">
+<main>
+<div style="padding-top:var(--ll-space-6)">
+  <span class="ll-label">Welcome</span>
+  <h1 class="ll-display" style="font-size:var(--ll-text-display-size);line-height:var(--ll-text-display-lh);margin:var(--ll-space-2) 0 var(--ll-space-4)">Let's set up your planner</h1>
+  <p class="lg muted">We'll walk through your income, bills, debts and goals, one step at a time. It takes about 10 minutes, and you can stop and come back whenever you like.</p>
+  <ul class="checklist" style="margin:var(--ll-space-5) 0">
+    <li><span data-icon="budget" data-size="20"></span><span>Your monthly plan, with the maths done for you</span></li>
+    <li><span data-icon="goals" data-size="20"></span><span>Goals and sinking funds for the costs you know are coming</span></li>
+    <li><span data-icon="debts" data-size="20"></span><span>A clear list of debts, with estimates you can explore</span></li>
+  </ul>
+  <div class="alert a-info"><span data-icon="lock" data-size="20"></span><p><strong>No bank logins, ever.</strong> You type in only what you choose to. You can export or delete your data at any time.</p></div>
+  <div class="ob-actions">
+    <span class="sm muted">Estimates only. This isn't financial advice.</span>
+    <a class="btn btn-primary" href="onboarding-basics.html">Start setup</a>
+  </div>
+</div>
+</main>
+<script src="shell.js"></script>
+</body>
+</html>

@@ -2,12 +2,12 @@
  * The Ledger Loft app layer: loads AFTER tokens.css.
  * The brand files (tokens.json / tokens.css / platforms/*) are copied unchanged from The Ledger Loft Co store.
  * This file only adds app-specific semantic tokens, mainly to meet WCAG 2.2 AA for small text and form controls.
- * Status: PROPOSED (decision D-010). Values checked by scripts/check-tokens.mjs.
+ * Status: ACCEPTED (decision D-010). The darker text tones now live in tokens.json; values checked by scripts/check-tokens.mjs.
  */
 :root {
-  --ll-label-text: #567062;        /* sageDeep darkened: small uppercase labels on cream, 4.92:1 */
-  --ll-accent-text-sm: #816631;    /* goldDeep darkened: gold-toned text below 24px, 4.93:1 */
-  --ll-warning-text: #8E6113;      /* warning darkened: warning text at body size, 4.94:1 */
+  --ll-label-text: #567062;        /* = color.sageText: small uppercase labels on cream, 4.92:1 */
+  --ll-accent-text-sm: #816631;    /* = color.goldText: gold-toned text below 24px, 4.93:1 */
+  --ll-warning-text: #8E6113;      /* = color.warningText: warning text at body size, 4.94:1 */
   --ll-control-border: #5C6A78;    /* inkMuted: input/checkbox borders need 3:1 (WCAG 1.4.11) */
   --ll-focus: #1E2A38;             /* navy focus ring; gold fails 3:1 on cream */
   --ll-positive: #2F6B4C;          /* success */
@@ -33,5 +33,4 @@
     --ll-negative: #E59A8C;
   }
 }
-.ll-label { color: var(--ll-label-text); }
 :focus-visible { outline: 2px solid var(--ll-focus); outline-offset: 2px; }

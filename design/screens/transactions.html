@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transactions · The Ledger Loft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/app.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body data-page="transactions">
+<main>
+<style>
+  .txlist { list-style: none; margin: 0; padding: 0; }
+  .tx { display: flex; justify-content: space-between; align-items: center; gap: var(--ll-space-3); padding: var(--ll-space-3) 0; border-bottom: 1px solid var(--ll-border); }
+  .tx-layout { display: grid; gap: var(--ll-space-5); }
+  @media (min-width: 1024px) { .tx-layout { grid-template-columns: 1fr 360px; align-items: start; } .tx-layout aside { position: sticky; top: var(--ll-space-6); } }
+</style><div class="page-head">
+  <div><span class="ll-label">Transactions</span><h1>What happened this month</h1></div>
+  <div class="row"><div class="month-switch"><a class="icon-btn" href="#" aria-label="Previous month">‹</a><span>Sep 2026</span><a class="icon-btn" href="#" aria-label="Next month">›</a></div></div>
+</div>
+<div class="tx-layout">
+  <section class="card" aria-labelledby="list-h">
+    <h2 id="list-h" class="visually-hidden">Transaction list</h2>
+    <div class="row" style="margin-bottom:var(--ll-space-2)">
+      <div style="flex:1;min-width:200px"><label class="visually-hidden" for="q">Search transactions</label><input class="input" id="q" type="search" placeholder="Search"></div>
+      <label class="visually-hidden" for="f">Category</label><select class="select" id="f" style="width:auto"><option>All categories</option><option>Groceries</option></select>
+    </div>
+    <h3 class="ll-label" style="margin:var(--ll-space-5) 0 0">23 Sep</h3><ul class="txlist"><li class="tx"><div><strong>Weekly groceries</strong><div class="sm muted">Groceries</div></div><span class="amt ">−R 642,15</span></li><li class="tx"><div><strong>Fuel</strong><div class="sm muted">Transport</div></div><span class="amt ">−R 480,00</span></li></ul><h3 class="ll-label" style="margin:var(--ll-space-5) 0 0">21 Sep</h3><ul class="txlist"><li class="tx"><div><strong>Baking orders</strong><div class="sm muted">Income · Side income</div></div><span class="amt pos">+R 1 120,00</span></li><li class="tx"><div><strong>Coffee with friends</strong><div class="sm muted">Personal &amp; fun</div></div><span class="amt ">−R 96,00</span></li></ul><h3 class="ll-label" style="margin:var(--ll-space-5) 0 0">18 Sep</h3><ul class="txlist"><li class="tx"><div><strong>Top-up groceries</strong><div class="sm muted">Groceries</div></div><span class="amt ">−R 318,40</span></li><li class="tx"><div><strong>Prepaid electricity</strong><div class="sm muted">Electricity &amp; water</div></div><span class="amt ">−R 600,00</span></li></ul><h3 class="ll-label" style="margin:var(--ll-space-5) 0 0">15 Sep</h3><ul class="txlist"><li class="tx"><div><strong>Credit card payment</strong><div class="sm muted">Debt payments</div></div><span class="amt ">−R 1 200,00</span></li><li class="tx"><div><strong>Cinema</strong><div class="sm muted">Personal &amp; fun</div></div><span class="amt ">−R 180,00</span></li></ul>
+    <p class="sm muted" style="margin:var(--ll-space-4) 0 0">Showing 8 of 31 transactions. <a href="#">Show more</a></p>
+  </section>
+  <aside class="card" aria-labelledby="add-h">
+    <span class="ll-label">Add</span><h3 id="add-h">New transaction</h3>
+    <form>
+      <div class="field"><span class="field-label" id="type-l">Type</span>
+        <div class="seg" role="group" aria-labelledby="type-l"><button type="button" aria-pressed="true">Spending</button><button type="button" aria-pressed="false">Income</button><button type="button" aria-pressed="false">Transfer</button></div></div>
+      <div class="field"><label for="amt">Amount</label><div class="input-money"><input class="input" id="amt" inputmode="decimal" placeholder="0,00"></div></div>
+      <div class="field"><label for="desc">Description</label><input class="input" id="desc" placeholder="e.g. Weekly groceries"></div>
+      <div class="field"><label for="cat">Category</label><select class="select" id="cat"><option>Groceries</option><option>Transport</option><option>Personal &amp; fun</option></select></div>
+      <div class="field"><label for="dt">Date</label><input class="input" id="dt" type="date" value="2026-09-24"></div>
+      <button class="btn btn-primary btn-block" type="button">Save transaction</button>
+    </form>
+    <p class="sm muted" style="margin:var(--ll-space-3) 0 0">On phones this opens as a full-screen sheet from the + button.</p>
+  </aside>
+</div>
+</main>
+<script src="shell.js"></script>
+</body>
+</html>
