@@ -29,23 +29,23 @@ begin
 
   delete from auth.users where id = a;
   select count(*) into n from public.households where id = ha;
-  if n = 0 then passed := passed + 1; else failures := failures || 'sole household kept'; end if;
+  if n = 0 then passed := passed + 1; else failures := failures || text 'sole household kept'; end if;
   select count(*) into n from public.categories where household_id = ha;
-  if n = 0 then passed := passed + 1; else failures := failures || 'household data kept'; end if;
+  if n = 0 then passed := passed + 1; else failures := failures || text 'household data kept'; end if;
   select count(*) into n from public.transactions_manual where household_id = ha;
-  if n = 0 then passed := passed + 1; else failures := failures || 'linked transactions kept'; end if;
+  if n = 0 then passed := passed + 1; else failures := failures || text 'linked transactions kept'; end if;
   select count(*) into n from public.categories where household_id = hb;
-  if n = 1 then passed := passed + 1; else failures := failures || 'other household touched'; end if;
+  if n = 1 then passed := passed + 1; else failures := failures || text 'other household touched'; end if;
 
   delete from auth.users where id = b;
   select count(*) into n from public.households where id = hb;
-  if n = 1 then passed := passed + 1; else failures := failures || 'shared household deleted'; end if;
+  if n = 1 then passed := passed + 1; else failures := failures || text 'shared household deleted'; end if;
   select count(*) into n from public.household_members where household_id = hb and user_id = c;
-  if n = 1 then passed := passed + 1; else failures := failures || 'remaining member lost access'; end if;
+  if n = 1 then passed := passed + 1; else failures := failures || text 'remaining member lost access'; end if;
 
   delete from auth.users where id = c;
   select count(*) into n from public.households where id = hb;
-  if n = 0 then passed := passed + 1; else failures := failures || 'last member household kept'; end if;
+  if n = 0 then passed := passed + 1; else failures := failures || text 'last member household kept'; end if;
 
   raise exception 'ACCOUNT_DELETION_TESTS passed=% failed=% %', passed, coalesce(array_length(failures, 1), 0),
     case when array_length(failures, 1) > 0 then E'\n - ' || array_to_string(failures, E'\n - ') else '' end;

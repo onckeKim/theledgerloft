@@ -17,14 +17,14 @@ begin
 
   -- period_range (L4 §3)
   select * into rng from public.period_range('2026-09', 25::smallint);
-  if (rng.starts_on, rng.ends_on) = ('2026-08-25'::date, '2026-09-24'::date) then passed := passed + 1; else failures := failures || 'range 25'; end if;
+  if (rng.starts_on, rng.ends_on) = ('2026-08-25'::date, '2026-09-24'::date) then passed := passed + 1; else failures := failures || text 'range 25'; end if;
   select * into rng from public.period_range('2028-02', 1::smallint);
-  if (rng.starts_on, rng.ends_on) = ('2028-02-01'::date, '2028-02-29'::date) then passed := passed + 1; else failures := failures || 'range leap'; end if;
+  if (rng.starts_on, rng.ends_on) = ('2028-02-01'::date, '2028-02-29'::date) then passed := passed + 1; else failures := failures || text 'range leap'; end if;
   select * into rng from public.period_range('2026-03', 28::smallint);
-  if (rng.starts_on, rng.ends_on) = ('2026-02-28'::date, '2026-03-27'::date) then passed := passed + 1; else failures := failures || 'range 28'; end if;
+  if (rng.starts_on, rng.ends_on) = ('2026-02-28'::date, '2026-03-27'::date) then passed := passed + 1; else failures := failures || text 'range 28'; end if;
   begin
     perform public.period_range('2026-13', 1::smallint);
-    failures := failures || 'range accepted month 13';
+    failures := failures || text 'range accepted month 13';
   exception when invalid_parameter_value then passed := passed + 1;
   end;
 
@@ -33,14 +33,14 @@ begin
 
   sep := public.ensure_budget('2026-09');
   again := public.ensure_budget('2026-09');
-  if sep = again then passed := passed + 1; else failures := failures || 'ensure_budget not idempotent'; end if;
+  if sep = again then passed := passed + 1; else failures := failures || text 'ensure_budget not idempotent'; end if;
 
   groceries := public.add_category(sep, 'Groceries', 'everyday', 340000);
   transport := public.add_category(sep, 'Transport', 'everyday', 140000);
   gifts := public.add_category(sep, 'Gifts', 'everyday', 0);
   begin
     perform public.add_category(sep, 'groceries', 'fixed', 1);
-    failures := failures || 'duplicate category accepted';
+    failures := failures || text 'duplicate category accepted';
   exception when unique_violation then passed := passed + 1;
   end;
 
@@ -51,7 +51,7 @@ begin
   if total = 480000 and n = 165000 then passed := passed + 1; else failures := failures || format('move: total %s transport %s', total, n); end if;
   begin
     perform public.move_budget_money(sep, groceries, transport, 99999999);
-    failures := failures || 'moved more than planned';
+    failures := failures || text 'moved more than planned';
   exception when invalid_parameter_value then passed := passed + 1;
   end;
 
@@ -72,20 +72,20 @@ begin
   perform set_config('request.jwt.claims', json_build_object('sub', b, 'role', 'authenticated')::text, true);
   execute 'set local role authenticated';
   bid_b := public.ensure_budget('2026-09');
-  if bid_b <> sep then passed := passed + 1; else failures := failures || 'B got A budget'; end if;
+  if bid_b <> sep then passed := passed + 1; else failures := failures || text 'B got A budget'; end if;
   begin
     perform public.move_budget_money(sep, groceries, transport, 1);
-    failures := failures || 'B moved money in A budget';
+    failures := failures || text 'B moved money in A budget';
   exception when invalid_parameter_value then passed := passed + 1;
   end;
   begin
     perform public.remove_category(groceries);
-    failures := failures || 'B removed A category';
+    failures := failures || text 'B removed A category';
   exception when invalid_parameter_value then passed := passed + 1;
   end;
   begin
     perform public.add_category(sep, 'Planted', 'everyday', 1);
-    failures := failures || 'B added a category to A budget';
+    failures := failures || text 'B added a category to A budget';
   exception when foreign_key_violation or insufficient_privilege then passed := passed + 1;
   end;
 

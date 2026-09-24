@@ -54,10 +54,11 @@ src/components/ui/     design-system components (tokens only)
 src/components/shell/  app navigation: side nav, icon rail, phone tab bar
 src/lib/               env validation, money (cents), auth data access layer, Supabase clients and types
 src/proxy.ts           per-request CSP nonce, session refresh, early redirects
-supabase/              migrations, rollbacks, RLS isolation tests, synthetic seed (see supabase/README.md)
+supabase/              migrations, rollbacks, restore fixes, RLS isolation tests, synthetic seed (see supabase/README.md)
 design/                brand tokens (source of truth), style guide, screen prototypes
 docs/                  plan, PRD, calculation spec, security, privacy, decisions
-scripts/               token check, calculation reference and vector verifier
+scripts/               token check, calculation reference and vector verifier, staging smoke test,
+                       database backup, restore and privilege snapshot (docs/release/operations.md)
 e2e/                   Playwright tests
 ```
 

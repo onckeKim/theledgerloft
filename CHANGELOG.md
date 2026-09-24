@@ -5,6 +5,9 @@ All notable changes to this project are documented here. Format based on [Keep a
 ## [Unreleased]
 
 ### Added
+- Operations runbook (`docs/release/operations.md`, release review B6 and B7): backup and restore procedure with a recommendation (Pro plan before real users plus a weekly off-site copy), log lines and alerts to watch, daily and weekly checks as read-only SQL, support set-up, an incident path (payments not confirming, sign-in and email, wrong data, suspected data exposure) and status message templates.
+- `scripts/db-backup.sh` (Supabase CLI dump of roles, schema, data and migration history, with checksums), `scripts/db-restore.sh` (new, empty project only; re-applies `supabase/restore/before_schema.sql` and `after_schema.sql`) and `scripts/db-acl-snapshot.sql` (privileges, policies, RLS and triggers, to diff old against new). Rehearsed end to end on the local stack: identical row counts and privileges, all 184 SQL checks pass on the restored copy.
+- `src/lib/restore.test.ts`: fails if a migration adds an `auth` or `storage` trigger that the restore doesn't re-create.
 - Staging deployment kit (release review B1): `docs/release/staging-deploy.md` (Vercel project, environment variables, Supabase auth URLs and email, sandbox payments, a by-hand walkthrough), `vercel.json` (functions in London next to the database), `scripts/smoke-staging.mjs` (read-only checks of headers, public pages, signed-out refusals, forged payment notifications and Supabase email confirmation) and a manually run "Staging smoke test" workflow.
 - Settings (PRD US-41, US-42, US-44, US-45): a Settings hub; **Budget setup** (pay frequency, style, and month start day, which applies from next month with a one-off transition month and a confirmation giving the exact dates); **Profile** (name, email change with confirmation link, password change that checks the current password, appearance light/dark/device remembered per device); **Delete my account** under Your data (two steps: explains and offers the download, then type DELETE and the password; deletes the sign-in and all household data, keeps a data-free audit event, signs out to `/account-deleted`).
 - Database functions `change_budget_setup` and `delete_my_account`; budget months now follow existing budgets (`private.period_of`) and new months never overlap (L4 §3.1); `supabase/tests/settings_flow.sql` (16 checks); unit tests for settings validation; end-to-end settings test; the responsive sweep covers the new pages.
@@ -61,3 +64,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 - Ledger Loft Co store design tokens in `design/tokens/` (JSON, CSS, Kotlin, Swift), app accessibility layer `app.css`, token check script `scripts/check-tokens.mjs`, style guide `design/preview.html`, and L3 design system spec `docs/l3/design-system.md`.
 - L1 positioning pack in `docs/l1/`: positioning, safety boundary and disclaimer, customer interview guide, landing page concept, founding pilot offer.
 - Project operating plan (`docs/operating-plan.md`), decision log, changelog and `.env.example` placeholder.
+
+### Fixed
+- The SQL test files crashed ("malformed array literal") instead of reporting a failed check; failure messages are now typed text, so a failing check prints its name.
+- `.gitignore` excludes `backups/`, which hold personal data.

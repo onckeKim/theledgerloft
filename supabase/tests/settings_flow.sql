@@ -30,7 +30,7 @@ begin
   -- Not before setup is finished
   begin
     perform public.change_budget_setup('monthly', 25::smallint, 'flexible');
-    failures := failures || 'changed before setup';
+    failures := failures || text 'changed before setup';
   exception when invalid_parameter_value then passed := passed + 1;
   end;
   execute 'reset role';
@@ -50,7 +50,7 @@ begin
   -- Style and pay frequency change on their own
   select * into r from public.change_budget_setup('weekly', 1::smallint, 'zero_based');
   if not r.start_day_changed and (select pay_frequency || '/' || budget_style from public.households where id = ha) = 'weekly/zero_based'
-  then passed := passed + 1; else failures := failures || 'style/frequency'; end if;
+  then passed := passed + 1; else failures := failures || text 'style/frequency'; end if;
 
   -- Start day 1 -> 25 applies from next month: this month keeps its dates, next month is the transition
   select * into r from public.change_budget_setup('weekly', 25::smallint, 'zero_based');
@@ -64,11 +64,11 @@ begin
   -- Transactions follow: the 10th stays in the transition month, the 26th moves to the month after
   if (select period from public.transactions_manual where id = t_early) = nxt
      and (select period from public.transactions_manual where id = t_late) = nxt2
-  then passed := passed + 1; else failures := failures || 'transactions not moved'; end if;
+  then passed := passed + 1; else failures := failures || text 'transactions not moved'; end if;
   -- A new transaction in this month still belongs to this month
   insert into public.transactions_manual (household_id, kind, amount_cents, occurred_on, category_id)
   values (ha, 'outflow', 100, cur_b.ends_on, cat);
-  if (select period from public.transactions_manual where occurred_on = cur_b.ends_on and household_id = ha) = cur then passed := passed + 1; else failures := failures || 'current month date'; end if;
+  if (select period from public.transactions_manual where occurred_on = cur_b.ends_on and household_id = ha) = cur then passed := passed + 1; else failures := failures || text 'current month date'; end if;
   -- The month after the transition follows the new day, back to back
   perform public.ensure_budget(nxt2);
   select * into nxt2_b from public.budgets where period = nxt2;
@@ -80,48 +80,48 @@ begin
   select * into nxt_b from public.budgets where period = nxt;
   if r.transition_period = nxt and nxt_b.starts_on = cur_b.ends_on + 1
      and nxt_b.ends_on = (to_date(nxt || '-01', 'YYYY-MM-DD') + interval '1 month')::date - 1
-  then passed := passed + 1; else failures := failures || 'change back'; end if;
+  then passed := passed + 1; else failures := failures || text 'change back'; end if;
   select count(*) into n from public.budgets x join public.budgets y
     on x.household_id = y.household_id and x.id < y.id and x.starts_on <= y.ends_on and y.starts_on <= x.ends_on
   where x.household_id = ha;
-  if n = 0 then passed := passed + 1; else failures := failures || 'overlapping months'; end if;
+  if n = 0 then passed := passed + 1; else failures := failures || text 'overlapping months'; end if;
   select count(*) into n from (
     select starts_on, lag(ends_on) over (order by starts_on) as prev_end from public.budgets where household_id = ha
   ) s where prev_end is not null and starts_on <> prev_end + 1;
-  if n = 0 then passed := passed + 1; else failures := failures || 'gaps between months'; end if;
+  if n = 0 then passed := passed + 1; else failures := failures || text 'gaps between months'; end if;
 
   -- Bad values
   begin
     perform public.change_budget_setup('monthly', 29::smallint, 'flexible');
-    failures := failures || 'start day 29';
+    failures := failures || text 'start day 29';
   exception when invalid_parameter_value then passed := passed + 1;
   end;
   begin
     perform public.change_budget_setup('daily', 1::smallint, 'flexible');
-    failures := failures || 'pay frequency';
+    failures := failures || text 'pay frequency';
   exception when invalid_parameter_value then passed := passed + 1;
   end;
 
   -- Deleting an account: needs DELETE, removes the user and their household, keeps a data-free audit event
   begin
     perform public.delete_my_account('delete');
-    failures := failures || 'deleted without DELETE';
+    failures := failures || text 'deleted without DELETE';
   exception when invalid_parameter_value then passed := passed + 1;
   end;
   perform public.delete_my_account('DELETE');
   execute 'reset role';
   if not exists (select 1 from auth.users where id = a) and not exists (select 1 from public.households where id = ha)
      and not exists (select 1 from public.transactions_manual where household_id = ha)
-  then passed := passed + 1; else failures := failures || 'account not deleted'; end if;
+  then passed := passed + 1; else failures := failures || text 'account not deleted'; end if;
   if exists (select 1 from public.audit_events where action = 'account.deleted' and entity_id = a and household_id is null and actor_id is null)
-  then passed := passed + 1; else failures := failures || 'no deletion audit'; end if;
-  if exists (select 1 from auth.users where id = b) and exists (select 1 from public.households where id = hb) then passed := passed + 1; else failures := failures || 'other account touched'; end if;
+  then passed := passed + 1; else failures := failures || text 'no deletion audit'; end if;
+  if exists (select 1 from auth.users where id = b) and exists (select 1 from public.households where id = hb) then passed := passed + 1; else failures := failures || text 'other account touched'; end if;
 
   -- Signed out can't call it
   execute 'set local role anon';
   begin
     perform public.delete_my_account('DELETE');
-    failures := failures || 'anon delete';
+    failures := failures || text 'anon delete';
   exception when insufficient_privilege then passed := passed + 1;
   end;
   execute 'reset role';
