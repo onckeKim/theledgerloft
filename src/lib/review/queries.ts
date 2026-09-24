@@ -1,11 +1,6 @@
+import { currentPeriod } from "@/lib/budget/current";
 import "server-only";
-import {
-  addMonths,
-  monthsBetween,
-  periodFor,
-  periodRange,
-  todayInJohannesburg,
-} from "@/lib/calc/period";
+import { addMonths, monthsBetween, periodRange, todayInJohannesburg } from "@/lib/calc/period";
 import { isPeriod } from "@/lib/budget/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { buildReview, checkinOpensOn } from "./review";
@@ -24,7 +19,7 @@ export async function loadReview(period: string) {
     .single();
   if (error || !household) throw new Error("Could not load your household");
   const today = todayInJohannesburg();
-  const current = periodFor(today, household.month_start_day).label;
+  const current = await currentPeriod(household.month_start_day);
   const { start, end } = periodRange(period, household.month_start_day);
   const opensOn = checkinOpensOn(end);
 
@@ -128,7 +123,7 @@ export async function listReviews() {
     supabase.from("monthly_checkins").select("period, completed_at"),
   ]);
   const today = todayInJohannesburg();
-  const current = periodFor(today, household?.month_start_day ?? 1).label;
+  const current = await currentPeriod(household?.month_start_day ?? 1);
   const done = new Map((checkins ?? []).map((c) => [c.period, c.completed_at]));
   return (budgets ?? [])
     .filter((b) => monthsBetween(b.period, current) >= 0)

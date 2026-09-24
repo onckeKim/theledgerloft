@@ -63,6 +63,26 @@ Division by zero never happens: every formula that divides has a guard (listed w
 
 "Month k from now" means `currentPeriod + k` periods (Sep 2026 + 17 = Feb 2028).
 
+### 3.1 Changing the start day (D-041)
+
+Once a month has a budget, its dates are fixed. A date covered by a budget belongs to that budget's period, whatever
+the start day is now. Dates no budget covers use the rule above with the current start day.
+
+When the start day changes from S to S′:
+1. **This month** (the budget covering today) keeps its dates.
+2. **Next month is a one-off transition month.** It starts the day after this month ends and ends where next month
+   ends under S′. It's longer or shorter than usual, between about 3 weeks and about 2 months.
+3. From then on, every month follows S′, back to back, with no gaps or overlaps.
+4. Transactions dated after this month move to the month that now covers them.
+5. Amounts, plans and past months never change.
+
+| Case | This month (S) | Change | Transition month | Next after that |
+|---|---|---|---|---|
+| T1 | Sep: 1–30 Sep (S = 1) | S′ = 25 | Oct: 1–24 Oct | Nov: 25 Oct – 24 Nov |
+| T2 | Sep: 25 Aug – 24 Sep (S = 25) | S′ = 1 | Oct: 25 Sep – 31 Oct | Nov: 1–30 Nov |
+
+Tested in `supabase/tests/settings_flow.sql`. The calculation vectors (§1–§6) are unchanged.
+
 ## 4. Budget calculations
 
 **Inputs for one period:** planned income items, budget lines `{category, planned}`, and the period's transactions

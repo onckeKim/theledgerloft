@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { requireAccess } from "@/lib/auth/dal";
 import { getTransaction, listCategories } from "@/lib/budget/transactions";
-import { periodFor, todayInJohannesburg } from "@/lib/calc/period";
+import { todayInJohannesburg } from "@/lib/calc/period";
 import { centsToInput } from "@/lib/money";
 import { createClient } from "@/lib/supabase/server";
 
@@ -23,7 +23,7 @@ export default async function Page({ params }: PageProps<"/app/transactions/[id]
     listCategories(),
   ]);
   const startDay = household?.month_start_day ?? 1;
-  const back = `/app/transactions?period=${periodFor(tx.occurred_on, startDay).label}`;
+  const back = `/app/transactions?period=${tx.period}`;
   const goalId = tx.goal_contributions[0]?.goal_id;
   const debtId = tx.debt_payments[0]?.debt_id;
 

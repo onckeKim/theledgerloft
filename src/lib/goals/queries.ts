@@ -1,5 +1,6 @@
+import { currentPeriod } from "@/lib/budget/current";
 import "server-only";
-import { periodFor, todayInJohannesburg } from "@/lib/calc/period";
+
 import { isUuid } from "@/lib/budget/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { withProgress } from "./progress";
@@ -7,11 +8,11 @@ import { withProgress } from "./progress";
 const GOAL_COLUMNS = "id, kind, name, target_cents, monthly_cents, starting_cents, due_period";
 export const SYSTEM_KEY = { goal: "savings_goals", sinking_fund: "sinking_funds" } as const;
 
-async function currentPeriod() {
+async function thisMonth() {
   const supabase = await createClient();
   const { data, error } = await supabase.from("households").select("month_start_day").single();
   if (error || !data) throw new Error("Could not load your household");
-  return periodFor(todayInJohannesburg(), data.month_start_day).label;
+  return currentPeriod(data.month_start_day);
 }
 
 /** This month's planned amount for an app-managed category, or null when there's no line (or no budget) yet. */
@@ -35,7 +36,7 @@ async function plannedThisMonth(period: string) {
  */
 export async function loadGoals() {
   const supabase = await createClient();
-  const period = await currentPeriod();
+  const period = await thisMonth();
   const [goals, contributions, planned] = await Promise.all([
     supabase.from("goals").select(GOAL_COLUMNS).is("archived_at", null).order("created_at"),
     supabase.from("goal_contributions").select("goal_id, direction, amount_cents"),
@@ -63,7 +64,7 @@ export async function loadGoals() {
 export async function getGoal(id: string) {
   if (!isUuid(id)) return null;
   const supabase = await createClient();
-  const period = await currentPeriod();
+  const period = await thisMonth();
   const [goal, contributions] = await Promise.all([
     supabase.from("goals").select(GOAL_COLUMNS).eq("id", id).is("archived_at", null).maybeSingle(),
     supabase

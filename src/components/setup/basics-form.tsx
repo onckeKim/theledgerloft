@@ -8,13 +8,13 @@ import { SaveStatusText, StepNav } from "./step-frame";
 import { useStepForm } from "./use-step-form";
 import { useHydrated } from "@/lib/use-hydrated";
 
-const FREQUENCIES = [
+export const FREQUENCIES = [
   { value: "monthly", label: "Monthly", hint: "For example, on the 25th" },
   { value: "every_two_weeks", label: "Every two weeks" },
   { value: "weekly", label: "Weekly" },
   { value: "varies", label: "It varies", hint: "Freelance, commission or seasonal" },
 ];
-const STYLES = [
+export const STYLES = [
   {
     value: "flexible",
     label: "Flexible",
@@ -26,10 +26,10 @@ const STYLES = [
     hint: "Give every rand a job until “left to budget” reaches R 0,00.",
   },
 ];
-const ordinal = (n: number) =>
+export const ordinal = (n: number) =>
   `${n}${n % 10 === 1 && n !== 11 ? "st" : n % 10 === 2 && n !== 12 ? "nd" : n % 10 === 3 && n !== 13 ? "rd" : "th"}`;
 
-function Choices({
+export function Choices({
   name,
   legend,
   help,

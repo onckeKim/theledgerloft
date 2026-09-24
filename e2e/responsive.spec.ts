@@ -37,6 +37,8 @@ test("every main page at every width, light and dark", async ({ page, browserNam
       `/app/review/${period}`,
       "/app/settings",
       "/app/settings/data",
+      "/app/settings/profile",
+      "/app/settings/budget",
     ];
     await signIn(page, user.email);
     await page.waitForURL(/\/app$/);
@@ -61,7 +63,7 @@ test("every main page at every width, light and dark", async ({ page, browserNam
       await page.emulateMedia({ colorScheme: scheme });
       for (const width of WIDTHS) {
         await page.setViewportSize({ width, height: 900 });
-        for (const path of ["/", "/sign-in", "/privacy"]) {
+        for (const path of ["/", "/sign-in", "/privacy", "/account-deleted"]) {
           await page.goto(path);
           await expectAccessible(page);
         }

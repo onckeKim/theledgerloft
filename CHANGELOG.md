@@ -5,6 +5,8 @@ All notable changes to this project are documented here. Format based on [Keep a
 ## [Unreleased]
 
 ### Added
+- Settings (PRD US-41, US-42, US-44, US-45): a Settings hub; **Budget setup** (pay frequency, style, and month start day, which applies from next month with a one-off transition month and a confirmation giving the exact dates); **Profile** (name, email change with confirmation link, password change that checks the current password, appearance light/dark/device remembered per device); **Delete my account** under Your data (two steps: explains and offers the download, then type DELETE and the password; deletes the sign-in and all household data, keeps a data-free audit event, signs out to `/account-deleted`).
+- Database functions `change_budget_setup` and `delete_my_account`; budget months now follow existing budgets (`private.period_of`) and new months never overlap (L4 §3.1); `supabase/tests/settings_flow.sql` (16 checks); unit tests for settings validation; end-to-end settings test; the responsive sweep covers the new pages.
 - Release candidate review (`docs/release/rc-review-2026-09-24.md`): **no-go** with 9 blockers, test evidence, manual path review, risks, env, monitoring and rollback plan.
 - `e2e/responsive.spec.ts` (every main page at 320/390/820/1280 px, light and dark, axe and no horizontal scroll) and `e2e/keyboard.spec.ts` (keyboard-only journey).
 - Rollback files for the two migrations that only had rollback comments; the full rollback chain was exercised locally.

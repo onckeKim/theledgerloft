@@ -1,7 +1,8 @@
+import { currentPeriod } from "@/lib/budget/current";
 import "server-only";
 import { budgetSummary } from "@/lib/calc/budget";
 import { projectDebts, type DebtMethod } from "@/lib/calc/debts";
-import { addMonths, monthsBetween, periodFor, todayInJohannesburg } from "@/lib/calc/period";
+import { addMonths, monthsBetween } from "@/lib/calc/period";
 import { withProgress } from "@/lib/goals/progress";
 import { createClient } from "@/lib/supabase/server";
 import { isPeriod } from "./schemas";
@@ -29,7 +30,7 @@ export async function loadMonth(requested?: string | string[]) {
     .single();
   if (error || !household) throw new Error("Could not load your household");
 
-  const current = periodFor(todayInJohannesburg(), household.month_start_day).label;
+  const current = await currentPeriod(household.month_start_day);
   const period = typeof requested === "string" && isPeriod(requested) ? requested : current;
 
   const { data: first } = await supabase

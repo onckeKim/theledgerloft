@@ -1,3 +1,4 @@
+import { currentPeriod } from "@/lib/budget/current";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ReceiptText, SearchX } from "lucide-react";
@@ -11,7 +12,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { requireAccess } from "@/lib/auth/dal";
 import { isPeriod, isUuid } from "@/lib/budget/schemas";
 import { PAGE_SIZE, listCategories, listTransactions } from "@/lib/budget/transactions";
-import { addMonths, formatPeriod, periodFor, todayInJohannesburg } from "@/lib/calc/period";
+import { addMonths, formatPeriod, todayInJohannesburg } from "@/lib/calc/period";
 import { formatZAR } from "@/lib/money";
 import { createClient } from "@/lib/supabase/server";
 
@@ -33,7 +34,7 @@ export default async function Page({ searchParams }: PageProps<"/app/transaction
   const { data: household } = await supabase.from("households").select("month_start_day").single();
   const startDay = household?.month_start_day ?? 1;
   const today = todayInJohannesburg();
-  const current = periodFor(today, startDay).label;
+  const current = await currentPeriod(startDay);
   const period = isPeriod(one(params.period)) ? one(params.period)! : current;
   const categoryId = isUuid(one(params.category)) ? one(params.category) : undefined;
   const q = (one(params.q) ?? "").slice(0, 60);

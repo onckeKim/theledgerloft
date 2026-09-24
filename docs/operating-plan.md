@@ -103,5 +103,5 @@ remaining blocking questions are listed in §7 of that brief. Original questions
 
 ## 10. Next recommended step
 
-L1, A2, L2, L3, L4, A3, A4 + L5, L6, L7, L7b, L8, L9 (payments, sandbox-ready), L10 (funnel proposal) and the release candidate review (**no-go**, D-040) are done. Next: **clear blockers B1–B9** in `docs/release/rc-review-2026-09-24.md` (deploy staging; account deletion, budget settings and profile; sandbox payment; backups; monitoring and support; legal), **answer the Etsy policy questions** (`docs/l10/etsy-policy-questions.md`), **owner review of the 5 blocking questions in `docs/product-brief.md`**, then **owner-led interviews** using
+L1, A2, L2, L3, L4, A3, A4 + L5, L6, L7, L7b, L8, L9 (payments, sandbox-ready), L10 (funnel proposal) and the release candidate review (**no-go**, D-040) are done. Next: **clear the remaining blockers** in `docs/release/rc-review-2026-09-24.md` (B3 and B4 are done: deletion and settings; still open: deploy staging, sandbox payment, backups, monitoring and support, legal, interviews, CI), **answer the Etsy policy questions** (`docs/l10/etsy-policy-questions.md`), **owner review of the 5 blocking questions in `docs/product-brief.md`**, then **owner-led interviews** using
 `docs/l1/interview-guide.md`. The A2 project docs follow once the questions above are answered.

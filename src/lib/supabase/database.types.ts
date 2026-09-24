@@ -890,6 +890,15 @@ export type Database = {
         Args: { p_budget: string; p_group: string; p_name: string; p_planned: number };
         Returns: string;
       };
+      change_budget_setup: {
+        Args: { p_pay_frequency: string; p_start_day: number; p_style: string };
+        Returns: {
+          start_day_changed: boolean;
+          transition_ends: string | null;
+          transition_period: string | null;
+          transition_starts: string | null;
+        }[];
+      };
       create_debt: {
         Args: {
           p_balance: number;
@@ -925,6 +934,7 @@ export type Database = {
         Args: { p_cents: number; p_debt: string; p_note: string | null; p_on: string };
         Returns: undefined;
       };
+      delete_my_account: { Args: { p_confirm: string }; Returns: undefined };
       ensure_budget: { Args: { p_period: string }; Returns: string };
       goal_move_money: {
         Args: { p_cents: number; p_direction: string; p_goal: string; p_on: string };

@@ -58,11 +58,15 @@ begin
   select period into p from public.transactions_manual where id = tx_a;
   if p = '2026-09' then passed := passed + 1; else failures := failures || format('period trigger: got %s', p); end if;
 
-  -- Month starting on the 25th: the 25th belongs to the next period (L4 vector P2)
+  -- Month starting on the 25th: outside any budget, the 25th belongs to the next period (L4 vector P2);
+  -- inside an existing budget the date stays with that budget (L4 §3.1, D-041)
   update public.households set month_start_day = 25 where id = ha;
   insert into public.transactions_manual (household_id, kind, amount_cents, occurred_on, category_id)
+    values (ha, 'outflow', 1000, '2026-10-25', cat_a) returning period into p;
+  if p = '2026-11' then passed := passed + 1; else failures := failures || format('period with start day 25: got %s', p); end if;
+  insert into public.transactions_manual (household_id, kind, amount_cents, occurred_on, category_id)
     values (ha, 'outflow', 1000, '2026-09-25', cat_a) returning period into p;
-  if p = '2026-10' then passed := passed + 1; else failures := failures || format('period with start day 25: got %s', p); end if;
+  if p = '2026-09' then passed := passed + 1; else failures := failures || format('date inside a budget: got %s', p); end if;
 
   -- A sees only their own household
   select count(*) into n from public.households;

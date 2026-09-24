@@ -1,6 +1,7 @@
+import { currentPeriod } from "@/lib/budget/current";
 import "server-only";
 import { projectDebts, type DebtMethod } from "@/lib/calc/debts";
-import { periodFor, todayInJohannesburg } from "@/lib/calc/period";
+
 import { isUuid } from "@/lib/budget/schemas";
 import { createClient } from "@/lib/supabase/server";
 
@@ -23,7 +24,7 @@ export async function loadDebts(extra = 0) {
   ]);
   if (household.error || !household.data || debts.error)
     throw new Error("Could not load your debts");
-  const period = periodFor(todayInJohannesburg(), household.data.month_start_day).label;
+  const period = await currentPeriod(household.data.month_start_day);
   const method: DebtMethod = household.data.debt_method === "avalanche" ? "avalanche" : "snowball";
   const rows = (debts.data ?? []).map((d) => ({
     id: d.id,

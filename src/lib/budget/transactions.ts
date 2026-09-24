@@ -58,7 +58,7 @@ export async function getTransaction(id: string) {
   const { data } = await supabase
     .from("transactions_manual")
     .select(
-      "id, kind, amount_cents, occurred_on, description, category_id, goal_contributions(goal_id), debt_payments(debt_id)",
+      "id, kind, amount_cents, occurred_on, period, description, category_id, goal_contributions(goal_id), debt_payments(debt_id)",
     )
     .eq("id", id)
     .is("deleted_at", null)

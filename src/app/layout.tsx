@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import { cookies } from "next/headers";
 import { connection } from "next/server";
+import { THEME_COOKIE } from "@/lib/settings/schemas";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -32,8 +34,14 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children }: LayoutProps<"/">) {
   // Render every page per request so Next.js can apply the CSP nonce set in proxy.ts (decision D-019).
   await connection();
+  // Light or dark if chosen in Settings (US-45), otherwise the device's setting (CSS prefers-color-scheme).
+  const theme = (await cookies()).get(THEME_COOKIE)?.value;
   return (
-    <html lang="en-ZA" className={`${playfair.variable} ${inter.variable}`}>
+    <html
+      lang="en-ZA"
+      className={`${playfair.variable} ${inter.variable}`}
+      data-theme={theme === "light" || theme === "dark" ? theme : undefined}
+    >
       <body className="min-h-dvh">
         <a
           href="#main"

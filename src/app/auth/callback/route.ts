@@ -3,7 +3,7 @@ import type { EmailOtpType } from "@supabase/supabase-js";
 import { safeNextPath } from "@/lib/auth/next-path";
 import { createClient } from "@/lib/supabase/server";
 
-const ALLOWED_NEXT = ["/app", "/reset-password"] as const;
+const ALLOWED_NEXT = ["/app", "/reset-password", "/app/settings/profile"] as const;
 const OTP_TYPES: EmailOtpType[] = [
   "signup",
   "email",
