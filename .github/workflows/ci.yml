@@ -76,7 +76,7 @@ jobs:
           retention-days: 7
 
   browsers:
-    # Safari (WebKit, iPhone 14) and Firefox (release review R7): every end-to-end flow against the local stack.
+    # Safari (WebKit, desktop) and Firefox (release review R7): every end-to-end flow against the local stack.
     # Chromium runs in the jobs above.
     runs-on: ubuntu-latest
     timeout-minutes: 40
@@ -99,7 +99,7 @@ jobs:
           echo "E2E_SUPABASE_PUBLISHABLE_KEY=$(grep '^PUBLISHABLE_KEY=' .supabase-status | cut -d= -f2- | tr -d '"')" >> "$GITHUB_ENV"
           echo "E2E_SUPABASE_SERVICE_KEY=$(grep '^SERVICE_ROLE_KEY=' .supabase-status | cut -d= -f2- | tr -d '"')" >> "$GITHUB_ENV"
       - run: npx playwright install --with-deps webkit firefox
-      - run: npx playwright test --project=iphone --project=firefox
+      - run: npx playwright test --project=webkit --project=firefox
         env:
           NEXT_PUBLIC_SITE_URL: http://localhost:3100
           # The browsers' own output (for example why a WebKit page process crashed) goes to the job log

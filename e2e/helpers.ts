@@ -218,6 +218,8 @@ export async function expectAccessible(page: Page) {
   // After a client-side navigation the URL changes before the new page's styles have loaded.
   await page.waitForLoadState("networkidle");
   await page.evaluate(() => document.fonts.ready);
+  // Next.js streams the <title> after the body, so it can land just after the content.
+  await expect(page).toHaveTitle(/\S/);
   const { violations } = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
     .analyze();
