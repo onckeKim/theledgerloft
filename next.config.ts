@@ -13,6 +13,10 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   typedRoutes: true,
+  // The export route reads the PDF fonts from disk (src/lib/export/pdf.ts).
+  outputFileTracingIncludes: {
+    "/api/exports/*": ["./src/lib/export/fonts/**/*"],
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

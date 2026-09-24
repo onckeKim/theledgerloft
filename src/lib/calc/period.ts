@@ -36,6 +36,20 @@ export function periodFor(
   };
 }
 
+/** First and last day of a labelled period (L4 §3: the label is the month the period ends in). */
+export function periodRange(label: string, startDay: number): { start: string; end: string } {
+  const start = startDay === 1 ? `${label}-01` : `${addMonths(label, -1)}-${pad(startDay)}`;
+  const r = periodFor(start, startDay);
+  return { start: r.start, end: r.end };
+}
+
+/** Add days to a YYYY-MM-DD date. */
+export function addDays(date: string, days: number): string {
+  const d = new Date(`${date}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
 /** Today's date in South Africa (L4 §1 time zone), as YYYY-MM-DD. */
 export function todayInJohannesburg(now: Date = new Date()): string {
   return new Intl.DateTimeFormat("en-CA", { timeZone: "Africa/Johannesburg" }).format(now);

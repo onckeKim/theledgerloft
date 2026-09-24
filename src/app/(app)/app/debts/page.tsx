@@ -141,7 +141,12 @@ export default async function Page({ searchParams }: PageProps<"/app/debts">) {
           </div>
           <p className="text-fg-muted">{METHOD_TEXT[d.method]}</p>
 
-          <div className="-mx-6 overflow-x-auto px-6">
+          <div
+            className="-mx-6 overflow-x-auto px-6"
+            role="region"
+            aria-label="Payoff order table"
+            tabIndex={0}
+          >
             <table className="w-full border-collapse text-left tabular-nums">
               <caption className="sr-only">
                 Debts in {d.method} order with estimated payoff months

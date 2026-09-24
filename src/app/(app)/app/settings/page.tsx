@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { signOut } from "@/app/(auth)/actions";
 import { Button } from "@/components/ui/button";
 import { Card, Eyebrow } from "@/components/ui/card";
@@ -7,7 +8,7 @@ import { verifySession } from "@/lib/auth/dal";
 
 export const metadata: Metadata = { title: "Settings" };
 
-// Budget setup, data export and deletion arrive with their slices (PRD US-41…US-44).
+// Budget setup, profile changes and account deletion arrive with their slices (PRD US-41, US-42, US-44).
 export default async function Page() {
   const session = await verifySession("/app/settings");
   return (
@@ -24,6 +25,14 @@ export default async function Page() {
             Sign out
           </Button>
         </form>
+      </Card>
+      <Card className="mt-4 max-w-[720px]">
+        <Eyebrow>Your data</Eyebrow>
+        <h2 className="mb-2 mt-1 text-h3">Download all my data</h2>
+        <p className="text-fg-muted">
+          Everything you&apos;ve entered, as spreadsheets, whenever you want it.
+        </p>
+        <Link href={"/app/settings/data" as never}>Go to your data</Link>
       </Card>
     </>
   );

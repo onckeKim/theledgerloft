@@ -12,6 +12,7 @@ Project: **theledgerloft** (`jjdetdabqbqktwkvodtk`), region **eu-west-2 (London)
 | `tests/setup_flow.sql` | Guided setup functions: atomic saves, replace-the-list behaviour, setup-only, cross-household safety |
 | `tests/budget_flow.sql` | Monthly budget functions: period ranges, creating a month from the last plan, moving money, adding and removing categories, cross-household safety |
 | `tests/goals_debts_flow.sql` | Goals, sinking funds and debts: paired records, no negative saved amounts, overpayment confirmation, linked-transaction guard, archive or delete, cross-household safety |
+| `tests/review_export.sql` | Monthly check-in (limits, completion kept on edit, checklist tick) and exports (audited, never updated, own household only) |
 | `tests/account_deletion.sql` | Deleting a user deletes the households they alone belong to, and keeps shared ones |
 
 ## Rules

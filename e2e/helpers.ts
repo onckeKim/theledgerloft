@@ -34,12 +34,66 @@ export async function createUser(prefix: string) {
 }
 
 /** Completes setup with the prototype household (L4 B1) through the real setup functions, as that user. */
-export async function completePrototypeSetup(email: string) {
+/** A Supabase client signed in as the synthetic user: every call goes through RLS like the app's. */
+export async function userClient(email: string) {
   const sb = createClient(localStack.url!, localStack.anonKey!, {
     auth: { persistSession: false },
   });
   const { error } = await sb.auth.signInWithPassword({ email, password: PASSWORD });
   if (error) throw error;
+  return sb;
+}
+
+/** Last month's label and a date inside it, for a household whose month starts on the 1st. */
+export function previousMonth(now = new Date()) {
+  const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 1, 15));
+  const label = d.toISOString().slice(0, 7);
+  return { label, date: `${label}-15` };
+}
+
+/**
+ * Seeds last month for a prototype household, as the user: a plan copied from this month and a few synthetic
+ * transactions (L4 vector B2 amounts), including one description that must be escaped in CSV (threat T8).
+ */
+export async function seedPreviousMonth(email: string) {
+  const sb = await userClient(email);
+  const { label, date } = previousMonth();
+  const { error: e1 } = await sb.rpc("ensure_budget" as never, { p_period: label } as never);
+  if (e1) throw e1;
+  const { data: household } = await sb.from("households").select("id").single();
+  const { data: cats } = await sb.from("categories").select("id, name");
+  const id = (name: string) => cats!.find((c) => c.name === name)!.id;
+  const { error: e2 } = await sb.from("transactions_manual").insert([
+    {
+      household_id: household!.id,
+      kind: "income",
+      amount_cents: 2238000,
+      occurred_on: date,
+      description: "Salary",
+    },
+    {
+      household_id: household!.id,
+      kind: "outflow",
+      amount_cents: 331000,
+      occurred_on: date,
+      category_id: id("Groceries"),
+      description: "=1+1 groceries",
+    },
+    {
+      household_id: household!.id,
+      kind: "outflow",
+      amount_cents: 152000,
+      occurred_on: date,
+      category_id: id("Transport"),
+      description: "Fuel",
+    },
+  ]);
+  if (e2) throw e2;
+  return label;
+}
+
+export async function completePrototypeSetup(email: string) {
+  const sb = await userClient(email);
   const call = async (fn: string, args: Record<string, unknown>) => {
     const { error: e } = await sb.rpc(fn as never, args as never);
     if (e) throw new Error(`${fn}: ${e.message}`);

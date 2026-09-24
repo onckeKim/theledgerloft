@@ -845,6 +845,15 @@ export type Database = {
         Returns: Record<string, unknown>;
       };
       period_for: { Args: { d: string; start_day: number }; Returns: string };
+      save_checkin: {
+        Args: {
+          p_next: Json;
+          p_period: string;
+          p_surprised: string | null;
+          p_went_well: string | null;
+        };
+        Returns: undefined;
+      };
       setup_complete: { Args: never; Returns: undefined };
       setup_save_basics: {
         Args: {

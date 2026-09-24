@@ -8,18 +8,22 @@ export function MonthSwitcher({
   period,
   prev,
   next,
+  pathStyle,
 }: {
   base: string;
   period: string;
   prev: string;
   next: string;
+  /** Link to `${base}/YYYY-MM` instead of `${base}?period=YYYY-MM`. */
+  pathStyle?: boolean;
 }) {
+  const href = (p: string) => (pathStyle ? `${base}/${p}` : `${base}?period=${p}`);
   const link =
     "inline-flex size-11 items-center justify-center rounded-md no-underline hover:bg-sunken";
   return (
     <nav aria-label="Month" className="flex items-center gap-1">
       <Link
-        href={`${base}?period=${prev}` as never}
+        href={href(prev) as never}
         className={link}
         aria-label={`Previous month, ${formatPeriod(prev)}`}
       >
@@ -29,7 +33,7 @@ export function MonthSwitcher({
         {formatPeriod(period, "short")}
       </span>
       <Link
-        href={`${base}?period=${next}` as never}
+        href={href(next) as never}
         className={link}
         aria-label={`Next month, ${formatPeriod(next)}`}
       >

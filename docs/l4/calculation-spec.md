@@ -209,7 +209,7 @@ Month 1 interest on the store card: round(215 000 × 2 100 ÷ 120 000) = round(3
 Negative money in the UI is always accompanied by words ("over", "short", "refunded"), never shown by colour or sign alone.
 
 ## 8. Data and audit notes (for L5)
-- Derived values (totals, balances, estimates) are **computed, not stored**. The one exception is export snapshots (L8), which store the numbers as generated plus the spec version.
+- Derived values (totals, balances, estimates) are **computed, not stored**. Exports record only the spec version they were built with; the file itself is built on download and not kept (D-033).
 - Every stored amount is `bigint` cents with a `CHECK (amount > 0)`, and rates are `integer` basis points with `CHECK (rate_bp BETWEEN 0 AND 10000)`.
 - `monthStartDay` has `CHECK (BETWEEN 1 AND 28)`.
 

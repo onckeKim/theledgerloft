@@ -21,7 +21,8 @@ import { verifySession } from "@/lib/auth/dal";
 import { barLabel } from "@/lib/budget/copy";
 import { loadMonth } from "@/lib/budget/month";
 import { CHECKLIST } from "@/lib/budget/schemas";
-import { formatPeriod } from "@/lib/calc/period";
+import { formatPeriod, todayInJohannesburg } from "@/lib/calc/period";
+import { checkinOpensOn } from "@/lib/review/review";
 import { formatZAR } from "@/lib/money";
 import { setupStatus } from "@/lib/setup/queries";
 import { leftToBudgetNote } from "@/lib/budget/copy";
@@ -103,18 +104,15 @@ export default async function Page({ searchParams }: PageProps<"/app">) {
     ? m.debts.rows.find((d) => d.id === m.debts.projection.order[0])
     : undefined;
   const nextDebtEstimate = m.debts.projection.debts[0];
-  const checkinOpens = (() => {
-    const end = new Date(`${m.budget.endsOn}T00:00:00Z`);
-    end.setUTCDate(end.getUTCDate() - 2);
-    return end.toISOString().slice(0, 10);
-  })();
+  const checkinOpens = checkinOpensOn(m.budget.endsOn);
+  const checkinOpen = todayInJohannesburg() >= checkinOpens;
   const checklist = CHECKLIST.map((c) => ({
     key: c.key,
     label:
       c.key === "left" && s.leftToBudget > 0
         ? `Decide what to do with the ${formatZAR(s.leftToBudget)} left to budget`
         : c.label,
-    hint: c.key === "checkin" ? `opens ${dayMonth(checkinOpens)}` : undefined,
+    hint: c.key === "checkin" && !checkinOpen ? `opens ${dayMonth(checkinOpens)}` : undefined,
   }));
 
   return (
@@ -237,6 +235,13 @@ export default async function Page({ searchParams }: PageProps<"/app">) {
           ) : (
             <p className="text-fg-muted">All checklist items are hidden.</p>
           )}
+          {checkinOpen ? (
+            <p className="mb-0 mt-2">
+              <Link href={`/app/review/${m.period}` as never}>
+                Open your {formatPeriod(m.period).split(" ")[0]} check-in
+              </Link>
+            </p>
+          ) : null}
           <ChecklistSettings
             items={CHECKLIST.map((c) => ({ key: c.key, label: c.label }))}
             hidden={m.checklistHidden}

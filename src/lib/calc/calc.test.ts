@@ -86,3 +86,12 @@ describe("period helpers", () => {
     expect(todayInJohannesburg(new Date("2026-09-30T21:30:00Z"))).toBe("2026-09-30");
   });
 });
+
+describe("spec version", () => {
+  it("matches the calculation spec's status line", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { CALC_SPEC_VERSION } = await import("./version");
+    const spec = readFileSync("docs/l4/calculation-spec.md", "utf8");
+    expect(spec).toContain(`Status: v${CALC_SPEC_VERSION} `);
+  });
+});

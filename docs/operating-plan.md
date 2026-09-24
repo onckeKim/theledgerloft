@@ -60,7 +60,7 @@ One step per conversation turn. Each step ends with the A5 quality gate before m
 | 8 | **A4 + L5** Supabase foundation and schema ✅ (RLS isolation 60/60, sign-in) | Migrations, RLS, synthetic seed, generated types | Cross-household isolation tests pass |
 | 9 | **L6** Guided onboarding slice ✅ (setup flow e2e on a real local stack) | End-to-end onboarding | A5 gate |
 | 10 | **L7** Budget dashboard ✅, **L7b** goals and debts ✅ (e2e on a real local stack) | Dashboard and calculation unit tests | A5 gate |
-| 11 | **L8** Reports and export | Monthly review and branded export with audit event | A5 gate |
+| 11 | **L8** Reports and export ✅ (review, PDF and data export e2e on a real local stack) | Monthly review and branded export with audit event | A5 gate |
 | 12 | **L9** Pricing and PayFast sandbox | Server-side entitlements, verified ITN handling | Duplicate/forged notification tests pass |
 | 13 | **L10** Etsy-to-app funnel | Lead magnet, emails, referral, ethical analytics | Etsy policy questions answered from official docs |
 | 14 | **Release review** | Release-candidate report with go/no-go | Commercial launch gate (playbook section E) |
@@ -103,5 +103,5 @@ remaining blocking questions are listed in §7 of that brief. Original questions
 
 ## 10. Next recommended step
 
-L1, A2, L2, L3, L4, A3, A4 + L5, L6, L7 and L7b (goals and debts) are done. Next: **L8 monthly review and export** (US-38, US-39, US-43), **owner review of the 5 blocking questions in `docs/product-brief.md`**, then **owner-led interviews** using
+L1, A2, L2, L3, L4, A3, A4 + L5, L6, L7, L7b and L8 (review and export) are done. Next: **L9 pricing and PayFast sandbox** (US-06, US-07), **owner review of the 5 blocking questions in `docs/product-brief.md`**, then **owner-led interviews** using
 `docs/l1/interview-guide.md`. The A2 project docs follow once the questions above are answered.
