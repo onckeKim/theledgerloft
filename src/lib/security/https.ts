@@ -5,10 +5,12 @@
  * Secure cookies there and upgrades localhost requests to https, while Chromium and Firefox exempt localhost.
  * env.ts refuses an http site URL in production for anything but localhost, so real deployments always get them.
  */
-export function servedOverHttps(
-  siteUrl: string | undefined = process.env.NEXT_PUBLIC_SITE_URL,
-  production: boolean = process.env.NODE_ENV === "production",
-): boolean {
+export function servedOverHttps(): boolean {
+  return isHttpsSite(process.env.NEXT_PUBLIC_SITE_URL, process.env.NODE_ENV === "production");
+}
+
+/** The rule behind servedOverHttps(), with its inputs explicit. */
+export function isHttpsSite(siteUrl: string | undefined, production: boolean): boolean {
   if (!production) return false;
   return !siteUrl?.startsWith("http://");
 }
