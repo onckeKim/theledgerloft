@@ -10,6 +10,8 @@ Project: **theledgerloft** (`jjdetdabqbqktwkvodtk`), region **eu-west-2 (London)
 | `seed.sql` | **Synthetic** data for local development only. Never run it against a project with real users |
 | `config.toml` | Local stack settings (mirrors production auth rules: email confirmation on, 10-character passwords) |
 | `tests/setup_flow.sql` | Guided setup functions: atomic saves, replace-the-list behaviour, setup-only, cross-household safety |
+| `tests/budget_flow.sql` | Monthly budget functions: period ranges, creating a month from the last plan, moving money, adding and removing categories, cross-household safety |
+| `tests/account_deletion.sql` | Deleting a user deletes the households they alone belong to, and keeps shared ones |
 
 ## Rules
 - Every table in `public` has RLS **and** at least one policy; household tables use `private.is_household_member()`.

@@ -12,6 +12,7 @@ import { parseRandToCents } from "@/lib/money";
 import { parseMoneyRows, type MoneyRowInput } from "@/lib/setup/schemas";
 import { SaveStatusText, StepNav } from "./step-frame";
 import { useStepForm } from "./use-step-form";
+import { useHydrated } from "@/lib/use-hydrated";
 
 type Step = "income" | "bills" | "spending";
 
@@ -68,6 +69,7 @@ export function MoneyRowsForm({
   initial: MoneyRowInput[];
   suggestions?: string[];
 }) {
+  const hydrated = useHydrated();
   const copy = COPY[step];
   const [rows, setRows] = useState<MoneyRowInput[]>(
     initial.length || step !== "income" ? initial : [{ key: newKey(), name: "", amount: "" }],
@@ -120,89 +122,91 @@ export function MoneyRowsForm({
 
   return (
     <form noValidate onBlur={form.autosave} onSubmit={(e) => (e.preventDefault(), form.submit())}>
-      <ErrorSummary
-        items={summary.filter((s) => s.href !== "#rows")}
-        message={form.errors.form}
-        focusToken={form.focusToken}
-      />
+      <fieldset disabled={!hydrated} className="m-0 min-w-0 border-0 p-0">
+        <ErrorSummary
+          items={summary.filter((s) => s.href !== "#rows")}
+          message={form.errors.form}
+          focusToken={form.focusToken}
+        />
 
-      {open.length ? (
-        <div className="mb-6">
-          <p id={headingId} className="mb-2 text-body-sm text-fg-muted">
-            Common ones to add (only if they apply to you):
-          </p>
-          <div role="group" aria-labelledby={headingId} className="flex flex-wrap gap-2">
-            {open.map((s) => (
-              <button
-                key={s}
-                type="button"
-                onClick={() => add(s)}
-                className="inline-flex min-h-9 cursor-pointer items-center gap-1 rounded-pill border border-control bg-raised px-3 text-body-sm hover:bg-sunken"
-              >
-                <Plus aria-hidden="true" size={14} strokeWidth={1.5} /> {s}
-              </button>
-            ))}
+        {open.length ? (
+          <div className="mb-6">
+            <p id={headingId} className="mb-2 text-body-sm text-fg-muted">
+              Common ones to add (only if they apply to you):
+            </p>
+            <div role="group" aria-labelledby={headingId} className="flex flex-wrap gap-2">
+              {open.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => add(s)}
+                  className="inline-flex min-h-9 cursor-pointer items-center gap-1 rounded-pill border border-control bg-raised px-3 text-body-sm hover:bg-sunken"
+                >
+                  <Plus aria-hidden="true" size={14} strokeWidth={1.5} /> {s}
+                </button>
+              ))}
+            </div>
           </div>
+        ) : null}
+
+        <div id="rows" className="grid gap-4">
+          {rows.length === 0 ? <p className="text-fg-muted">{copy.empty}</p> : null}
+          {rows.map((r, i) => (
+            <Card key={r.key} className="p-5">
+              <fieldset className="m-0 border-0 p-0">
+                <legend className="sr-only">
+                  {copy.noun} {i + 1}
+                  {r.name ? `: ${r.name}` : ""}
+                </legend>
+                <div className="grid gap-x-4 sm:grid-cols-[1fr_200px]">
+                  <TextField
+                    id={`${r.key}-name`}
+                    label={copy.nameLabel}
+                    value={r.name}
+                    maxLength={step === "income" ? 60 : 40}
+                    onChange={(e) => update(r.key, "name", e.target.value)}
+                    error={form.errors[`${r.key}.name`]}
+                    className="mb-3"
+                  />
+                  <TextField
+                    id={`${r.key}-amount`}
+                    label={copy.amountLabel}
+                    money
+                    value={r.amount}
+                    placeholder="0,00"
+                    onChange={(e) => update(r.key, "amount", e.target.value)}
+                    help={i === 0 ? copy.amountHelp : undefined}
+                    error={form.errors[`${r.key}.amount`]}
+                    className="mb-3"
+                  />
+                </div>
+                <Button variant="quiet" size="sm" onClick={() => remove(r.key)} className="-ml-2">
+                  <X aria-hidden="true" size={16} strokeWidth={1.5} />
+                  Remove{r.name ? ` ${r.name}` : ` this ${copy.noun}`}
+                </Button>
+              </fieldset>
+            </Card>
+          ))}
         </div>
-      ) : null}
 
-      <div id="rows" className="grid gap-4">
-        {rows.length === 0 ? <p className="text-fg-muted">{copy.empty}</p> : null}
-        {rows.map((r, i) => (
-          <Card key={r.key} className="p-5">
-            <fieldset className="m-0 border-0 p-0">
-              <legend className="sr-only">
-                {copy.noun} {i + 1}
-                {r.name ? `: ${r.name}` : ""}
-              </legend>
-              <div className="grid gap-x-4 sm:grid-cols-[1fr_200px]">
-                <TextField
-                  id={`${r.key}-name`}
-                  label={copy.nameLabel}
-                  value={r.name}
-                  maxLength={step === "income" ? 60 : 40}
-                  onChange={(e) => update(r.key, "name", e.target.value)}
-                  error={form.errors[`${r.key}.name`]}
-                  className="mb-3"
-                />
-                <TextField
-                  id={`${r.key}-amount`}
-                  label={copy.amountLabel}
-                  money
-                  value={r.amount}
-                  placeholder="0,00"
-                  onChange={(e) => update(r.key, "amount", e.target.value)}
-                  help={i === 0 ? copy.amountHelp : undefined}
-                  error={form.errors[`${r.key}.amount`]}
-                  className="mb-3"
-                />
-              </div>
-              <Button variant="quiet" size="sm" onClick={() => remove(r.key)} className="-ml-2">
-                <X aria-hidden="true" size={16} strokeWidth={1.5} />
-                Remove{r.name ? ` ${r.name}` : ` this ${copy.noun}`}
-              </Button>
-            </fieldset>
-          </Card>
-        ))}
-      </div>
+        <Button variant="secondary" className="mt-4" onClick={() => add()}>
+          <Plus aria-hidden="true" size={18} strokeWidth={1.5} />
+          {copy.add}
+        </Button>
 
-      <Button variant="secondary" className="mt-4" onClick={() => add()}>
-        <Plus aria-hidden="true" size={18} strokeWidth={1.5} />
-        {copy.add}
-      </Button>
+        <Card className="mt-6 bg-sunken shadow-none">
+          <div className="flex flex-wrap items-baseline justify-between gap-3">
+            <span className="ll-label">{copy.totalLabel}</span>
+            <Money cents={total} className="font-display text-h2 font-semibold" />
+          </div>
+          <p className="mb-0 mt-2 text-body-sm text-fg-muted">Saved automatically as you go.</p>
+        </Card>
 
-      <Card className="mt-6 bg-sunken shadow-none">
-        <div className="flex flex-wrap items-baseline justify-between gap-3">
-          <span className="ll-label">{copy.totalLabel}</span>
-          <Money cents={total} className="font-display text-h2 font-semibold" />
+        <div className="mt-4">
+          <SaveStatusText status={form.status} />
         </div>
-        <p className="mb-0 mt-2 text-body-sm text-fg-muted">Saved automatically as you go.</p>
-      </Card>
-
-      <div className="mt-4">
-        <SaveStatusText status={form.status} />
-      </div>
-      <StepNav back={back} onContinue={form.submit} pending={form.pending} />
+        <StepNav back={back} onContinue={form.submit} pending={form.pending} />
+      </fieldset>
     </form>
   );
 }

@@ -782,6 +782,20 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      add_category: {
+        Args: { p_budget: string; p_group: string; p_name: string; p_planned: number };
+        Returns: string;
+      };
+      ensure_budget: { Args: { p_period: string }; Returns: string };
+      move_budget_money: {
+        Args: { p_budget: string; p_cents: number; p_from: string; p_to: string };
+        Returns: undefined;
+      };
+      period_range: {
+        Args: { p_period: string; start_day: number };
+        Returns: Record<string, unknown>;
+      };
+      remove_category: { Args: { p_category: string }; Returns: string };
       period_bounds: {
         Args: { d: string; start_day: number };
         Returns: Record<string, unknown>;

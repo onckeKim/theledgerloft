@@ -35,6 +35,9 @@ async function signIn(page: Page) {
 }
 
 async function expectAccessible(page: Page) {
+  // After a client-side navigation the URL changes before the new page's styles have loaded.
+  await page.waitForLoadState("networkidle");
+  await page.evaluate(() => document.fonts.ready);
   const { violations } = await new AxeBuilder({ page })
     .withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"])
     .analyze();
@@ -192,7 +195,7 @@ test("a new user is taken to the welcome step and can complete setup", async ({ 
 
   await page.getByRole("button", { name: "Finish and go to my dashboard" }).click();
   await page.waitForURL("**/app?welcome=1");
-  await expect(page.getByText("Your plan is ready.")).toBeVisible();
+  await expect(page.getByText("Your plan is ready.", { exact: true })).toBeVisible();
 
   // Setup is closed once finished
   await page.goto("/app/setup/income");

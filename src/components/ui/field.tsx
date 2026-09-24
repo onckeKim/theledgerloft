@@ -6,6 +6,7 @@ import { cn } from "@/lib/cn";
  * Inputs use 17px text so iOS doesn't zoom (design system §4).
  */
 export function TextField({
+  ref,
   id,
   label,
   help,
@@ -51,6 +52,7 @@ export function TextField({
             money && "pl-8 tabular-nums",
             error && "border-2 border-negative",
           )}
+          ref={ref}
           {...input}
         />
       </div>

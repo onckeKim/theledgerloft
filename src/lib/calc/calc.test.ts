@@ -1,27 +1,74 @@
 import { describe, expect, it } from "vitest";
 import { budgetSummary } from "./budget";
+import { divRoundHalfUp, orderDebts, projectDebts, type DebtInput } from "./debts";
+import { goalProgress, sinkingFund } from "./goals";
 import { addMonths, formatPeriod, monthsBetween, periodFor, todayInJohannesburg } from "./period";
-import { subsetMismatches, vectors } from "./vectors.test-helper";
+import { formatRate, formatZAR } from "@/lib/money";
+import { subsetMismatches, vectors, type Vector } from "./vectors.test-helper";
 
-describe("budgetSummary matches L4 vectors B1–B6", () => {
-  for (const v of vectors.filter((v) => v.fn === "budgetSummary")) {
+// Every L4 vector runs against the app's own implementation (the reference in scripts/ only proves the vectors).
+const impl: Record<string, (input: never) => unknown> = {
+  budgetSummary: (i: Parameters<typeof budgetSummary>[0]) => budgetSummary(i),
+  goalProgress: (i: Parameters<typeof goalProgress>[0]) => goalProgress(i),
+  sinkingFund: (i: Parameters<typeof sinkingFund>[0]) => sinkingFund(i),
+  projectDebts: (i: Parameters<typeof projectDebts>[0]) => projectDebts(i),
+  orderDebts: (i: { debts: DebtInput[]; method: "snowball" | "avalanche" }) =>
+    orderDebts(i.debts, i.method),
+  periodFor: (i: { date: string; startDay: number }) => periodFor(i.date, i.startDay),
+  formatZAR: (i: { cents: number }) => formatZAR(i.cents),
+  formatRate: (i: { bp: number }) => formatRate(i.bp),
+};
+
+describe("L4 vectors against the app implementation", () => {
+  it("covers every function the vectors use", () => {
+    expect([...new Set(vectors.map((v) => v.fn))].filter((fn) => !impl[fn])).toEqual([]);
+  });
+  const run = (v: Vector) => impl[v.fn]!(v.input as never);
+  for (const v of vectors) {
     it(`${v.id}: ${v.description}`, () => {
-      expect(
-        subsetMismatches(v.expected, budgetSummary(v.input as Parameters<typeof budgetSummary>[0])),
-      ).toEqual([]);
+      if ((v.expected as { error?: boolean } | null)?.error) expect(() => run(v)).toThrow();
+      else expect(subsetMismatches(v.expected, run(v))).toEqual([]);
     });
   }
 });
 
-describe("periodFor matches L4 vectors P1–P7", () => {
-  for (const v of vectors.filter((v) => v.fn === "periodFor")) {
-    const input = v.input as { date: string; startDay: number };
-    it(`${v.id}: ${v.description}`, () => {
-      if ((v.expected as { error?: boolean }).error)
-        expect(() => periodFor(input.date, input.startDay)).toThrow();
-      else expect(subsetMismatches(v.expected, periodFor(input.date, input.startDay))).toEqual([]);
+describe("boundary cases beyond the vectors", () => {
+  it("rounds interest halves away from zero, including negatives", () => {
+    expect(divRoundHalfUp(5, 10)).toBe(1);
+    expect(divRoundHalfUp(4, 10)).toBe(0);
+    expect(divRoundHalfUp(-5, 10)).toBe(-1);
+  });
+  it("projects nothing for no debts", () => {
+    expect(projectDebts({ debts: [], method: "snowball", currentPeriod: "2026-09" })).toMatchObject(
+      {
+        order: [],
+        debtFree: null,
+        totalInterest: 0,
+      },
+    );
+  });
+  it("ignores debts already at zero", () => {
+    const r = projectDebts({
+      debts: [
+        { id: "a", balance: 0, rateBp: 0, minPayment: 100, created: 1 },
+        { id: "b", balance: 300, rateBp: 0, minPayment: 100, created: 2 },
+      ],
+      method: "snowball",
+      currentPeriod: "2026-09",
     });
-  }
+    expect(r.order).toEqual(["b"]);
+    expect(r.monthlyBudget).toBe(100);
+    expect(r.debtFree).toEqual({ months: 3, period: "2026-12" });
+  });
+  it("treats a negative saved balance as 0% (withdrawals can't go below zero in the UI)", () => {
+    expect(goalProgress({ saved: -100, target: 1000, currentPeriod: "2026-09" }).percent).toBe(0);
+  });
+  it("handles an empty budget month", () => {
+    expect(budgetSummary({ income: [], lines: [], tx: [] })).toMatchObject({
+      leftToBudget: 0,
+      actualBalance: 0,
+    });
+  });
 });
 
 describe("period helpers", () => {

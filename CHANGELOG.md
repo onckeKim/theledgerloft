@@ -5,6 +5,11 @@ All notable changes to this project are documented here. Format based on [Keep a
 ## [Unreleased]
 
 ### Added
+- L7 budget dashboard: dashboard (stat cards, spending card, monthly checklist, goals and debt snapshots with "Estimate" labels, "How this was calculated" on every figure); monthly budget page (planned/actual/remaining by group, inline planned amounts, add category, remove or archive a category, move money between categories, month switcher that never invents far-past months); transactions (add spending, income or refund, edit, delete with 10-second undo, filter by month and category, search, 20 per page).
+- Budget database functions: `period_range`, `ensure_budget` (creates a month by copying the last plan, skipping archived categories), `move_budget_money`, `add_category`, `remove_category` (deletes if unused, otherwise archives); `supabase/tests/budget_flow.sql` (16 checks).
+- Deleting an account now deletes the household data it alone belongs to (trigger on `auth.users`), so nothing is left orphaned (US-44, N11, T15); `supabase/tests/account_deletion.sql` (6 checks).
+- TypeScript L4 goal, sinking-fund and debt-projection calculations; all 43 L4 vectors now run against the app code.
+- End-to-end test for the whole month (plan, record, edit, undo, filter, move money, archive, next month) on desktop and phone.
 - L6 guided onboarding: welcome, basics, income, fixed bills, everyday spending, debts and goals, review; autosave (only when a step is valid), error summaries that take focus, resume where you left off, review matching the L4 plan, "finish" creating the app-managed budget lines. Dashboard sends new users to setup and offers "Continue setup".
 - Setup database functions (one atomic call per step, household from the session, setup-only, per-household lock) and `supabase/tests/setup_flow.sql` (17 checks).
 - TypeScript L4 period and budget calculations tested against the vectors; rate parsing.
@@ -19,6 +24,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 - Shared component stylesheet `design/components.css` (used by the style guide and the screens).
 
 ### Changed
+- Forms stay disabled until the page is interactive, so anything typed can't be replaced by the form's starting values on a slow phone.
 - Links are underlined by default (accessibility); button-styled links opt out.
 - Removed the temporary `APP_PREVIEW` mode (D-020). Every page now renders per request so the CSP nonce applies.
 - Scripts in `scripts/` reformatted with Prettier (no behaviour change).

@@ -6,6 +6,7 @@ import { ErrorSummary } from "@/components/ui/error-summary";
 import { parseBasics, type BasicsInput } from "@/lib/setup/schemas";
 import { SaveStatusText, StepNav } from "./step-frame";
 import { useStepForm } from "./use-step-form";
+import { useHydrated } from "@/lib/use-hydrated";
 
 const FREQUENCIES = [
   { value: "monthly", label: "Monthly", hint: "For example, on the 25th" },
@@ -80,6 +81,7 @@ function Choices({
 }
 
 export function BasicsForm({ initial }: { initial: BasicsInput }) {
+  const hydrated = useHydrated();
   const [values, setValues] = useState<BasicsInput>(initial);
   const set = (k: keyof BasicsInput) => (v: string) => setValues((s) => ({ ...s, [k]: v }));
   const form = useStepForm({
@@ -94,51 +96,53 @@ export function BasicsForm({ initial }: { initial: BasicsInput }) {
 
   return (
     <form noValidate onBlur={form.autosave} onSubmit={(e) => (e.preventDefault(), form.submit())}>
-      <ErrorSummary items={summary} focusToken={form.focusToken} />
-      <div className="mb-6">
-        <span className="mb-1 block font-semibold">Currency</span>
-        <p className="m-0 text-fg-muted">South African rand (R 1 234,56)</p>
-      </div>
-      <Choices
-        name="payFrequency"
-        legend="How often are you paid?"
-        help="Pick your main income. You'll add other income in the next step."
-        options={FREQUENCIES}
-        value={values.payFrequency}
-        onChange={set("payFrequency")}
-        error={form.errors.payFrequency}
-      />
-      <div className="mb-6">
-        <label htmlFor="monthStartDay" className="mb-1 block font-semibold">
-          Your budget month starts on
-        </label>
-        <p id="monthStartDay-help" className="mb-2 text-body-sm text-fg-muted">
-          Many people start on payday. Days 1 to 28 work in every month.
-        </p>
-        <select
-          id="monthStartDay"
-          value={values.monthStartDay}
-          onChange={(e) => set("monthStartDay")(e.target.value)}
-          aria-describedby="monthStartDay-help"
-          className="h-12 w-full rounded-md border border-control bg-raised px-3 text-body-lg text-fg"
-        >
-          {Array.from({ length: 28 }, (_, i) => i + 1).map((d) => (
-            <option key={d} value={String(d)}>
-              {d === 1 ? "1st of the month" : `${ordinal(d)} of the month`}
-            </option>
-          ))}
-        </select>
-      </div>
-      <Choices
-        name="budgetStyle"
-        legend="How would you like to budget?"
-        options={STYLES}
-        value={values.budgetStyle}
-        onChange={set("budgetStyle")}
-        error={form.errors.budgetStyle}
-      />
-      <SaveStatusText status={form.status} />
-      <StepNav back="/app/setup/welcome" onContinue={form.submit} pending={form.pending} />
+      <fieldset disabled={!hydrated} className="m-0 min-w-0 border-0 p-0">
+        <ErrorSummary items={summary} focusToken={form.focusToken} />
+        <div className="mb-6">
+          <span className="mb-1 block font-semibold">Currency</span>
+          <p className="m-0 text-fg-muted">South African rand (R 1 234,56)</p>
+        </div>
+        <Choices
+          name="payFrequency"
+          legend="How often are you paid?"
+          help="Pick your main income. You'll add other income in the next step."
+          options={FREQUENCIES}
+          value={values.payFrequency}
+          onChange={set("payFrequency")}
+          error={form.errors.payFrequency}
+        />
+        <div className="mb-6">
+          <label htmlFor="monthStartDay" className="mb-1 block font-semibold">
+            Your budget month starts on
+          </label>
+          <p id="monthStartDay-help" className="mb-2 text-body-sm text-fg-muted">
+            Many people start on payday. Days 1 to 28 work in every month.
+          </p>
+          <select
+            id="monthStartDay"
+            value={values.monthStartDay}
+            onChange={(e) => set("monthStartDay")(e.target.value)}
+            aria-describedby="monthStartDay-help"
+            className="h-12 w-full rounded-md border border-control bg-raised px-3 text-body-lg text-fg"
+          >
+            {Array.from({ length: 28 }, (_, i) => i + 1).map((d) => (
+              <option key={d} value={String(d)}>
+                {d === 1 ? "1st of the month" : `${ordinal(d)} of the month`}
+              </option>
+            ))}
+          </select>
+        </div>
+        <Choices
+          name="budgetStyle"
+          legend="How would you like to budget?"
+          options={STYLES}
+          value={values.budgetStyle}
+          onChange={set("budgetStyle")}
+          error={form.errors.budgetStyle}
+        />
+        <SaveStatusText status={form.status} />
+        <StepNav back="/app/setup/welcome" onContinue={form.submit} pending={form.pending} />
+      </fieldset>
     </form>
   );
 }
