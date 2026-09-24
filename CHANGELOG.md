@@ -5,6 +5,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 ## [Unreleased]
 
 ### Added
+- A2 project docs: product brief, personas, user journeys, MVP scope, non-functional requirements, data classification, threat model, analytics plan and release checklist (`docs/`).
 - L4 calculation spec (`docs/l4/calculation-spec.md`), 43 test vectors (`docs/l4/test-vectors.json`), reference implementation and verifier (`scripts/calc-reference.mjs`, `scripts/verify-calc.mjs`).
 - L3 screen prototypes in `design/screens/` (onboarding, dashboard, budget, transactions, goals and sinking funds, debts, reports and export, settings, states) with a shared app shell, plus `docs/l3/screens.md`.
 - Shared component stylesheet `design/components.css` (used by the style guide and the screens).

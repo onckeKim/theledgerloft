@@ -52,7 +52,7 @@ One step per conversation turn. Each step ends with the A5 quality gate before m
 | 0 | **A1** Operating plan | This document, repo hygiene files | Owner reviews the plan |
 | 1 | **L1** Positioning and safety boundary ✅ drafted (`docs/l1/`) | Positioning, disclaimer boundary, interview guide, pilot offer | Disclaimer wording reviewed; no outcome promises |
 | 2 | **Validate** (manual, owner-led) | 5–10 interviews with planner buyers, pilot target | Real users confirm the problem |
-| 3 | **A2** Project docs | `docs/product-brief.md`, personas, journeys, MVP scope, NFRs, data classification, threat model, analytics plan, release checklist | Measurable acceptance criteria exist |
+| 3 | **A2** Project docs ✅ (assumptions A-01…A-07 in `docs/product-brief.md`) | `docs/product-brief.md`, personas, journeys, MVP scope, NFRs, data classification, threat model, analytics plan, release checklist | Measurable acceptance criteria exist |
 | 4 | **L2** MVP PRD | PRD, user stories, route map, out-of-scope list | PRD approved |
 | 5 | **L4** Calculation spec ✅ (`docs/l4/`, 43 vectors passing) | Formulas, rounding, edge cases, worked synthetic examples | Every formula has test vectors |
 | 6 | **L3** Brand and UX system ✅ tokens, components and screen prototypes (`docs/l3/`, `design/screens/`) | Tokens, components, responsive flows, microcopy | WCAG 2.2 AA contrast checked |
@@ -90,7 +90,10 @@ Taken from playbook section E: acceptance criteria demonstrated · authz enforce
 with non-leaky errors · loading, empty, success and failure states · keyboard, labels, focus and contrast checked ·
 risky logic tested · lint and type-check pass · docs and `.env.example` current · audit events for sensitive actions.
 
-## 9. Open questions for the owner (blocking before A2)
+## 9. Open questions for the owner
+
+A2 went ahead without answers. Each question now has a labelled default (A-01…A-05 in `docs/product-brief.md` §6), and the
+remaining blocking questions are listed in §7 of that brief. Original questions:
 
 1. **Audience:** mainly your existing Etsy planner buyers, or a wider SA audience from day one?
 2. **Households:** is multi-person household sharing (partners) part of the MVP, or single-user first?
@@ -100,5 +103,5 @@ risky logic tested · lint and type-check pass · docs and `.env.example` curren
 
 ## 10. Next recommended step
 
-L1, L3 and L4 are drafted. Next: **A2 project docs and L2 PRD**, **owner review**, then **owner-led interviews** using
+L1, A2, L3 and L4 are drafted. Next: **L2 PRD** (user stories), **owner review of the 5 blocking questions in `docs/product-brief.md`**, then **owner-led interviews** using
 `docs/l1/interview-guide.md`. The A2 project docs follow once the questions above are answered.
