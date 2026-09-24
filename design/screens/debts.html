@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Debts · The Ledger Loft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/app.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body data-page="debts">
+<main>
+<div class="page-head"><div><span class="ll-label">Debts</span><h1>Your debts</h1></div><button class="btn btn-primary" type="button">Record a payment</button></div>
+<div class="grid g-3 section" style="margin-bottom:var(--ll-space-5)">
+  <div class="card"><span class="ll-label">Total owed</span><div class="num-lg">R 25 650,00</div><div class="sm muted">Across 3 debts</div></div>
+  <div class="card"><span class="ll-label">Monthly payments</span><div class="num-lg">R 2 600,00</div><div class="sm muted">Minimum payments you entered</div></div>
+  <div class="card current"><span class="ll-label">Debt-free around <span class="badge">Estimate</span></span><div class="num-lg">Sep 2027</div><div class="sm muted">If payments stay the same</div></div>
+</div>
+<section class="card section" aria-labelledby="order-h">
+  <div class="between"><h2 id="order-h" style="margin:0">Payoff order</h2>
+    <div class="seg" role="group" aria-label="Ordering method"><button type="button" aria-pressed="true" data-m="snowball">Snowball</button><button type="button" aria-pressed="false" data-m="avalanche">Avalanche</button></div></div>
+  <p class="muted" id="m-desc" style="margin:var(--ll-space-3) 0">Snowball orders debts from the smallest balance. When one is paid off, its payment moves to the next. You choose the method; both are shown as estimates.</p>
+  <div class="table-wrap">
+  <table class="table-stack">
+    <thead><tr><th class="ll-label" scope="col">Debt</th><th class="ll-label r" scope="col">Balance</th><th class="ll-label r" scope="col">Interest</th><th class="ll-label r" scope="col">Payment</th><th class="ll-label r" scope="col">Paid off (est.)</th></tr></thead>
+    <tbody id="d-rows"></tbody>
+  </table>
+  </div>
+  <div class="working"><dl>
+    <dt>Estimated interest until debt-free</dt><dd id="d-int"></dd>
+    <dt>Based on</dt><dd>Rates and payments you entered</dd></dl>
+    <p class="sm muted" style="margin:var(--ll-space-2) 0 0">Interest is estimated monthly from the yearly rate. Fees, rate changes and missed payments aren't included unless you add them.</p></div>
+</section>
+<section class="card" aria-labelledby="help-h" style="border-left:3px solid var(--ll-border-strong)">
+  <h3 id="help-h">Need help with debt?</h3>
+  <p class="muted" style="margin:0">If repayments feel unmanageable, independent help is available. The National Credit Regulator explains your rights and how to find a registered debt counsellor. This app can keep helping you organise your numbers either way.</p>
+</section>
+<script>
+  const D = {
+    snowball: { desc: "Snowball orders debts from the smallest balance. When one is paid off, its payment moves to the next. You choose the method; both are shown as estimates.",
+      int: "R 3 061,62", rows: [["Store card","2 150,00","21,00%","450,00","Mar 2027"],["Credit card","8 900,00","20,75%","1 200,00","May 2027"],["Personal loan","14 600,00","24,00%","950,00","Sep 2027"]] },
+    avalanche: { desc: "Avalanche orders debts from the highest interest rate. When one is paid off, its payment moves to the next. You choose the method; both are shown as estimates.",
+      int: "R 3 057,67", rows: [["Personal loan","14 600,00","24,00%","950,00","Sep 2027"],["Store card","2 150,00","21,00%","450,00","Mar 2027"],["Credit card","8 900,00","20,75%","1 200,00","Jun 2027"]] },
+  };
+  const render = (m) => {
+    document.getElementById("m-desc").textContent = D[m].desc;
+    document.getElementById("d-int").textContent = D[m].int;
+    document.getElementById("d-rows").innerHTML = D[m].rows.map(([n,b,r,p,d], i) =>
+      `<tr><td>${i+1}. ${n}</td><td class="r" data-label="Balance">R ${b}</td><td class="r" data-label="Interest">${r}</td><td class="r" data-label="Payment">R ${p}</td><td class="r" data-label="Paid off (est.)">${d}</td></tr>`).join("");
+    document.querySelectorAll("[data-m]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.m === m)));
+  };
+  document.querySelectorAll("[data-m]").forEach(b => b.addEventListener("click", () => render(b.dataset.m)));
+  render("snowball");
+</script>
+</main>
+<script src="shell.js"></script>
+</body>
+</html>

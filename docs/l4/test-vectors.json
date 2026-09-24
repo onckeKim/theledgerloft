@@ -1,0 +1,1210 @@
+{
+  "$description": "L4 calculation test vectors. Money in integer cents, rates in basis points, periods as YYYY-MM. 'expected' is a subset match: listed keys must match; {} in an array skips that element. The app's calculation library must pass every vector.",
+  "version": 1,
+  "vectors": [
+    {
+      "id": "B1",
+      "fn": "budgetSummary",
+      "description": "Prototype household, September 2026 to date (dashboard and budget screens)",
+      "input": {
+        "income": [
+          {
+            "planned": 1950000
+          },
+          {
+            "planned": 224000
+          }
+        ],
+        "lines": [
+          {
+            "category": "Housing",
+            "planned": 620000
+          },
+          {
+            "category": "Electricity & water",
+            "planned": 110000
+          },
+          {
+            "category": "Phone & data",
+            "planned": 45000
+          },
+          {
+            "category": "Insurance",
+            "planned": 60000
+          },
+          {
+            "category": "Groceries",
+            "planned": 340000
+          },
+          {
+            "category": "Transport",
+            "planned": 140000
+          },
+          {
+            "category": "Personal & fun",
+            "planned": 60000
+          },
+          {
+            "category": "Debt payments",
+            "planned": 260000
+          },
+          {
+            "category": "Sinking funds",
+            "planned": 135000
+          },
+          {
+            "category": "Savings goals",
+            "planned": 80000
+          }
+        ],
+        "tx": [
+          {
+            "kind": "income",
+            "amount": 1950000
+          },
+          {
+            "kind": "income",
+            "amount": 112000
+          },
+          {
+            "kind": "outflow",
+            "category": "Housing",
+            "amount": 620000
+          },
+          {
+            "kind": "outflow",
+            "category": "Electricity & water",
+            "amount": 110000
+          },
+          {
+            "kind": "outflow",
+            "category": "Phone & data",
+            "amount": 45000
+          },
+          {
+            "kind": "outflow",
+            "category": "Insurance",
+            "amount": 60000
+          },
+          {
+            "kind": "outflow",
+            "category": "Groceries",
+            "amount": 365000
+          },
+          {
+            "kind": "outflow",
+            "category": "Transport",
+            "amount": 98000
+          },
+          {
+            "kind": "outflow",
+            "category": "Personal & fun",
+            "amount": 41000
+          },
+          {
+            "kind": "outflow",
+            "category": "Debt payments",
+            "amount": 260000
+          },
+          {
+            "kind": "outflow",
+            "category": "Sinking funds",
+            "amount": 135000
+          },
+          {
+            "kind": "outflow",
+            "category": "Savings goals",
+            "amount": 80000
+          }
+        ]
+      },
+      "expected": {
+        "incomePlanned": 2174000,
+        "incomeActual": 2062000,
+        "plannedTotal": 1850000,
+        "leftToBudget": 324000,
+        "plannedBalance": 324000,
+        "overPlanned": 0,
+        "actualTotal": 1814000,
+        "planRemaining": 36000,
+        "categories": [
+          {
+            "category": "Housing",
+            "remaining": 0,
+            "status": "spent",
+            "barPermille": 1000
+          },
+          {},
+          {},
+          {},
+          {
+            "category": "Groceries",
+            "actual": 365000,
+            "remaining": -25000,
+            "over": 25000,
+            "status": "over",
+            "barPermille": 1000
+          },
+          {
+            "category": "Transport",
+            "remaining": 42000,
+            "status": "under",
+            "barPermille": 700
+          },
+          {
+            "category": "Personal & fun",
+            "remaining": 19000,
+            "barPermille": 683
+          }
+        ]
+      }
+    },
+    {
+      "id": "B2",
+      "fn": "budgetSummary",
+      "description": "Prototype household, August 2026 review (reports screen)",
+      "input": {
+        "income": [
+          {
+            "planned": 1950000
+          },
+          {
+            "planned": 224000
+          }
+        ],
+        "lines": [
+          {
+            "category": "Housing",
+            "planned": 620000
+          },
+          {
+            "category": "Electricity & water",
+            "planned": 110000
+          },
+          {
+            "category": "Phone & data",
+            "planned": 45000
+          },
+          {
+            "category": "Insurance",
+            "planned": 60000
+          },
+          {
+            "category": "Groceries",
+            "planned": 340000
+          },
+          {
+            "category": "Transport",
+            "planned": 140000
+          },
+          {
+            "category": "Personal & fun",
+            "planned": 60000
+          },
+          {
+            "category": "Debt payments",
+            "planned": 260000
+          },
+          {
+            "category": "Sinking funds",
+            "planned": 135000
+          },
+          {
+            "category": "Savings goals",
+            "planned": 80000
+          }
+        ],
+        "tx": [
+          {
+            "kind": "income",
+            "amount": 1950000
+          },
+          {
+            "kind": "income",
+            "amount": 288000
+          },
+          {
+            "kind": "outflow",
+            "category": "Housing",
+            "amount": 620000
+          },
+          {
+            "kind": "outflow",
+            "category": "Electricity & water",
+            "amount": 118400
+          },
+          {
+            "kind": "outflow",
+            "category": "Phone & data",
+            "amount": 45000
+          },
+          {
+            "kind": "outflow",
+            "category": "Insurance",
+            "amount": 60000
+          },
+          {
+            "kind": "outflow",
+            "category": "Groceries",
+            "amount": 331000
+          },
+          {
+            "kind": "outflow",
+            "category": "Transport",
+            "amount": 152000
+          },
+          {
+            "kind": "outflow",
+            "category": "Personal & fun",
+            "amount": 74500
+          },
+          {
+            "kind": "outflow",
+            "category": "Debt payments",
+            "amount": 260000
+          },
+          {
+            "kind": "outflow",
+            "category": "Sinking funds",
+            "amount": 135000
+          },
+          {
+            "kind": "outflow",
+            "category": "Savings goals",
+            "amount": 80000
+          }
+        ]
+      },
+      "expected": {
+        "incomeActual": 2238000,
+        "actualTotal": 1875900,
+        "actualBalance": 362100,
+        "planRemaining": -25900,
+        "categories": [
+          {},
+          {
+            "category": "Electricity & water",
+            "over": 8400,
+            "status": "over"
+          },
+          {},
+          {},
+          {
+            "category": "Groceries",
+            "remaining": 9000,
+            "status": "under"
+          },
+          {
+            "category": "Transport",
+            "over": 12000
+          },
+          {
+            "category": "Personal & fun",
+            "over": 14500
+          }
+        ]
+      }
+    },
+    {
+      "id": "B3",
+      "fn": "budgetSummary",
+      "description": "Planned more than income: negative left to budget, reported as over-planned (never blocked)",
+      "input": {
+        "income": [
+          {
+            "planned": 1000000
+          }
+        ],
+        "lines": [
+          {
+            "category": "Rent",
+            "planned": 700000
+          },
+          {
+            "category": "Groceries",
+            "planned": 340000
+          }
+        ],
+        "tx": []
+      },
+      "expected": {
+        "leftToBudget": -40000,
+        "overPlanned": 40000,
+        "actualTotal": 0,
+        "actualBalance": 0
+      }
+    },
+    {
+      "id": "B4",
+      "fn": "budgetSummary",
+      "description": "Spending in a category planned at R 0,00 and in a category with no budget line",
+      "input": {
+        "income": [
+          {
+            "planned": 500000
+          }
+        ],
+        "lines": [
+          {
+            "category": "Gifts",
+            "planned": 0
+          },
+          {
+            "category": "Groceries",
+            "planned": 0
+          }
+        ],
+        "tx": [
+          {
+            "kind": "outflow",
+            "category": "Gifts",
+            "amount": 15000
+          },
+          {
+            "kind": "outflow",
+            "category": "Car wash",
+            "amount": 8000
+          }
+        ]
+      },
+      "expected": {
+        "actualTotal": 23000,
+        "categories": [
+          {
+            "category": "Gifts",
+            "status": "unplanned",
+            "barPermille": 1000,
+            "over": 15000
+          },
+          {
+            "category": "Groceries",
+            "status": "empty",
+            "barPermille": 0
+          }
+        ],
+        "unbudgeted": [
+          {
+            "category": "Car wash",
+            "actual": 8000
+          }
+        ]
+      }
+    },
+    {
+      "id": "B5",
+      "fn": "budgetSummary",
+      "description": "A refund reduces the category's actual",
+      "input": {
+        "income": [],
+        "lines": [
+          {
+            "category": "Groceries",
+            "planned": 100000
+          }
+        ],
+        "tx": [
+          {
+            "kind": "outflow",
+            "category": "Groceries",
+            "amount": 50000
+          },
+          {
+            "kind": "refund",
+            "category": "Groceries",
+            "amount": 5000
+          }
+        ]
+      },
+      "expected": {
+        "actualTotal": 45000,
+        "categories": [
+          {
+            "actual": 45000,
+            "remaining": 55000,
+            "barPermille": 450
+          }
+        ]
+      }
+    },
+    {
+      "id": "B6",
+      "fn": "budgetSummary",
+      "description": "Brand-new month with nothing entered",
+      "input": {
+        "income": [],
+        "lines": [],
+        "tx": []
+      },
+      "expected": {
+        "incomePlanned": 0,
+        "incomeActual": 0,
+        "plannedTotal": 0,
+        "actualTotal": 0,
+        "leftToBudget": 0,
+        "actualBalance": 0,
+        "categories": []
+      }
+    },
+    {
+      "id": "G1",
+      "fn": "goalProgress",
+      "description": "Emergency fund (goals screen)",
+      "input": {
+        "saved": 640000,
+        "target": 2000000,
+        "monthly": 80000,
+        "currentPeriod": "2026-09"
+      },
+      "expected": {
+        "percent": 32,
+        "remaining": 1360000,
+        "complete": false,
+        "estimate": {
+          "months": 17,
+          "period": "2028-02"
+        }
+      }
+    },
+    {
+      "id": "G2",
+      "fn": "goalProgress",
+      "description": "Holiday with no monthly amount: no estimate",
+      "input": {
+        "saved": 120000,
+        "target": 800000,
+        "monthly": 0,
+        "currentPeriod": "2026-09"
+      },
+      "expected": {
+        "percent": 15,
+        "estimate": null
+      }
+    },
+    {
+      "id": "G3",
+      "fn": "goalProgress",
+      "description": "Saved more than the target",
+      "input": {
+        "saved": 2050000,
+        "target": 2000000,
+        "monthly": 80000,
+        "currentPeriod": "2026-09"
+      },
+      "expected": {
+        "percent": 100,
+        "remaining": 0,
+        "complete": true,
+        "estimate": null
+      }
+    },
+    {
+      "id": "G4",
+      "fn": "goalProgress",
+      "description": "Percent rounds down, so it never shows 100% before the goal is reached",
+      "input": {
+        "saved": 199999,
+        "target": 200000,
+        "currentPeriod": "2026-09"
+      },
+      "expected": {
+        "percent": 99,
+        "complete": false
+      }
+    },
+    {
+      "id": "G5",
+      "fn": "goalProgress",
+      "description": "Target must be positive",
+      "input": {
+        "saved": 0,
+        "target": 0,
+        "currentPeriod": "2026-09"
+      },
+      "expected": {
+        "error": true
+      }
+    },
+    {
+      "id": "S1",
+      "fn": "sinkingFund",
+      "description": "School fees: short at the current monthly amount (goals screen)",
+      "input": {
+        "saved": 480000,
+        "target": 720000,
+        "monthly": 60000,
+        "currentPeriod": "2026-09",
+        "duePeriod": "2027-01"
+      },
+      "expected": {
+        "contributionsLeft": 3,
+        "projected": 660000,
+        "shortBy": 60000,
+        "requiredMonthly": 80000,
+        "status": "short",
+        "reachPeriod": null,
+        "percent": 66
+      }
+    },
+    {
+      "id": "S2",
+      "fn": "sinkingFund",
+      "description": "December: on track, reached in November",
+      "input": {
+        "saved": 400000,
+        "target": 500000,
+        "monthly": 50000,
+        "currentPeriod": "2026-09",
+        "duePeriod": "2026-12"
+      },
+      "expected": {
+        "contributionsLeft": 2,
+        "projected": 500000,
+        "shortBy": 0,
+        "status": "on-track",
+        "reachPeriod": "2026-11",
+        "percent": 80
+      }
+    },
+    {
+      "id": "S3",
+      "fn": "sinkingFund",
+      "description": "Car licence and service: on track, reached in February",
+      "input": {
+        "saved": 175000,
+        "target": 300000,
+        "monthly": 25000,
+        "currentPeriod": "2026-09",
+        "duePeriod": "2027-03"
+      },
+      "expected": {
+        "contributionsLeft": 5,
+        "projected": 300000,
+        "status": "on-track",
+        "reachPeriod": "2027-02",
+        "percent": 58
+      }
+    },
+    {
+      "id": "S4",
+      "fn": "sinkingFund",
+      "description": "Due next period: no contributions left",
+      "input": {
+        "saved": 100000,
+        "target": 300000,
+        "monthly": 25000,
+        "currentPeriod": "2026-09",
+        "duePeriod": "2026-10"
+      },
+      "expected": {
+        "contributionsLeft": 0,
+        "status": "due-now",
+        "requiredMonthly": null,
+        "shortBy": 200000
+      }
+    },
+    {
+      "id": "S5",
+      "fn": "sinkingFund",
+      "description": "Already funded",
+      "input": {
+        "saved": 300000,
+        "target": 300000,
+        "monthly": 25000,
+        "currentPeriod": "2026-09",
+        "duePeriod": "2027-03"
+      },
+      "expected": {
+        "status": "funded",
+        "percent": 100,
+        "requiredMonthly": 0,
+        "reachPeriod": "2026-09"
+      }
+    },
+    {
+      "id": "S6",
+      "fn": "sinkingFund",
+      "description": "Required monthly rounds UP to the cent so the target is reached",
+      "input": {
+        "saved": 0,
+        "target": 100000,
+        "monthly": 0,
+        "currentPeriod": "2026-09",
+        "duePeriod": "2026-12"
+      },
+      "expected": {
+        "contributionsLeft": 2,
+        "requiredMonthly": 50000,
+        "status": "short"
+      }
+    },
+    {
+      "id": "S7",
+      "fn": "sinkingFund",
+      "description": "Required monthly rounds up: R 1 000,00 over 3 contributions",
+      "input": {
+        "saved": 0,
+        "target": 100000,
+        "monthly": 0,
+        "currentPeriod": "2026-09",
+        "duePeriod": "2027-01"
+      },
+      "expected": {
+        "contributionsLeft": 3,
+        "requiredMonthly": 33334
+      }
+    },
+    {
+      "id": "S8",
+      "fn": "sinkingFund",
+      "description": "Due date already passed",
+      "input": {
+        "saved": 100000,
+        "target": 300000,
+        "monthly": 25000,
+        "currentPeriod": "2026-09",
+        "duePeriod": "2026-07"
+      },
+      "expected": {
+        "status": "past-due",
+        "contributionsLeft": 0
+      }
+    },
+    {
+      "id": "D1",
+      "fn": "projectDebts",
+      "description": "Prototype debts, snowball (debts screen)",
+      "input": {
+        "debts": [
+          {
+            "id": "store",
+            "balance": 215000,
+            "rateBp": 2100,
+            "minPayment": 45000,
+            "created": 1
+          },
+          {
+            "id": "credit",
+            "balance": 890000,
+            "rateBp": 2075,
+            "minPayment": 120000,
+            "created": 2
+          },
+          {
+            "id": "loan",
+            "balance": 1460000,
+            "rateBp": 2400,
+            "minPayment": 95000,
+            "created": 3
+          }
+        ],
+        "method": "snowball",
+        "currentPeriod": "2026-09"
+      },
+      "expected": {
+        "order": [
+          "store",
+          "credit",
+          "loan"
+        ],
+        "monthlyBudget": 260000,
+        "notCovering": [],
+        "debts": [
+          {
+            "id": "store",
+            "months": 6,
+            "period": "2027-03",
+            "interest": 11495
+          },
+          {
+            "id": "credit",
+            "months": 8,
+            "period": "2027-05",
+            "interest": 68384
+          },
+          {
+            "id": "loan",
+            "months": 12,
+            "period": "2027-09",
+            "interest": 226283
+          }
+        ],
+        "debtFree": {
+          "months": 12,
+          "period": "2027-09"
+        },
+        "totalInterest": 306162
+      }
+    },
+    {
+      "id": "D2",
+      "fn": "projectDebts",
+      "description": "Prototype debts, avalanche",
+      "input": {
+        "debts": [
+          {
+            "id": "store",
+            "balance": 215000,
+            "rateBp": 2100,
+            "minPayment": 45000,
+            "created": 1
+          },
+          {
+            "id": "credit",
+            "balance": 890000,
+            "rateBp": 2075,
+            "minPayment": 120000,
+            "created": 2
+          },
+          {
+            "id": "loan",
+            "balance": 1460000,
+            "rateBp": 2400,
+            "minPayment": 95000,
+            "created": 3
+          }
+        ],
+        "method": "avalanche",
+        "currentPeriod": "2026-09"
+      },
+      "expected": {
+        "order": [
+          "loan",
+          "store",
+          "credit"
+        ],
+        "debts": [
+          {
+            "id": "loan",
+            "period": "2027-09"
+          },
+          {
+            "id": "store",
+            "period": "2027-03"
+          },
+          {
+            "id": "credit",
+            "period": "2027-06"
+          }
+        ],
+        "debtFree": {
+          "period": "2027-09"
+        },
+        "totalInterest": 305767
+      }
+    },
+    {
+      "id": "D3",
+      "fn": "orderDebts",
+      "description": "Snowball ties: equal balance goes higher rate first, then oldest first",
+      "input": {
+        "debts": [
+          {
+            "id": "a",
+            "balance": 100000,
+            "rateBp": 1500,
+            "minPayment": 10000,
+            "created": 1
+          },
+          {
+            "id": "b",
+            "balance": 100000,
+            "rateBp": 2000,
+            "minPayment": 10000,
+            "created": 2
+          },
+          {
+            "id": "c",
+            "balance": 50000,
+            "rateBp": 2000,
+            "minPayment": 10000,
+            "created": 3
+          },
+          {
+            "id": "d",
+            "balance": 50000,
+            "rateBp": 2000,
+            "minPayment": 10000,
+            "created": 4
+          }
+        ],
+        "method": "snowball"
+      },
+      "expected": [
+        "c",
+        "d",
+        "b",
+        "a"
+      ]
+    },
+    {
+      "id": "D4",
+      "fn": "orderDebts",
+      "description": "Avalanche ties: equal rate goes lower balance first, then oldest first",
+      "input": {
+        "debts": [
+          {
+            "id": "a",
+            "balance": 100000,
+            "rateBp": 1500,
+            "minPayment": 10000,
+            "created": 1
+          },
+          {
+            "id": "b",
+            "balance": 100000,
+            "rateBp": 2000,
+            "minPayment": 10000,
+            "created": 2
+          },
+          {
+            "id": "c",
+            "balance": 50000,
+            "rateBp": 2000,
+            "minPayment": 10000,
+            "created": 3
+          },
+          {
+            "id": "d",
+            "balance": 50000,
+            "rateBp": 2000,
+            "minPayment": 10000,
+            "created": 4
+          }
+        ],
+        "method": "avalanche"
+      },
+      "expected": [
+        "c",
+        "d",
+        "b",
+        "a"
+      ]
+    },
+    {
+      "id": "D5",
+      "fn": "projectDebts",
+      "description": "No interest entered: R 1 000,00 at R 300,00 a month takes 4 months",
+      "input": {
+        "debts": [
+          {
+            "id": "x",
+            "balance": 100000,
+            "rateBp": 0,
+            "minPayment": 30000,
+            "created": 1
+          }
+        ],
+        "method": "snowball",
+        "currentPeriod": "2026-09"
+      },
+      "expected": {
+        "debts": [
+          {
+            "id": "x",
+            "months": 4,
+            "period": "2027-01",
+            "interest": 0
+          }
+        ],
+        "totalInterest": 0
+      }
+    },
+    {
+      "id": "D6",
+      "fn": "projectDebts",
+      "description": "Extra R 200,00 a month on top of the minimum",
+      "input": {
+        "debts": [
+          {
+            "id": "x",
+            "balance": 100000,
+            "rateBp": 0,
+            "minPayment": 30000,
+            "created": 1
+          }
+        ],
+        "method": "snowball",
+        "extra": 20000,
+        "currentPeriod": "2026-09"
+      },
+      "expected": {
+        "monthlyBudget": 50000,
+        "debts": [
+          {
+            "id": "x",
+            "months": 2,
+            "period": "2026-11"
+          }
+        ]
+      }
+    },
+    {
+      "id": "D7",
+      "fn": "projectDebts",
+      "description": "Payment doesn't cover the interest: no estimate, flagged neutrally",
+      "input": {
+        "debts": [
+          {
+            "id": "x",
+            "balance": 1000000,
+            "rateBp": 2400,
+            "minPayment": 15000,
+            "created": 1
+          }
+        ],
+        "method": "snowball",
+        "currentPeriod": "2026-09"
+      },
+      "expected": {
+        "notCovering": [
+          "x"
+        ],
+        "debtFree": null,
+        "debts": [
+          {
+            "id": "x",
+            "months": null,
+            "period": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "D8",
+      "fn": "projectDebts",
+      "description": "Interest rounds half away from zero: 60c at 10% = 0,5c, rounded to 1c",
+      "input": {
+        "debts": [
+          {
+            "id": "x",
+            "balance": 60,
+            "rateBp": 1000,
+            "minPayment": 100,
+            "created": 1
+          }
+        ],
+        "method": "snowball",
+        "currentPeriod": "2026-09"
+      },
+      "expected": {
+        "debts": [
+          {
+            "id": "x",
+            "months": 1,
+            "interest": 1
+          }
+        ],
+        "totalInterest": 1
+      }
+    },
+    {
+      "id": "D9",
+      "fn": "projectDebts",
+      "description": "A paid-off debt's minimum rolls to the next debt",
+      "input": {
+        "debts": [
+          {
+            "id": "a",
+            "balance": 10000,
+            "rateBp": 0,
+            "minPayment": 10000,
+            "created": 1
+          },
+          {
+            "id": "b",
+            "balance": 40000,
+            "rateBp": 0,
+            "minPayment": 10000,
+            "created": 2
+          }
+        ],
+        "method": "snowball",
+        "currentPeriod": "2026-09"
+      },
+      "expected": {
+        "debts": [
+          {
+            "id": "a",
+            "months": 1
+          },
+          {
+            "id": "b",
+            "months": 3
+          }
+        ],
+        "debtFree": {
+          "months": 3,
+          "period": "2026-12"
+        }
+      }
+    },
+    {
+      "id": "P1",
+      "fn": "periodFor",
+      "description": "Date 2026-09-24, month starts on day 25",
+      "input": {
+        "date": "2026-09-24",
+        "startDay": 25
+      },
+      "expected": {
+        "label": "2026-09",
+        "start": "2026-08-25",
+        "end": "2026-09-24"
+      }
+    },
+    {
+      "id": "P2",
+      "fn": "periodFor",
+      "description": "Date 2026-09-25, month starts on day 25",
+      "input": {
+        "date": "2026-09-25",
+        "startDay": 25
+      },
+      "expected": {
+        "label": "2026-10",
+        "start": "2026-09-25",
+        "end": "2026-10-24"
+      }
+    },
+    {
+      "id": "P3",
+      "fn": "periodFor",
+      "description": "Date 2026-09-15, month starts on day 1",
+      "input": {
+        "date": "2026-09-15",
+        "startDay": 1
+      },
+      "expected": {
+        "label": "2026-09",
+        "start": "2026-09-01",
+        "end": "2026-09-30"
+      }
+    },
+    {
+      "id": "P4",
+      "fn": "periodFor",
+      "description": "Date 2028-02-29, month starts on day 1",
+      "input": {
+        "date": "2028-02-29",
+        "startDay": 1
+      },
+      "expected": {
+        "label": "2028-02",
+        "start": "2028-02-01",
+        "end": "2028-02-29"
+      }
+    },
+    {
+      "id": "P5",
+      "fn": "periodFor",
+      "description": "Date 2026-03-01, month starts on day 28",
+      "input": {
+        "date": "2026-03-01",
+        "startDay": 28
+      },
+      "expected": {
+        "label": "2026-03",
+        "start": "2026-02-28",
+        "end": "2026-03-27"
+      }
+    },
+    {
+      "id": "P6",
+      "fn": "periodFor",
+      "description": "Date 2026-12-26, month starts on day 25",
+      "input": {
+        "date": "2026-12-26",
+        "startDay": 25
+      },
+      "expected": {
+        "label": "2027-01",
+        "start": "2026-12-25",
+        "end": "2027-01-24"
+      }
+    },
+    {
+      "id": "P7",
+      "fn": "periodFor",
+      "description": "Date 2026-09-15, month starts on day 31",
+      "input": {
+        "date": "2026-09-15",
+        "startDay": 31
+      },
+      "expected": {
+        "error": true
+      }
+    },
+    {
+      "id": "F1",
+      "fn": "formatZAR",
+      "description": "Format -25000 cents",
+      "input": {
+        "cents": -25000
+      },
+      "expected": "−R 250,00"
+    },
+    {
+      "id": "F2",
+      "fn": "formatZAR",
+      "description": "Format 2174000 cents",
+      "input": {
+        "cents": 2174000
+      },
+      "expected": "R 21 740,00"
+    },
+    {
+      "id": "F3",
+      "fn": "formatZAR",
+      "description": "Format 0 cents",
+      "input": {
+        "cents": 0
+      },
+      "expected": "R 0,00"
+    },
+    {
+      "id": "F4",
+      "fn": "formatZAR",
+      "description": "Format 5 cents",
+      "input": {
+        "cents": 5
+      },
+      "expected": "R 0,05"
+    },
+    {
+      "id": "F5",
+      "fn": "formatZAR",
+      "description": "Format 123456789012 cents",
+      "input": {
+        "cents": 123456789012
+      },
+      "expected": "R 1 234 567 890,12"
+    },
+    {
+      "id": "R1",
+      "fn": "formatRate",
+      "description": "Format rate 2075 basis points",
+      "input": {
+        "bp": 2075
+      },
+      "expected": "20,75%"
+    },
+    {
+      "id": "R2",
+      "fn": "formatRate",
+      "description": "Format rate 2100 basis points",
+      "input": {
+        "bp": 2100
+      },
+      "expected": "21,00%"
+    },
+    {
+      "id": "R3",
+      "fn": "formatRate",
+      "description": "Format rate 0 basis points",
+      "input": {
+        "bp": 0
+      },
+      "expected": "0,00%"
+    }
+  ]
+}

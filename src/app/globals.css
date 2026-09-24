@@ -1,0 +1,145 @@
+@import "tailwindcss";
+/* Brand tokens are the single source of truth (docs/l3/design-system.md). */
+@import "../../design/tokens/tokens.css";
+@import "../../design/tokens/app.css";
+
+/* Remove Tailwind's default palette, fonts and type scale so only brand tokens can be used. */
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --breakpoint-*: initial;
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+}
+
+@theme inline {
+  --color-bg: var(--ll-bg);
+  --color-raised: var(--ll-bg-raised);
+  --color-sunken: var(--ll-bg-sunken);
+  --color-fg: var(--ll-text-primary);
+  --color-fg-muted: var(--ll-text-secondary);
+  --color-fg-faint: var(--ll-text-tertiary);
+  --color-on-dark: var(--ll-text-on-dark);
+  --color-border: var(--ll-border);
+  --color-border-strong: var(--ll-border-strong);
+  --color-control: var(--ll-control-border);
+  --color-accent: var(--ll-accent);
+  --color-label: var(--ll-label);
+  --color-focus: var(--ll-focus);
+  --color-positive: var(--ll-positive);
+  --color-negative: var(--ll-negative);
+  --color-navy: var(--ll-color-navy);
+  --color-navy-deep: var(--ll-color-navy-deep);
+  --color-navy-soft: var(--ll-color-navy-soft);
+  --color-cream: var(--ll-color-cream);
+  --color-gold: var(--ll-color-gold);
+  --color-sage: var(--ll-color-sage);
+  --color-line-dark: var(--ll-color-line-dark);
+  --color-nav-muted: #b4bfc9;
+  --color-btn: var(--ll-btn-bg);
+  --color-btn-fg: var(--ll-btn-fg);
+  --color-btn-hover: var(--ll-btn-bg-hover);
+
+  --font-display: var(--ll-font-display);
+  --font-sans: var(--ll-font-body);
+
+  --text-display: var(--ll-text-display-size);
+  --text-display--line-height: var(--ll-text-display-lh);
+  --text-h1: var(--ll-text-h1-size);
+  --text-h1--line-height: var(--ll-text-h1-lh);
+  --text-h2: var(--ll-text-h2-size);
+  --text-h2--line-height: var(--ll-text-h2-lh);
+  --text-h3: var(--ll-text-h3-size);
+  --text-h3--line-height: var(--ll-text-h3-lh);
+  --text-body-lg: var(--ll-text-body-lg-size);
+  --text-body-lg--line-height: var(--ll-text-body-lg-lh);
+  --text-body: var(--ll-text-body-size);
+  --text-body--line-height: var(--ll-text-body-lh);
+  --text-body-sm: var(--ll-text-body-sm-size);
+  --text-body-sm--line-height: var(--ll-text-body-sm-lh);
+  --text-label: var(--ll-text-label-size);
+  --text-label--line-height: var(--ll-text-label-lh);
+  --text-label-sm: var(--ll-text-label-sm-size);
+  --text-label-sm--line-height: var(--ll-text-label-sm-lh);
+  --text-num-lg: var(--ll-text-numeric-lg-size);
+  --text-num-lg--line-height: var(--ll-text-numeric-lg-lh);
+
+  --radius-none: var(--ll-radius-none);
+  --radius-sm: var(--ll-radius-sm);
+  --radius-md: var(--ll-radius-md);
+  --radius-lg: var(--ll-radius-lg);
+  --radius-pill: var(--ll-radius-pill);
+
+  --shadow-sm: var(--ll-shadow-sm);
+  --shadow-md: var(--ll-shadow-md);
+  --shadow-lg: var(--ll-shadow-lg);
+  --shadow-xl: var(--ll-shadow-xl);
+}
+
+/* next/font provides the real font families; keep the brand fallbacks. */
+:root {
+  --ll-font-display: var(--font-playfair), Georgia, serif;
+  --ll-font-body: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+/* Component-level semantic colours that change with theme (docs/l3/design-system.md §8). */
+:root {
+  --ll-btn-bg: var(--ll-color-navy);
+  --ll-btn-fg: var(--ll-color-cream);
+  --ll-btn-bg-hover: var(--ll-color-navy-soft);
+  --ll-alert-success-bg: var(--ll-color-success-bg);
+  --ll-alert-info-bg: var(--ll-color-info-bg);
+  --ll-alert-warning-bg: var(--ll-color-warning-bg);
+  --ll-alert-danger-bg: var(--ll-color-danger-bg);
+  --ll-alert-text: var(--ll-color-ink);
+  --ll-alert-info-edge: var(--ll-color-info);
+  --ll-alert-warning-edge: var(--ll-color-warning);
+}
+[data-theme="dark"] {
+  --ll-btn-bg: var(--ll-color-gold);
+  --ll-btn-fg: var(--ll-color-navy);
+  --ll-btn-bg-hover: #e0c386;
+  --ll-alert-success-bg: var(--ll-bg-raised);
+  --ll-alert-info-bg: var(--ll-bg-raised);
+  --ll-alert-warning-bg: var(--ll-bg-raised);
+  --ll-alert-danger-bg: var(--ll-bg-raised);
+  --ll-alert-text: var(--ll-text-primary);
+  --ll-alert-info-edge: #8fb3cf;
+  --ll-alert-warning-edge: var(--ll-color-gold);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ll-btn-bg: var(--ll-color-gold);
+    --ll-btn-fg: var(--ll-color-navy);
+    --ll-btn-bg-hover: #e0c386;
+    --ll-alert-success-bg: var(--ll-bg-raised);
+    --ll-alert-info-bg: var(--ll-bg-raised);
+    --ll-alert-warning-bg: var(--ll-bg-raised);
+    --ll-alert-danger-bg: var(--ll-bg-raised);
+    --ll-alert-text: var(--ll-text-primary);
+    --ll-alert-info-edge: #8fb3cf;
+    --ll-alert-warning-edge: var(--ll-color-gold);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Links look like links unless a component opts out with `no-underline` (WCAG 1.4.1: not colour alone). */
+@layer base {
+  a {
+    text-decoration-line: underline;
+    text-underline-offset: 3px;
+  }
+}

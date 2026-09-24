@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ledger Loft Style Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens/tokens.css">
+<link rel="stylesheet" href="tokens/app.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  .wrap { max-width: 1120px; margin: 0 auto; padding: var(--ll-space-6) var(--ll-space-4) var(--ll-space-9); }
+  header.top { display: flex; justify-content: space-between; align-items: center; gap: var(--ll-space-4); flex-wrap: wrap;
+    border-bottom: var(--ll-border-hairline) solid var(--ll-border); padding-bottom: var(--ll-space-5); margin-bottom: var(--ll-space-7); }
+  header.top h1 { margin-top: var(--ll-space-2); }
+  section { margin-bottom: var(--ll-space-8); }
+  .g-swatch { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .swatch { border: var(--ll-border-hairline) solid var(--ll-border); border-radius: var(--ll-radius-md); overflow: hidden; background: var(--ll-bg-raised); }
+  .swatch .chip { height: 64px; }
+  .swatch .meta { padding: var(--ll-space-2) var(--ll-space-3); font-size: var(--ll-text-body-sm-size); }
+  .swatch code { color: var(--ll-text-secondary); font-size: 12px; }
+  .over-text { color: var(--ll-negative); font-weight: 600; }
+  .type-row { display: grid; grid-template-columns: 110px 1fr; gap: var(--ll-space-4); align-items: baseline;
+    padding: var(--ll-space-3) 0; border-bottom: var(--ll-border-hairline) solid var(--ll-border); }
+  .compare { display: flex; gap: var(--ll-space-5); flex-wrap: wrap; }
+  /* the before/after samples are about text on cream, so always show them on cream */
+  .note { border: 1px dashed var(--ll-border-strong); border-radius: var(--ll-radius-md); padding: var(--ll-space-4);
+    background: var(--ll-color-cream); color: var(--ll-color-ink); }
+  .note .muted { color: var(--ll-color-ink-muted); }
+  footer { border-top: var(--ll-border-hairline) solid var(--ll-border); padding-top: var(--ll-space-5); }
+  @media (max-width: 480px) { .type-row { grid-template-columns: 1fr; gap: var(--ll-space-1); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <span class="ll-label">The Ledger Loft Co · App design system v0.1</span>
+      <h1>Style guide</h1>
+    </div>
+    <button class="btn btn-secondary" id="theme" type="button" aria-pressed="false">Switch to dark</button>
+  </header>
+
+  <section aria-labelledby="s-colour">
+    <span class="ll-label">01</span>
+    <h2 id="s-colour">Colour</h2>
+    <p class="muted">Store palette, unchanged. Cream is the page, never pure white. Gold appears once per view.</p>
+    <div class="grid g-swatch" id="swatches"></div>
+  </section>
+
+  <section aria-labelledby="s-type">
+    <span class="ll-label">02</span>
+    <h2 id="s-type">Typography</h2>
+    <div class="type-row"><span class="ll-label">Display</span><span class="ll-display" style="font-size:var(--ll-text-display-size);line-height:var(--ll-text-display-lh)">Plan your month</span></div>
+    <div class="type-row"><span class="ll-label">H1 · 32</span><span class="ll-display" style="font-size:32px">September budget</span></div>
+    <div class="type-row"><span class="ll-label">H2 · 24</span><span class="ll-display" style="font-size:24px">Categories</span></div>
+    <div class="type-row"><span class="ll-label">H3 · 19</span><span class="ll-display" style="font-size:19px">Sinking funds</span></div>
+    <div class="type-row"><span class="ll-label">Body lg · 17</span><span style="font-size:17px">How often are you paid? Choose the one closest to your usual payday.</span></div>
+    <div class="type-row"><span class="ll-label">Body · 15</span><span>Every figure has a “how this was calculated” view.</span></div>
+    <div class="type-row"><span class="ll-label">Body sm · 13</span><span class="sm muted">Updated today at 09:14</span></div>
+    <div class="type-row"><span class="ll-label">Label · 11</span><span class="ll-label">Left to budget</span></div>
+    <div class="type-row"><span class="ll-label">Numeric lg</span><span class="num-lg">R 3 240,00</span></div>
+  </section>
+
+  <section aria-labelledby="s-dash">
+    <span class="ll-label">03</span>
+    <h2 id="s-dash">Dashboard sample</h2>
+    <p class="muted sm">Synthetic numbers only.</p>
+    <div class="grid g-3" style="margin-bottom:var(--ll-space-4)">
+      <div class="card"><span class="ll-label">Income</span><div class="num-lg">R 21 740,00</div><div class="sm muted">2 income sources</div></div>
+      <div class="card"><span class="ll-label">Planned</span><div class="num-lg">R 18 500,00</div><div class="sm muted">across 9 categories</div></div>
+      <div class="card current"><span class="ll-label">Left to budget</span><div class="num-lg">R 3 240,00</div><div class="sm muted">Give every rand a job, or keep it flexible</div></div>
+    </div>
+    <div class="grid g-2">
+      <div class="card">
+        <span class="ll-label">This month</span>
+        <h3>Categories</h3>
+        <div class="cat"><span>Groceries</span><span class="ll-numeric sm"><span class="over-text"><span class="amt">R 250,00</span> over</span> · <span class="amt">R 4 250,00</span> of <span class="amt">R 4 000,00</span></span>
+          <div class="track" role="progressbar" aria-label="Groceries" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" aria-valuetext="R 250,00 over plan"><div class="fill over" style="width:100%"></div></div></div>
+        <div class="cat"><span>Transport</span><span class="ll-numeric sm"><span class="amt">R 1 820,00</span> of <span class="amt">R 2 400,00</span></span>
+          <div class="track" role="progressbar" aria-label="Transport" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:76%"></div></div></div>
+        <div class="cat"><span>School fees fund</span><span class="ll-numeric sm"><span class="amt">R 900,00</span> of <span class="amt">R 1 500,00</span></span>
+          <div class="track" role="progressbar" aria-label="School fees fund" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:60%"></div></div></div>
+        <p class="sm muted" style="margin:var(--ll-space-3) 0 0">Groceries is R 250,00 over plan this month. Want to move money from another category?</p>
+      </div>
+      <div class="card">
+        <span class="ll-label">Debts</span>
+        <h3>Snowball order <span class="badge">Estimate</span></h3>
+        <div class="table-wrap">
+        <table>
+          <thead><tr><th class="ll-label" scope="col">Debt</th><th class="ll-label r" scope="col">Balance</th><th class="ll-label r" scope="col">Payment</th></tr></thead>
+          <tbody>
+            <tr><td>Store card</td><td class="r">R 2 150,00</td><td class="r">R 450,00</td></tr>
+            <tr><td>Credit card</td><td class="r">R 8 900,00</td><td class="r">R 1 200,00</td></tr>
+            <tr><td>Vehicle finance</td><td class="r">R 96 400,00</td><td class="r">R 3 850,00</td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p class="sm muted" style="margin:var(--ll-space-3) 0 0">Snowball orders debts from smallest balance. Estimates use only what you've entered.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-comp">
+    <span class="ll-label">04</span>
+    <h2 id="s-comp">Components</h2>
+    <div class="grid g-2">
+      <div>
+        <h3>Buttons</h3>
+        <div class="row" style="margin-bottom:var(--ll-space-5)">
+          <button class="btn btn-primary" type="button">Save and continue</button>
+          <button class="btn btn-secondary" type="button">Back</button>
+          <button class="btn btn-quiet" type="button">Finish later</button>
+        </div>
+        <h3>Alerts</h3>
+        <div class="alert a-success" role="status"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Your September plan is saved.</span></div>
+        <div class="alert a-info"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>Payoff dates are estimates based on what you've entered.</span></div>
+        <div class="alert a-warning"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3 2 21h20L12 3zM12 10v4M12 17h.01"/></svg><span>You've planned R 400,00 more than your income. Adjust a category to balance.</span></div>
+        <div class="alert a-danger" role="alert"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/></svg><span>We couldn't save that. Check your connection and try again.</span></div>
+      </div>
+      <div>
+        <h3>Form</h3>
+        <div class="field">
+          <label for="inc">Monthly take-home pay</label>
+          <input class="input" id="inc" inputmode="decimal" value="R 21 740,00">
+          <div class="help">After tax and deductions. You can change this later.</div>
+        </div>
+        <div class="field">
+          <label for="day">Month starts on</label>
+          <input class="input" id="day" inputmode="numeric" placeholder="e.g. 25" aria-invalid="true" aria-describedby="day-err">
+          <div class="err" id="day-err">Enter a day between 1 and 31.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="s-a11y">
+    <span class="ll-label">05</span>
+    <h2 id="s-a11y">Accessibility adjustments (approved)</h2>
+    <p class="muted">Same hues, slightly darker, so small text passes WCAG AA on cream. Left: original store colour. Right: approved text tone (sageText, goldText, warningText).</p>
+    <div class="grid g-3">
+      <div class="note"><div class="compare"><span class="ll-label" style="color:var(--ll-color-sage-deep)">Left to budget</span><span class="ll-label" style="color:#567062">Left to budget</span></div><p class="sm muted" style="margin:var(--ll-space-2) 0 0">Label: 4.23 → 4.92:1</p></div>
+      <div class="note"><div class="compare"><span style="color:var(--ll-color-gold-deep)">Founding member</span><span style="color:#816631">Founding member</span></div><p class="sm muted" style="margin:var(--ll-space-2) 0 0">Gold text: 3.14 → 4.93:1</p></div>
+      <div class="note"><div class="compare"><span>Check this</span><span style="color:#8E6113">Check this</span></div><p class="sm muted" style="margin:var(--ll-space-2) 0 0">Warning: 4.23 → 4.94:1</p></div>
+    </div>
+  </section>
+
+  <footer class="sm muted">The Ledger Loft is a budgeting and planning tool. It does not provide financial, legal, tax or debt advice. Calculations are based on the information you enter, and projections are estimates.</footer>
+</div>
+<script>
+  const sw = [
+    ["navy","#1E2A38","Text, headings, primary buttons"],["navyDeep","#141E29","Dark sections"],["navySoft","#2A3641","Raised on dark"],
+    ["cream","#F7F4EE","Page background"],["creamDeep","#EFEBE2","Stripes, subtle fill"],["sage","#7C9D8B","Decorative, charts"],
+    ["sageDeep","#5E7B6C","Large labels"],["gold","#D4B16A","One accent per view"],["goldDeep","#A8853F","Large gold text"],
+    ["inkMuted","#5C6A78","Secondary text"],["inkFaint","#8A97A3","Placeholder only"],["line","#D9D2C4","Dividers"],
+    ["success","#2F6B4C","Positive status"],["warning","#9C6B15","Warning icons"],["danger","#A33726","Errors, over plan"],["info","#33566F","Info, estimates"]
+  ];
+  document.getElementById("swatches").innerHTML = sw.map(([n,h,u]) =>
+    `<div class="swatch"><div class="chip" style="background:${h}"></div><div class="meta"><strong>${n}</strong><br><code>${h}</code><br><span class="muted">${u}</span></div></div>`).join("");
+  const btn = document.getElementById("theme"), root = document.documentElement;
+  const isDark = () => root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  const sync = () => { root.classList.toggle("dk", isDark()); btn.textContent = isDark() ? "Switch to light" : "Switch to dark"; btn.setAttribute("aria-pressed", String(isDark())); };
+  btn.addEventListener("click", () => { root.dataset.theme = isDark() ? "light" : "dark"; sync(); });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", sync);
+  sync();
+</script>
+</body>
+</html>

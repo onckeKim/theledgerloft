@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reports · The Ledger Loft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/app.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body data-page="reports">
+<main>
+<style>
+  .paper { background: #FFFFFF; color: var(--ll-color-ink); border: 1px solid var(--ll-color-line); box-shadow: var(--ll-shadow-lg); padding: var(--ll-space-5);
+    aspect-ratio: 210 / 297; max-width: 320px; margin: 0 auto; font-size: 9px; line-height: 1.4; overflow: hidden; }
+  .paper .ph { border-bottom: 2px solid var(--ll-color-navy); padding-bottom: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: flex-end; }
+  .paper .pt { font-family: var(--ll-font-display); font-weight: 600; font-size: 16px; }
+  .paper .pl { font-size: 7px; letter-spacing: .16em; text-transform: uppercase; color: #567062; font-weight: 600; }
+  .paper .gold { height: 3px; width: 40px; background: var(--ll-color-gold); margin: 6px 0 8px; }
+  .paper .pr { display: flex; justify-content: space-between; border-bottom: 1px solid var(--ll-color-line); padding: 3px 0; font-variant-numeric: tabular-nums; }
+  .paper .box { border: 1px solid var(--ll-color-line); padding: 6px; margin-top: 8px; min-height: 40px; }
+  .rep-layout { display: grid; gap: var(--ll-space-5); }
+  @media (min-width: 1024px) { .rep-layout { grid-template-columns: 1fr 340px; align-items: start; } }
+</style>
+<div class="page-head"><div><span class="ll-label">Monthly review</span><h1>August 2026</h1></div>
+  <div class="row"><button class="btn btn-secondary" type="button">Print</button><button class="btn btn-primary" type="button">Download PDF</button></div></div>
+<div class="rep-layout">
+  <div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:var(--ll-space-5)">
+      <div class="card"><span class="ll-label">Income</span><div class="num-md" style="margin-top:var(--ll-space-2)">R 22 380,00</div></div>
+      <div class="card"><span class="ll-label">Spent &amp; set aside</span><div class="num-md" style="margin-top:var(--ll-space-2)">R 18 759,00</div></div>
+      <div class="card current"><span class="ll-label">Left over</span><div class="num-md" style="margin-top:var(--ll-space-2)">R 3 621,00</div></div>
+    </div>
+    <section class="card section" aria-labelledby="pva">
+      <h2 id="pva">Plan vs actual</h2>
+      <div class="table-wrap"><table class="table-stack">
+        <thead><tr><th class="ll-label" scope="col">Category</th><th class="ll-label r" scope="col">Planned</th><th class="ll-label r" scope="col">Actual</th><th class="ll-label r" scope="col">Difference</th></tr></thead>
+        <tbody><tr><td>Income</td><td class="r" data-label="Planned">R 21 740,00</td><td class="r" data-label="Actual">R 22 380,00</td><td class="r" data-label="Difference"><span class="pos">R 640,00 more</span></td></tr><tr><td>Housing</td><td class="r" data-label="Planned">R 6 200,00</td><td class="r" data-label="Actual">R 6 200,00</td><td class="r" data-label="Difference">On plan</td></tr><tr><td>Electricity &amp; water</td><td class="r" data-label="Planned">R 1 100,00</td><td class="r" data-label="Actual">R 1 184,00</td><td class="r" data-label="Difference"><span class="neg">R 84,00 over</span></td></tr><tr><td>Phone &amp; data</td><td class="r" data-label="Planned">R 450,00</td><td class="r" data-label="Actual">R 450,00</td><td class="r" data-label="Difference">On plan</td></tr><tr><td>Insurance</td><td class="r" data-label="Planned">R 600,00</td><td class="r" data-label="Actual">R 600,00</td><td class="r" data-label="Difference">On plan</td></tr><tr><td>Groceries</td><td class="r" data-label="Planned">R 3 400,00</td><td class="r" data-label="Actual">R 3 310,00</td><td class="r" data-label="Difference"><span class="pos">R 90,00 under</span></td></tr><tr><td>Transport</td><td class="r" data-label="Planned">R 1 400,00</td><td class="r" data-label="Actual">R 1 520,00</td><td class="r" data-label="Difference"><span class="neg">R 120,00 over</span></td></tr><tr><td>Personal &amp; fun</td><td class="r" data-label="Planned">R 600,00</td><td class="r" data-label="Actual">R 745,00</td><td class="r" data-label="Difference"><span class="neg">R 145,00 over</span></td></tr><tr><td>Debt payments</td><td class="r" data-label="Planned">R 2 600,00</td><td class="r" data-label="Actual">R 2 600,00</td><td class="r" data-label="Difference">On plan</td></tr><tr><td>Sinking funds</td><td class="r" data-label="Planned">R 1 350,00</td><td class="r" data-label="Actual">R 1 350,00</td><td class="r" data-label="Difference">On plan</td></tr><tr><td>Savings goals</td><td class="r" data-label="Planned">R 800,00</td><td class="r" data-label="Actual">R 800,00</td><td class="r" data-label="Difference">On plan</td></tr></tbody>
+        <tfoot><tr><td>Total spending</td><td class="r" data-label="Planned">R 18 500,00</td><td class="r" data-label="Actual">R 18 759,00</td><td class="r" data-label="Difference"><span class="neg">R 259,00 over</span></td></tr></tfoot>
+      </table></div>
+    </section>
+    <div class="grid section" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
+      <section class="card" aria-labelledby="gc"><h3 id="gc">Saved in August</h3>
+        <div class="cat"><span>Emergency fund</span><span class="amt">R 800,00</span></div>
+        <div class="cat"><span>School fees</span><span class="amt">R 600,00</span></div>
+        <div class="cat"><span>December</span><span class="amt">R 500,00</span></div>
+        <div class="cat"><span>Car licence &amp; service</span><span class="amt">R 250,00</span></div></section>
+      <section class="card" aria-labelledby="dp"><h3 id="dp">Debt payments</h3>
+        <div class="cat"><span>Store card</span><span class="amt">R 450,00</span></div>
+        <div class="cat"><span>Credit card</span><span class="amt">R 1 200,00</span></div>
+        <div class="cat"><span>Personal loan</span><span class="amt">R 950,00</span></div></section>
+    </div>
+    <section class="card section" aria-labelledby="refl">
+      <span class="ll-label">Your reflection</span><h3 id="refl">Looking back</h3>
+      <div class="field"><label for="r1">What went well this month?</label><textarea class="input" id="r1" style="height:88px;padding-top:var(--ll-space-3)">Groceries came in under plan. Meal planning on Sundays helped.</textarea></div>
+      <div class="field"><label for="r2">What surprised you?</label><textarea class="input" id="r2" style="height:88px;padding-top:var(--ll-space-3)">Going out added up more than I thought.</textarea></div>
+      <fieldset><legend>Next month, I'd like to…</legend>
+        <ul class="checklist">
+          <li><input type="checkbox" id="n1" checked><label for="n1">Plan R 700,00 for personal &amp; fun instead of R 600,00</label></li>
+          <li><input type="checkbox" id="n2"><label for="n2">Check the electricity reading mid-month</label></li>
+          <li><input type="checkbox" id="n3"><label for="n3">Decide where the R 3 621,00 left over goes</label></li>
+        </ul></fieldset>
+      <p class="sm muted" style="margin:0">Your reflections are private to your household and are included in the PDF only if you choose.</p>
+    </section>
+  </div>
+  <aside aria-labelledby="exp-h">
+    <h2 id="exp-h" class="ll-label" style="font-size:var(--ll-text-label-size)">Export preview</h2>
+    <div class="paper" role="img" aria-label="Preview of the PDF summary page in The Ledger Loft planner style">
+      <div class="ph"><div><div class="pl">Monthly review</div><div class="pt">August 2026</div></div><div class="pl">The Ledger Loft</div></div>
+      <div class="gold"></div>
+      <div class="pr"><span>Income</span><span>R 22 380,00</span></div>
+      <div class="pr"><span>Spent &amp; set aside</span><span>R 18 759,00</span></div>
+      <div class="pr"><strong>Left over</strong><strong>R 3 621,00</strong></div>
+      <div class="pl" style="margin-top:10px">Plan vs actual</div>
+      <div class="pr"><span>Groceries</span><span>R 90,00 under</span></div>
+      <div class="pr"><span>Transport</span><span>R 120,00 over</span></div>
+      <div class="pr"><span>Personal &amp; fun</span><span>R 145,00 over</span></div>
+      <div class="pl" style="margin-top:10px">What went well</div>
+      <div class="box">Groceries came in under plan. Meal planning on Sundays helped.</div>
+      <div class="pl" style="margin-top:10px">Next month</div>
+      <div class="box">☐ Plan R 700,00 for personal &amp; fun<br>☐ Check the electricity reading</div>
+      <p style="font-size:6px;color:#5C6A78;margin-top:10px">Budgeting and planning tool, not financial advice. Figures are as entered by you.</p>
+    </div>
+    <p class="sm muted" style="text-align:center;margin-top:var(--ll-space-3)">A4 · Only your household's data · Each download is logged in your account activity.</p>
+  </aside>
+</div>
+</main>
+<script src="shell.js"></script>
+</body>
+</html>

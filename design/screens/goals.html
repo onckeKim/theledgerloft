@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Goals and sinking funds · The Ledger Loft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/app.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body data-page="goals">
+<main>
+<div class="page-head"><div><span class="ll-label">Saving</span><h1>Goals and sinking funds</h1></div><button class="btn btn-primary" type="button">+ New goal or fund</button></div>
+<section class="section" aria-labelledby="g-h">
+  <h2 id="g-h">Savings goals</h2><p class="muted">Things you're saving towards, with or without a deadline.</p>
+  <div class="grid g-2">
+  <div class="card"><h3>Emergency fund</h3>
+  <div class="between"><span class="num-md">R 6 400,00</span><span class="sm muted amt">of R 20 000,00</span></div>
+  <div style="margin:var(--ll-space-3) 0"><div class="track" role="progressbar" aria-label="Emergency fund" aria-valuenow="32" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:32%"></div></div></div>
+  <p class="sm muted" style="margin:0 0 var(--ll-space-2)">R 800,00 a month</p><p class="sm" style="margin:0"><span class='badge'>Estimate</span> Reaches R 20 000,00 around Feb 2028 at R 800,00 a month.</p>
+  <div class="row" style="margin-top:var(--ll-space-4)"><button class="btn btn-secondary btn-sm" type="button">Add money</button><button class="btn btn-quiet btn-sm" type="button">Edit</button></div></div>
+  <div class="card"><h3>Holiday</h3>
+  <div class="between"><span class="num-md">R 1 200,00</span><span class="sm muted amt">of R 8 000,00</span></div>
+  <div style="margin:var(--ll-space-3) 0"><div class="track" role="progressbar" aria-label="Holiday" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:15%"></div></div></div>
+  <p class="sm muted" style="margin:0 0 var(--ll-space-2)">No monthly amount yet</p><p class="sm" style="margin:0">Add a monthly amount to see an estimate.</p>
+  <div class="row" style="margin-top:var(--ll-space-4)"><button class="btn btn-secondary btn-sm" type="button">Add money</button><button class="btn btn-quiet btn-sm" type="button">Edit</button></div></div>
+  </div>
+</section>
+<section class="section" aria-labelledby="s-h">
+  <h2 id="s-h">Sinking funds</h2><p class="muted">Money set aside each month for costs you know are coming.</p>
+  <div class="grid g-3">
+  <div class="card"><span class="badge badge-neutral" style="margin-bottom:var(--ll-space-1)">3 months left</span><h3>School fees</h3>
+  <div class="between"><span class="num-md">R 4 800,00</span><span class="sm muted amt">of R 7 200,00</span></div>
+  <div style="margin:var(--ll-space-3) 0"><div class="track" role="progressbar" aria-label="School fees" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:66%"></div></div></div>
+  <p class="sm muted" style="margin:0 0 var(--ll-space-2)">Due Jan 2027 · R 600,00 a month</p><p class="sm" style="margin:0"><span class='neg'>R 600,00 short</span> by January at this rate. R 800,00 a month would reach it.</p>
+  <div class="row" style="margin-top:var(--ll-space-4)"><button class="btn btn-secondary btn-sm" type="button">Add money</button><button class="btn btn-quiet btn-sm" type="button">Edit</button></div></div>
+  <div class="card"><span class="badge badge-success" style="margin-bottom:var(--ll-space-1)">On track</span><h3>December</h3>
+  <div class="between"><span class="num-md">R 4 000,00</span><span class="sm muted amt">of R 5 000,00</span></div>
+  <div style="margin:var(--ll-space-3) 0"><div class="track" role="progressbar" aria-label="December" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:80%"></div></div></div>
+  <p class="sm muted" style="margin:0 0 var(--ll-space-2)">Due Dec 2026 · R 500,00 a month</p><p class="sm" style="margin:0">On track to reach R 5 000,00 by November.</p>
+  <div class="row" style="margin-top:var(--ll-space-4)"><button class="btn btn-secondary btn-sm" type="button">Add money</button><button class="btn btn-quiet btn-sm" type="button">Edit</button></div></div>
+  <div class="card"><span class="badge badge-success" style="margin-bottom:var(--ll-space-1)">On track</span><h3>Car licence &amp; service</h3>
+  <div class="between"><span class="num-md">R 1 750,00</span><span class="sm muted amt">of R 3 000,00</span></div>
+  <div style="margin:var(--ll-space-3) 0"><div class="track" role="progressbar" aria-label="Car licence &amp; service" aria-valuenow="58" aria-valuemin="0" aria-valuemax="100"><div class="fill" style="width:58%"></div></div></div>
+  <p class="sm muted" style="margin:0 0 var(--ll-space-2)">Due Mar 2027 · R 250,00 a month</p><p class="sm" style="margin:0">On track to reach R 3 000,00 by February.</p>
+  <div class="row" style="margin-top:var(--ll-space-4)"><button class="btn btn-secondary btn-sm" type="button">Add money</button><button class="btn btn-quiet btn-sm" type="button">Edit</button></div></div>
+  </div>
+  <details style="margin-top:var(--ll-space-4)"><summary>How “short” and “on track” are worked out</summary><div class="working"><dl>
+    <dt>School fees saved</dt><dd>R 4 800,00</dd><dt>+ R 600,00 × 3 months (Oct–Dec)</dt><dd>R 1 800,00</dd>
+    <dt>Expected by January</dt><dd>R 6 600,00</dd><dt>Target</dt><dd>R 7 200,00</dd>
+    <dt class="total">Short by</dt><dd class="total">R 600,00</dd></dl></div></details>
+</section>
+</main>
+<script src="shell.js"></script>
+</body>
+</html>

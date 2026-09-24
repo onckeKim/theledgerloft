@@ -1,0 +1,29 @@
+name: Staging smoke test
+
+# Run by hand after a staging deploy: Actions → "Staging smoke test" → Run workflow.
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Staging URL, e.g. https://theledgerloft-staging.vercel.app"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      # The Supabase URL and publishable key are public by design (row level security protects the data).
+      - run: node scripts/smoke-staging.mjs "$STAGING_URL" "$SUPABASE_URL" "$SUPABASE_PUBLISHABLE_KEY"
+        env:
+          # Passed as environment variables, never pasted into the script, so a typed-in URL can't inject commands.
+          STAGING_URL: ${{ inputs.url }}
+          SUPABASE_URL: https://jjdetdabqbqktwkvodtk.supabase.co
+          SUPABASE_PUBLISHABLE_KEY: sb_publishable_SEyf-u2YSLUE-KNgWGEW7A_RoatJg3R

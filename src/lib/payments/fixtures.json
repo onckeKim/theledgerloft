@@ -1,0 +1,48 @@
+{
+  "checkout": [
+    {
+      "data": {
+        "merchant_id": "10000100",
+        "merchant_key": "46f0cd694581a",
+        "return_url": "https://app.example.test/app/join/return",
+        "cancel_url": "https://app.example.test/app/join/cancel",
+        "notify_url": "https://app.example.test/api/payfast/notify",
+        "email_address": "sam+pilot@example.test",
+        "m_payment_id": "6f1c2d3e-0000-4000-8000-000000000001",
+        "amount": "10.00",
+        "item_name": "The Ledger Loft founding pilot (90 days) – R10 & more ~*'!"
+      },
+      "passphrase": "",
+      "signature": "4a338abe22f980f59a9fa8d5283cea11"
+    },
+    {
+      "data": {
+        "merchant_id": "10000100",
+        "merchant_key": "46f0cd694581a",
+        "return_url": "https://app.example.test/app/join/return",
+        "cancel_url": "https://app.example.test/app/join/cancel",
+        "notify_url": "https://app.example.test/api/payfast/notify",
+        "email_address": "sam+pilot@example.test",
+        "m_payment_id": "6f1c2d3e-0000-4000-8000-000000000001",
+        "amount": "10.00",
+        "item_name": "The Ledger Loft founding pilot (90 days) – R10 & more ~*'!"
+      },
+      "passphrase": "jt7NOE43FZPn",
+      "signature": "6b1667cb7385f356b00e4275f6e6eb3e"
+    }
+  ],
+  "itn": [
+    {
+      "body": "m_payment_id=6f1c2d3e-0000-4000-8000-000000000001&pf_payment_id=1089250&payment_status=COMPLETE&item_name=Founding+pilot+%E2%80%93+R10+%26+more+%7E%2A%27%21&item_description=&amount_gross=10.00&amount_fee=-0.23&amount_net=9.77&custom_str1=&name_first=Test&name_last=O%27Brien&email_address=sam%2Bpilot%40example.test&merchant_id=10000100&signature=d7694c2e756e2b1a57d5edd34d4661b1",
+      "passphrase": "",
+      "paramString": "m_payment_id=6f1c2d3e-0000-4000-8000-000000000001&pf_payment_id=1089250&payment_status=COMPLETE&item_name=Founding+pilot+%E2%80%93+R10+%26+more+%7E%2A%27%21&item_description=&amount_gross=10.00&amount_fee=-0.23&amount_net=9.77&custom_str1=&name_first=Test&name_last=O%27Brien&email_address=sam%2Bpilot%40example.test&merchant_id=10000100",
+      "sdkValid": true
+    },
+    {
+      "body": "m_payment_id=6f1c2d3e-0000-4000-8000-000000000001&pf_payment_id=1089250&payment_status=COMPLETE&item_name=Founding+pilot+%E2%80%93+R10+%26+more+%7E%2A%27%21&item_description=&amount_gross=10.00&amount_fee=-0.23&amount_net=9.77&custom_str1=&name_first=Test&name_last=O%27Brien&email_address=sam%2Bpilot%40example.test&merchant_id=10000100&signature=f46519e28de8bcde54ffadc58aa54682",
+      "passphrase": "jt7NOE43FZPn",
+      "paramString": "m_payment_id=6f1c2d3e-0000-4000-8000-000000000001&pf_payment_id=1089250&payment_status=COMPLETE&item_name=Founding+pilot+%E2%80%93+R10+%26+more+%7E%2A%27%21&item_description=&amount_gross=10.00&amount_fee=-0.23&amount_net=9.77&custom_str1=&name_first=Test&name_last=O%27Brien&email_address=sam%2Bpilot%40example.test&merchant_id=10000100",
+      "sdkValid": true
+    }
+  ]
+}

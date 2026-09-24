@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Basics · The Ledger Loft</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens/tokens.css">
+<link rel="stylesheet" href="../tokens/app.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="shell.css">
+</head>
+<body data-shell="onboarding">
+<main>
+<div class="ob-progress">
+  <div class="between"><span class="ll-label">Step 1 of 6 · Basics</span><span class="sm muted">About 10 min left</span></div>
+  <div class="track" role="progressbar" aria-label="Setup progress" aria-valuenow="17" aria-valuemin="0" aria-valuemax="100"><div class="fill navy" style="width:17%"></div></div>
+</div>
+<h1 style="margin-bottom:var(--ll-space-2)">The basics</h1>
+<p class="lg muted">These shape how your months are laid out. You can change any of them later in Settings.</p>
+<form>
+  <div class="field">
+    <label for="cur">Currency</label>
+    <select class="select" id="cur"><option selected>South African rand (R)</option></select>
+  </div>
+  <fieldset>
+    <legend>How often are you paid?</legend>
+    <p class="help">Pick your main income. Add other income in the next step.</p>
+    <div class="choices">
+      <label class="choice"><input type="radio" name="freq" checked><span><strong>Monthly</strong><span class="sm muted">For example, on the 25th</span></span></label>
+      <label class="choice"><input type="radio" name="freq"><span><strong>Every two weeks</strong></span></label>
+      <label class="choice"><input type="radio" name="freq"><span><strong>Weekly</strong></span></label>
+      <label class="choice"><input type="radio" name="freq"><span><strong>It varies</strong><span class="sm muted">Freelance, commission or seasonal</span></span></label>
+    </div>
+  </fieldset>
+  <div class="field">
+    <label for="start">Your budget month starts on</label>
+    <p class="help" id="start-help">Many people start on payday. Choose a day from 1 to 28 so every month has it.</p>
+    <select class="select" id="start" aria-describedby="start-help"><option selected>1st of the month</option><option>25th (payday)</option></select>
+  </div>
+  <fieldset>
+    <legend>How would you like to budget?</legend>
+    <div class="choices">
+      <label class="choice"><input type="radio" name="style" checked><span><strong>Flexible</strong><span class="sm muted">Plan the main categories and leave the rest unassigned. A gentle place to start.</span></span></label>
+      <label class="choice"><input type="radio" name="style"><span><strong>Zero-based</strong><span class="sm muted">Give every rand a job until "left to budget" reaches R 0,00.</span></span></label>
+    </div>
+  </fieldset>
+</form>
+<div class="ob-actions">
+  <a class="btn btn-secondary" href="onboarding-welcome.html">Back</a>
+  
+  <a class="btn btn-primary" href="onboarding-income.html">Save and continue</a>
+</div>
+</main>
+<script src="shell.js"></script>
+</body>
+</html>

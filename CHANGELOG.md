@@ -1,0 +1,63 @@
+# Changelog
+
+All notable changes to this project are documented here. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+
+## [Unreleased]
+
+### Added
+- Staging deployment kit (release review B1): `docs/release/staging-deploy.md` (Vercel project, environment variables, Supabase auth URLs and email, sandbox payments, a by-hand walkthrough), `vercel.json` (functions in London next to the database), `scripts/smoke-staging.mjs` (read-only checks of headers, public pages, signed-out refusals, forged payment notifications and Supabase email confirmation) and a manually run "Staging smoke test" workflow.
+- Settings (PRD US-41, US-42, US-44, US-45): a Settings hub; **Budget setup** (pay frequency, style, and month start day, which applies from next month with a one-off transition month and a confirmation giving the exact dates); **Profile** (name, email change with confirmation link, password change that checks the current password, appearance light/dark/device remembered per device); **Delete my account** under Your data (two steps: explains and offers the download, then type DELETE and the password; deletes the sign-in and all household data, keeps a data-free audit event, signs out to `/account-deleted`).
+- Database functions `change_budget_setup` and `delete_my_account`; budget months now follow existing budgets (`private.period_of`) and new months never overlap (L4 §3.1); `supabase/tests/settings_flow.sql` (16 checks); unit tests for settings validation; end-to-end settings test; the responsive sweep covers the new pages.
+- Release candidate review (`docs/release/rc-review-2026-09-24.md`): **no-go** with 9 blockers, test evidence, manual path review, risks, env, monitoring and rollback plan.
+- `e2e/responsive.spec.ts` (every main page at 320/390/820/1280 px, light and dark, axe and no horizontal scroll) and `e2e/keyboard.spec.ts` (keyboard-only journey).
+- Rollback files for the two migrations that only had rollback comments; the full rollback chain was exercised locally.
+- L10 Etsy-to-app growth funnel proposal (`docs/l10/`): funnel map, lead magnet (a free Monthly Money Check-in printable on our own site), a 10-email onboarding sequence with no financial data, in-product upgrade and feedback moments with "never" rules, a founding-member referral concept (no friend emails collected, rewards only after a verified payment), new privacy-safe analytics events, support reply templates, and the Etsy policy questions that must be answered from Etsy's official pages before anything Etsy-facing is built. Nothing is implemented yet.
+- L9 pilot payments (PayFast, sandbox first): `/app/join` shows the offer (price and length from the database plan, never the browser) and posts a signed checkout form to PayFast; `/app/join/return` shows "Confirming your payment…" and only polls; `/app/join/cancel` comes back with a neutral message. `POST /api/payfast/notify` verifies the notification (signature with passphrase, PayFast source address, PayFast server confirmation), then the database matches amount and merchant against the pending payment, grants access once, and is safe against duplicate and out-of-order notifications.
+- Pilot access: every planner page and action needs an active entitlement (`requireAccess()`); settings and "Download all my data" don't. A test enforces it.
+- Tables `payments` and `entitlements` (read-only for users), private `plans` (price set by the owner) and `app_secrets`; functions `plan_offer`, `start_checkout`, `payfast_apply_itn` (needs a server secret, no service-role key); audit events for completed and rejected payments; `supabase/tests/payments.sql` (23 checks).
+- Signature code checked against PayFast's official PHP SDK (`scripts/payfast-fixtures.php`, `src/lib/payments/fixtures.json`); unit tests for forged, tampered, wrong-source and unconfirmed notifications; end-to-end test for the join flow.
+- L8 monthly review and export: Reviews index and a review page per month (opens 3 days before the month ends, stays open): income, spent and set aside, left over, plan vs actual with differences in words, money saved and debt payments, and an optional check-in (two reflections up to 1 000 characters, up to 5 next-month actions) that marks the month complete and ticks the checklist. The dashboard links to the check-in when it opens.
+- Monthly summary PDF (US-39): A4, planner style from the brand tokens, reflections only when ticked, the short disclaimer and calculation spec version on every page. "Download all my data" (US-43) in Settings: a zip with one CSV per kind of record and a README, formula-looking text escaped (T8). Both use a download link that works for 10 minutes, are built when downloaded and never stored, and are audited.
+- `save_checkin` database function and next-action checks; `supabase/tests/review_export.sql` (16 checks). Unit tests read the PDF text back to check its content; end-to-end test for the review, both downloads and link security.
+- Dependencies: `pdf-lib`, `@pdf-lib/fontkit`, `fflate`; `pdfjs-dist` (dev, tests only). Inter and Playfair Display font files (SIL OFL, licences included) for the PDF.
+- L7b goals and debts: goals and sinking funds page (progress, L4 status copy with "Estimate", "how short and on track are worked out", optional "use this total in this month's plan"); goal page to add money, take money out (never below R 0,00), edit, and remove (keep history by default, or delete everything); debts page with snowball/avalanche order (remembered, no default recommendation), payoff estimates and interest, assumptions, "explore paying extra", paid-off list and the always-present "Need help with debt?" card; debt page to record a payment (confirms an overpayment; the balance never goes below R 0,00), update the balance from a statement, edit and remove.
+- Database functions `create_goal`, `goal_move_money`, `remove_goal`, `create_debt`, `debt_record_payment`, `debt_set_balance`, `remove_debt`: each writes the goal or debt record and its matching transaction in one call (P-3, P-4); audit events for money moved; `supabase/tests/goals_debts_flow.sql` (28 checks).
+- Rename a category or move it between fixed bills and everyday spending (US-23); choose which checklist items show each month (US-25 AC2).
+- End-to-end test for goals and debts on desktop and phone.
+- L7 budget dashboard: dashboard (stat cards, spending card, monthly checklist, goals and debt snapshots with "Estimate" labels, "How this was calculated" on every figure); monthly budget page (planned/actual/remaining by group, inline planned amounts, add category, remove or archive a category, move money between categories, month switcher that never invents far-past months); transactions (add spending, income or refund, edit, delete with 10-second undo, filter by month and category, search, 20 per page).
+- Budget database functions: `period_range`, `ensure_budget` (creates a month by copying the last plan, skipping archived categories), `move_budget_money`, `add_category`, `remove_category` (deletes if unused, otherwise archives); `supabase/tests/budget_flow.sql` (16 checks).
+- Deleting an account now deletes the household data it alone belongs to (trigger on `auth.users`), so nothing is left orphaned (US-44, N11, T15); `supabase/tests/account_deletion.sql` (6 checks).
+- TypeScript L4 goal, sinking-fund and debt-projection calculations; all 43 L4 vectors now run against the app code.
+- End-to-end test for the whole month (plan, record, edit, undo, filter, move money, archive, next month) on desktop and phone.
+- L6 guided onboarding: welcome, basics, income, fixed bills, everyday spending, debts and goals, review; autosave (only when a step is valid), error summaries that take focus, resume where you left off, review matching the L4 plan, "finish" creating the app-managed budget lines. Dashboard sends new users to setup and offers "Continue setup".
+- Setup database functions (one atomic call per step, household from the session, setup-only, per-household lock) and `supabase/tests/setup_flow.sql` (17 checks).
+- TypeScript L4 period and budget calculations tested against the vectors; rate parsing.
+- Local Supabase stack (`npm run db:start`, `db:test`, `db:reset`), end-to-end setup test against it, and a CI job that runs both.
+- A4 + L5: Supabase project (London); schema for households, income, categories, budgets, transactions, debts, goals, check-ins, exports and audit events with RLS on every table, composite cross-household foreign keys, sign-up provisioning and audit triggers; rollback scripts; RLS isolation test (60 checks, always rolls back); synthetic local seed; generated database types.
+- Supabase Auth: sign-up with email confirmation, sign-in, password reset, email-link callback, sign-out; `proxy.ts` with per-request CSP nonce and session refresh; `getClaims()`-based data access layer.
+- A3 app bootstrap: Next.js 16 + TypeScript + Tailwind 4 wired to the brand tokens; public marketing pages (landing from the L1 concept, pilot, legal drafts), auth placeholders, protected app shell (side nav, icon rail, phone tab bar) with per-page `verifySession()`; error, not-found and loading states; env validation (Zod); money formatting and parsing in cents; ESLint, Prettier, Vitest (62 unit tests), Playwright smoke tests with axe (26); CI workflow; `CLAUDE.md` project rules.
+- L2 MVP PRD (`docs/l2/prd.md`): 40 user stories with acceptance criteria, route map, empty states, privacy requirements and release slices.
+- A2 project docs: product brief, personas, user journeys, MVP scope, non-functional requirements, data classification, threat model, analytics plan and release checklist (`docs/`).
+- L4 calculation spec (`docs/l4/calculation-spec.md`), 43 test vectors (`docs/l4/test-vectors.json`), reference implementation and verifier (`scripts/calc-reference.mjs`, `scripts/verify-calc.mjs`).
+- L3 screen prototypes in `design/screens/` (onboarding, dashboard, budget, transactions, goals and sinking funds, debts, reports and export, settings, states) with a shared app shell, plus `docs/l3/screens.md`.
+- Shared component stylesheet `design/components.css` (used by the style guide and the screens).
+
+### Changed
+- Session cookies are HttpOnly, SameSite=Lax and Secure in production (US-04 AC3).
+- Undo after deleting a transaction now says "Restored." (announced to screen readers); the budget e2e test waits for it, fixing a timing failure first seen in CI.
+- Bulleted lists show their bullets again (error summaries, join page, landing and pilot pages, account deletion).
+- Transactions page no longer scrolls sideways at 320 px; the Spending/Income/Refund switch shares the width.
+- CI's database job runs every end-to-end spec, not just setup.
+- Content-Security-Policy `form-action` allows `https://*.payfast.co.za` for the checkout form.
+- Transactions recorded by a goal or debt link to it and can't be edited or deleted on their own (a database guard keeps saved amounts and budget actuals in step); the app-managed categories aren't offered when adding a transaction.
+- Forms stay disabled until the page is interactive, so anything typed can't be replaced by the form's starting values on a slow phone.
+- Links are underlined by default (accessibility); button-styled links opt out.
+- Removed the temporary `APP_PREVIEW` mode (D-020). Every page now renders per request so the CSP nonce applies.
+- Scripts in `scripts/` reformatted with Prettier (no behaviour change).
+- Transactions prototype: "Transfer" replaced with "Refund"; journey J1 now signs up before paying (PRD P-1, P-2).
+- Screen prototypes aligned with L4: debt interest totals R 3 061,62 / R 3 057,67, car fund reached in February, school fees 66%, valid progress-bar values when over plan, "last working day" month start removed.
+- Brand tokens gain `sageText`, `goldText` and `warningText`. The light `label` token now uses `sageText` (D-010 accepted).
+- Money format fixed as `R 1 234,56` (D-011 accepted).
+- Ledger Loft Co store design tokens in `design/tokens/` (JSON, CSS, Kotlin, Swift), app accessibility layer `app.css`, token check script `scripts/check-tokens.mjs`, style guide `design/preview.html`, and L3 design system spec `docs/l3/design-system.md`.
+- L1 positioning pack in `docs/l1/`: positioning, safety boundary and disclaimer, customer interview guide, landing page concept, founding pilot offer.
+- Project operating plan (`docs/operating-plan.md`), decision log, changelog and `.env.example` placeholder.
