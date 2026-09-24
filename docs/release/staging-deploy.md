@@ -84,8 +84,8 @@ After changing variables, redeploy (Deployments → ⋯ → Redeploy).
 insert into private.app_secrets (name, secret_hash)
 values ('payments', extensions.crypt('<PAYMENTS_DB_SECRET>', extensions.gen_salt('bf')))
 on conflict (name) do update set secret_hash = excluded.secret_hash;
--- A sandbox test price, e.g. R 10,00:
-update private.plans set price_cents = 1000, access_days = 90, active = true where code = 'pilot';
+-- The pilot price is already set: R 50,00 for 90 days, open (D-043). Check with:
+select code, price_cents, access_days, active from private.plans;
 ```
 
 **Database → Backups:** see release blocker B6. The free plan's limits apply until the project is upgraded.
