@@ -5,6 +5,7 @@ All notable changes to this project are documented here. Format based on [Keep a
 ## [Unreleased]
 
 ### Added
+- Pilot metrics (launch gate "analytics", D-045): `private.pilot_metrics(from, to)` returns counts only (sign-ups, deletions, setup completion within 7 days and drop-off by step, activation, active in the last 30 days, the two-month check-in habit, checkout and paid), from data the app already stores, with no tracking. Owner-only, run in the SQL editor (`docs/release/operations.md` §6). `supabase/tests/pilot_metrics.sql` (13 checks).
 - Operations runbook (`docs/release/operations.md`, release review B6 and B7): backup and restore procedure with a recommendation (Pro plan before real users plus a weekly off-site copy), log lines and alerts to watch, daily and weekly checks as read-only SQL, support set-up, an incident path (payments not confirming, sign-in and email, wrong data, suspected data exposure) and status message templates.
 - `scripts/db-backup.sh` (Supabase CLI dump of roles, schema, data and migration history, with checksums), `scripts/db-restore.sh` (new, empty project only; re-applies `supabase/restore/before_schema.sql` and `after_schema.sql`) and `scripts/db-acl-snapshot.sql` (privileges, policies, RLS and triggers, to diff old against new). Rehearsed end to end on the local stack: identical row counts and privileges, all 184 SQL checks pass on the restored copy.
 - `src/lib/restore.test.ts`: fails if a migration adds an `auth` or `storage` trigger that the restore doesn't re-create.

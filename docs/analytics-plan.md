@@ -1,6 +1,7 @@
 # Analytics Plan
 
-Status: v0.1 (Playbook step A2). Principle: **measure behaviour, never money.** The analytics never see amounts,
+Status: v0.2 (Playbook step A2; §2 core metrics built 2026-09-24 as `private.pilot_metrics`, see
+`docs/release/operations.md` §6. The §3 events still wait for a tool choice). Principle: **measure behaviour, never money.** The analytics never see amounts,
 descriptions, category names, goal names, reflections or anything else a user types.
 
 ## 1. Questions we need answered

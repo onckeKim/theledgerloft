@@ -105,7 +105,7 @@ remaining blocking questions are listed in §7 of that brief. Original questions
 
 Every playbook build step is done, and so is the release candidate review (**no-go**, D-040). The playbook has no
 step after the review: what's left is its **commercial launch gate** (section E). The code-side work for B3, B4 and
-B9 is done, and so are the procedures for B6 and B7 (`docs/release/operations.md`).
+B9 is done, and so are the procedures for B6 and B7 and the core pilot metrics (`docs/release/operations.md`).
 
 Everything that remains needs the owner:
 1. **B1:** deploy staging (`docs/release/staging-deploy.md`).
