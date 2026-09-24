@@ -9,6 +9,7 @@ import { verifySession } from "@/lib/auth/dal";
 import type { ActionResult } from "@/lib/budget/actions";
 import { formatPeriod } from "@/lib/calc/period";
 import { env, siteUrl } from "@/lib/env";
+import { servedOverHttps } from "@/lib/security/https";
 import { parseBasics, type BasicsInput } from "@/lib/setup/schemas";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -165,7 +166,7 @@ export async function setTheme(theme: string): Promise<ActionResult> {
   store.set(THEME_COOKIE, theme, {
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    secure: servedOverHttps(),
     path: "/",
     maxAge: 60 * 60 * 24 * 400,
   });

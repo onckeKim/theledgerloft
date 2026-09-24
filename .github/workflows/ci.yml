@@ -102,9 +102,11 @@ jobs:
       - run: npx playwright test --project=iphone --project=firefox
         env:
           NEXT_PUBLIC_SITE_URL: http://localhost:3100
+          # The browsers' own output (for example why a WebKit page process crashed) goes to the job log
+          DEBUG: pw:browser
       - if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-browsers
-          path: playwright-report/
+          name: playwright-traces-browsers
+          path: test-results/
           retention-days: 7
