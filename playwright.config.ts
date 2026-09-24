@@ -2,6 +2,8 @@ import { defineConfig, devices } from "@playwright/test";
 import { LOCAL_PAYMENTS_SECRET } from "./e2e/constants";
 
 const PORT = 3100;
+// Safari and Firefox (release review R7) are opt-in: E2E_BROWSERS=webkit,firefox, used by the CI "browsers" job.
+const EXTRA = (process.env.E2E_BROWSERS ?? "").split(",").map((b) => b.trim());
 
 export default defineConfig({
   testDir: "e2e",
@@ -11,6 +13,10 @@ export default defineConfig({
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"] } },
     { name: "phone", use: { ...devices["Pixel 7"] } },
+    ...(EXTRA.includes("webkit") ? [{ name: "iphone", use: { ...devices["iPhone 14"] } }] : []),
+    ...(EXTRA.includes("firefox")
+      ? [{ name: "firefox", use: { ...devices["Desktop Firefox"] } }]
+      : []),
   ],
   webServer: {
     // Runs against a production build so the tests see what users get.

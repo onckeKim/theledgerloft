@@ -1,4 +1,4 @@
--- Prints every privilege and managed-schema trigger the app depends on, one sorted line each.
+-- Prints every privilege, managed-schema trigger and cron job the app depends on, one sorted line each.
 -- After a restore, run it on the old and new database and diff the output; it must be identical.
 --   psql "$OLD_DB_URL" -XAtf scripts/db-acl-snapshot.sql > old.txt
 --   psql "$NEW_DB_URL" -XAtf scripts/db-acl-snapshot.sql > new.txt && diff old.txt new.txt
@@ -32,4 +32,6 @@ select line from (
   select format('trigger %s on %s.%s', tgname, n.nspname, c.relname)
     from pg_trigger t join pg_class c on c.oid = t.tgrelid join pg_namespace n on n.oid = c.relnamespace
     where n.nspname in ('auth', 'storage', 'public', 'private') and not tgisinternal
+  union all
+  select format('cron %s at %s: %s active=%s', jobname, schedule, command, active) from cron.job
 ) x order by line;

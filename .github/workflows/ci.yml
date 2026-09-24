@@ -74,3 +74,37 @@ jobs:
           name: playwright-report-database
           path: playwright-report/
           retention-days: 7
+
+  browsers:
+    # Safari (WebKit, iPhone 14) and Firefox (release review R7): every end-to-end flow against the local stack.
+    # Chromium runs in the jobs above.
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      CI: "true"
+      NEXT_TELEMETRY_DISABLED: "1"
+      E2E_BROWSERS: webkit,firefox
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run db:start
+      - name: Export local stack keys (well-known local defaults, not secrets)
+        run: |
+          npx supabase status -o env > .supabase-status
+          echo "E2E_SUPABASE_URL=$(grep '^API_URL=' .supabase-status | cut -d= -f2- | tr -d '"')" >> "$GITHUB_ENV"
+          echo "E2E_SUPABASE_PUBLISHABLE_KEY=$(grep '^PUBLISHABLE_KEY=' .supabase-status | cut -d= -f2- | tr -d '"')" >> "$GITHUB_ENV"
+          echo "E2E_SUPABASE_SERVICE_KEY=$(grep '^SERVICE_ROLE_KEY=' .supabase-status | cut -d= -f2- | tr -d '"')" >> "$GITHUB_ENV"
+      - run: npx playwright install --with-deps webkit firefox
+      - run: npx playwright test --project=iphone --project=firefox
+        env:
+          NEXT_PUBLIC_SITE_URL: http://localhost:3100
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-browsers
+          path: playwright-report/
+          retention-days: 7

@@ -60,6 +60,6 @@ To close the pilot again: `update private.plans set active = false where code = 
 
 `scripts/db-backup.sh` takes a logical backup and `scripts/db-restore.sh` restores it into a new, empty project. The
 restore adds `restore/before_schema.sql` and `restore/after_schema.sql`, because the dump leaves out default
-privileges and the `auth.users` triggers. If a migration adds a trigger on `auth` or `storage`, add it to
+privileges and the `auth.users` triggers. If a migration adds a trigger on `auth` or `storage`, or a pg_cron job, add it to
 `restore/after_schema.sql` too (`src/lib/restore.test.ts` checks this). The full procedure and checks are in
 `docs/release/operations.md` section 1.
