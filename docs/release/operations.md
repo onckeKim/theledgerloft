@@ -1,7 +1,7 @@
 # Operations Runbook
 
 Status: v0.1, 2026-09-24. Covers release review blockers **B6** (backups and restore) and **B7** (monitoring, support
-and incidents), and the playbook's commercial launch gate items "backups and restoration have been tested" and "a
+and incidents), pilot metrics (§6), and the playbook's commercial launch gate items "backups and restoration have been tested" and "a
 support inbox, incident path and status communication template exist".
 
 **What's proven and what isn't:**
@@ -306,3 +306,44 @@ banner or by email to affected people. Fill in the brackets; remove what doesn't
 > [duration]. Nothing you've saved will change.
 
 **Data exposure:** don't use a template. The wording depends on step 4 of §4.4 and needs the legal adviser.
+
+## 6. Pilot metrics
+
+This covers the launch gate item "analytics measure activation, repeated value and conversion without collecting
+unnecessary sensitive data". The core metrics in `docs/analytics-plan.md` §2 come from data the app already keeps,
+so there's no tracking script, no cookie and no new processor. Run this in the Supabase SQL editor:
+
+```sql
+select * from private.pilot_metrics('2026-10-01', '2026-10-31');  -- sign-up window, both dates included
+```
+
+**What it returns:**
+- Counts only, never ids, amounts, names or text.
+- The **cohort** is the households that signed up in the window and still exist.
+- Every metric below except `signups` and `accounts_deleted` is counted out of that cohort. `paid` is counted out of
+  `checkout_started`.
+
+| Metric | Definition |
+|---|---|
+| `signups` / `accounts_deleted` | From the data-free audit events, so deleted accounts still count |
+| `setup_completed_7d` | Finished setup within 7 days of sign-up |
+| `setup_stopped_after:<step>` | Setup not finished, by the last step saved (drop-off) |
+| `activated` | Finished setup **and** added 3 or more transactions within 7 days (plan §2) |
+| `active_last_30_days` | Added or edited a transaction, or changed a planned amount, in the 30 days before the window ends |
+| `habit` | Completed the check-in in two consecutive months (the north star) |
+| `checkout_started` / `paid` | Pilot conversion |
+
+**Using it:**
+- Run it monthly, per sign-up month, for the pilot report (analytics plan §5).
+- With pilot-sized numbers, look at the counts rather than the percentages.
+- Your own test accounts are included, so keep a note of how many there are and subtract them.
+
+**Not covered yet (needs an analytics tool, which is still the owner's choice, analytics plan §4):**
+- landing views and traffic source
+- pilot button clicks
+- setup steps viewed (as opposed to saved)
+- "How this was calculated" opens
+- debt-help opens
+
+Choose a privacy-focused tool, record it as a processor, add it to the privacy notice (B5), and allow it in the CSP.
+
