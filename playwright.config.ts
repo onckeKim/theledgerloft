@@ -14,8 +14,7 @@ export default defineConfig({
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"] } },
     { name: "phone", use: { ...devices["Pixel 7"] } },
-    // Desktop Safari rather than iPhone emulation: Playwright's mobile WebKit emulation crashes on page.goto
-    // (microsoft/playwright#27701; desktop WebKit is unaffected). Phone layouts are covered by "phone".
+    // Safari's engine on desktop; phone layouts are covered by "phone", and a real iPhone check stays open (R7).
     ...(EXTRA.includes("webkit")
       ? [{ name: "webkit", use: { ...devices["Desktop Safari"] } }]
       : []),

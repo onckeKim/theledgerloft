@@ -3,6 +3,7 @@ import {
   completePrototypeSetup,
   createUser,
   expectAccessible,
+  gotoWhenSettled,
   hasLocalStack,
   signIn,
 } from "./helpers";
@@ -47,7 +48,7 @@ test("plan, record and review a month", async ({ page }) => {
     await expect(page.getByLabel("Pay fixed bills", { exact: true })).toBeChecked();
 
     // Transactions: add spending, income, refund
-    await page.goto("/app/transactions");
+    await gotoWhenSettled(page, "/app/transactions");
     await expectAccessible(page);
     const add = async (
       kind: string,

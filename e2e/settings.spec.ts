@@ -4,6 +4,7 @@ import {
   completePrototypeSetup,
   createUser,
   expectAccessible,
+  gotoWhenSettled,
   hasLocalStack,
   signIn,
 } from "./helpers";
@@ -63,7 +64,7 @@ test("change profile, appearance, password and budget setup, then delete the acc
     await expect(page.getByRole("status").filter({ hasText: "Password changed." })).toBeVisible();
 
     // Budget setup (US-41): style alone, then a new start day from next month
-    await page.goto("/app/settings/budget");
+    await gotoWhenSettled(page, "/app/settings/budget");
     await page.getByLabel(/Zero-based/).check();
     await page.getByRole("button", { name: "Save changes" }).click();
     await expect(

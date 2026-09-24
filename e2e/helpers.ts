@@ -214,6 +214,16 @@ export async function signIn(page: Page, email: string) {
   await page.getByRole("button", { name: "Sign in" }).click();
 }
 
+/**
+ * page.goto once the current page has finished its background requests. Playwright's Linux WebKit crashes the page
+ * when a navigation cancels the requests Next.js still has in flight after a server action, reload or download (it
+ * happened at the same four steps every run; Chromium and Firefox are fine).
+ */
+export async function gotoWhenSettled(page: Page, url: string) {
+  await page.waitForLoadState("networkidle");
+  await page.goto(url);
+}
+
 export async function expectAccessible(page: Page) {
   // After a client-side navigation the URL changes before the new page's styles have loaded.
   await page.waitForLoadState("networkidle");
