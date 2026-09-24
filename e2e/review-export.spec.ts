@@ -6,7 +6,6 @@ import {
   completePrototypeSetup,
   createUser,
   expectAccessible,
-  gotoWhenSettled,
   hasLocalStack,
   seedPreviousMonth,
   signIn,
@@ -90,7 +89,7 @@ test("check in on last month and download the summary and my data", async ({ pag
     expect(text).toContain("Meal planning on Sundays helped.");
 
     // All my data (US-43): one CSV per entity, formula-looking text escaped
-    await gotoWhenSettled(page, "/app/settings");
+    await page.goto("/app/settings");
     await page.getByRole("link", { name: "Download or delete" }).click();
     await expectAccessible(page);
     download = page.waitForEvent("download");

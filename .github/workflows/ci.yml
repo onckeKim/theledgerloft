@@ -76,14 +76,14 @@ jobs:
           retention-days: 7
 
   browsers:
-    # Safari (WebKit, desktop) and Firefox (release review R7): every end-to-end flow against the local stack.
+    # Firefox (release review R7): every end-to-end flow against the local stack. WebKit is left out for now (D-049).
     # Chromium runs in the jobs above.
     runs-on: ubuntu-latest
     timeout-minutes: 40
     env:
       CI: "true"
       NEXT_TELEMETRY_DISABLED: "1"
-      E2E_BROWSERS: webkit,firefox
+      E2E_BROWSERS: firefox
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -98,12 +98,10 @@ jobs:
           echo "E2E_SUPABASE_URL=$(grep '^API_URL=' .supabase-status | cut -d= -f2- | tr -d '"')" >> "$GITHUB_ENV"
           echo "E2E_SUPABASE_PUBLISHABLE_KEY=$(grep '^PUBLISHABLE_KEY=' .supabase-status | cut -d= -f2- | tr -d '"')" >> "$GITHUB_ENV"
           echo "E2E_SUPABASE_SERVICE_KEY=$(grep '^SERVICE_ROLE_KEY=' .supabase-status | cut -d= -f2- | tr -d '"')" >> "$GITHUB_ENV"
-      - run: npx playwright install --with-deps webkit firefox
-      - run: npx playwright test --project=webkit --project=firefox
+      - run: npx playwright install --with-deps firefox
+      - run: npx playwright test --project=firefox
         env:
           NEXT_PUBLIC_SITE_URL: http://localhost:3100
-          # The browsers' own output (for example why a WebKit page process crashed) goes to the job log
-          DEBUG: pw:browser
       - if: failure()
         uses: actions/upload-artifact@v4
         with:

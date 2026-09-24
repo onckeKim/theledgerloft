@@ -1,6 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
-import { gotoWhenSettled, grantAccess } from "./helpers";
+import { grantAccess } from "./helpers";
 
 /**
  * Guided setup against a real (local) Supabase stack: `npx supabase start`, then run with
@@ -200,6 +200,6 @@ test("a new user is taken to the welcome step and can complete setup", async ({ 
   await expect(page.getByText("Your plan is ready.", { exact: true })).toBeVisible();
 
   // Setup is closed once finished
-  await gotoWhenSettled(page, "/app/setup/income");
+  await page.goto("/app/setup/income");
   await page.waitForURL(/\/app(\?.*)?$/);
 });

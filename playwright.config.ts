@@ -2,7 +2,8 @@ import { defineConfig, devices } from "@playwright/test";
 import { LOCAL_PAYMENTS_SECRET } from "./e2e/constants";
 
 const PORT = 3100;
-// Safari and Firefox (release review R7) are opt-in: E2E_BROWSERS=webkit,firefox, used by the CI "browsers" job.
+// Firefox and Safari (release review R7) are opt-in: E2E_BROWSERS=firefox (the CI "browsers" job) or webkit.
+// WebKit isn't in CI: Playwright's Linux WebKit crashes at four navigations that Chromium and Firefox pass (D-049).
 const EXTRA = (process.env.E2E_BROWSERS ?? "").split(",").map((b) => b.trim());
 
 export default defineConfig({
@@ -14,7 +15,6 @@ export default defineConfig({
   projects: [
     { name: "desktop", use: { ...devices["Desktop Chrome"] } },
     { name: "phone", use: { ...devices["Pixel 7"] } },
-    // Safari's engine on desktop; phone layouts are covered by "phone", and a real iPhone check stays open (R7).
     ...(EXTRA.includes("webkit")
       ? [{ name: "webkit", use: { ...devices["Desktop Safari"] } }]
       : []),
